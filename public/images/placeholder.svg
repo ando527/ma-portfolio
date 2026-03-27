@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810">
+  <rect width="1440" height="810" fill="#f0ebe8"/>
+  <rect x="1" y="1" width="1438" height="808" fill="none" stroke="#c9b8bc" stroke-width="2" stroke-dasharray="12,8"/>
+  <g text-anchor="middle" dominant-baseline="middle">
+    <rect x="620" y="377" width="200" height="56" rx="8" fill="#e8dfe0"/>
+    <text font-family="system-ui,sans-serif" font-size="18" font-weight="600" letter-spacing="0.08em" fill="#9c7c84" x="720" y="397">IMAGE</text>
+    <text font-family="system-ui,sans-serif" font-size="13" fill="#b8a0a6" x="720" y="417">Replace with your photo</text>
+  </g>
+</svg>
