@@ -38,3 +38,6 @@ next-env.d.ts
 # stray files
 *.png~
 67a810a4939bbd7945b1253c_1738543022210.png
+
+# internal specs (not for repo)
+spec-*.md

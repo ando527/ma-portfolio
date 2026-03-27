@@ -3,6 +3,7 @@ import { Archivo, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import AnalyticsWrapper from '@/components/AnalyticsWrapper'
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -51,6 +52,7 @@ export default function RootLayout({
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
+        <AnalyticsWrapper />
       </body>
     </html>
   )
