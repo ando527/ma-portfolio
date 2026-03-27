@@ -31,3 +31,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code local config
+.claude/
+
+# stray files
+*.png~
+67a810a4939bbd7945b1253c_1738543022210.png
