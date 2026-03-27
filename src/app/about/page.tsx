@@ -7,6 +7,18 @@ import CollageHero   from '@/components/CollageHero'
 export const metadata: Metadata = {
   title: 'About — Mitchell Anderson',
   description: 'Web developer based in Brisbane, QLD. Head of Web Development at SLATE Media.',
+  alternates: {
+    canonical: 'https://mitchellanderson.dev/about/',
+  },
+  openGraph: {
+    title: 'About — Mitchell Anderson',
+    description: 'Web developer based in Brisbane, QLD. Head of Web Development at SLATE Media.',
+    url: 'https://mitchellanderson.dev/about/',
+  },
+  twitter: {
+    title: 'About — Mitchell Anderson',
+    description: 'Web developer based in Brisbane, QLD. Head of Web Development at SLATE Media.',
+  },
 }
 
 const skills = [
@@ -41,7 +53,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-background">
 
       {/* ── Hero header with collage ─────────────────────────────── */}
-      <section className="relative flex flex-col justify-end border-b border-maroon-100 overflow-hidden" style={{ minHeight: '88vh' }}>
+      <section className="relative flex flex-col justify-end border-b border-maroon-100 overflow-hidden min-h-[62vh] md:min-h-[88vh]">
 
         {/* Animated photo collage (client component) */}
         <CollageHero images={collageImages} />

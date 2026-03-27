@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Background -->
+  <rect width="64" height="64" rx="13" fill="#100408"/>
+
+  <!--
+    Handwritten M:
+    · Left leg curves gently inward on the upstroke
+    · Two rounded arches rather than sharp V-peaks
+    · Right leg tapers back to baseline
+  -->
+  <path
+    d="M 5,52 C 5,36 6,22 8,14
+       Q 13,4 18,16
+       Q 17,22 17,28
+       Q 22,4 27,16
+       C 27,28 28,40 29,52"
+    stroke="white"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+
+  <!--
+    Handwritten A:
+    · Left diagonal curves gently (not a rigid straight line)
+    · Apex is a small rounded loop rather than a sharp point
+    · Right diagonal mirrors left with natural variation
+    · Crossbar dips slightly in the middle as a pen would draw it
+  -->
+  <path
+    d="M 33,52 C 33,38 37,22 42,14
+       Q 45,7 49,14
+       C 53,22 56,38 57,52"
+    stroke="white"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Crossbar: a gentle downward arc mimicking natural pen movement -->
+  <path
+    d="M 36,36 Q 45,32 52,36"
+    stroke="white"
+    stroke-width="3.5"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>

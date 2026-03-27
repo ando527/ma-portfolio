@@ -16,6 +16,7 @@ const OPAQUE_BG: React.CSSProperties = {
   backdropFilter: 'blur(14px)',
   WebkitBackdropFilter: 'blur(14px)',
   borderBottom: '1px solid rgba(155, 35, 53, 0.22)',
+  boxShadow: '0 8px 32px -4px rgba(16, 4, 8, 0.35)',
 }
 
 const TRANSPARENT_BG: React.CSSProperties = {
@@ -44,7 +45,18 @@ export default function Nav() {
       className="fixed top-0 inset-x-0 z-50 transition-all duration-300"
       style={opaque ? OPAQUE_BG : TRANSPARENT_BG}
     >
-      <nav className="px-6 h-16 flex items-center justify-center">
+      <nav className="px-6 h-16 flex items-center justify-between max-w-6xl mx-auto">
+
+        {/* Logo mark — links home */}
+        <Link href="/" aria-label="Mitchell Anderson — Home" className="flex-shrink-0">
+          <img
+            src="/images/ma-logo-mark.svg"
+            alt="MA"
+            className="h-8 w-8 opacity-90 hover:opacity-100 transition-opacity duration-200"
+            draggable={false}
+          />
+        </Link>
+
         <ul className="flex items-center gap-10">
           {links.map(({ href, label }) => {
             const isActive =
@@ -70,6 +82,10 @@ export default function Nav() {
             )
           })}
         </ul>
+
+        {/* Spacer to balance the logo on the left */}
+        <div className="w-8 flex-shrink-0" aria-hidden />
+
       </nav>
     </header>
   )

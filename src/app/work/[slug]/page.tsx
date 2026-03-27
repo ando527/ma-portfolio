@@ -13,9 +13,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const project = getProjectBySlug(slug)
   if (!project) return {}
+  const ogImages = project.heroImage
+    ? [{ url: project.heroImage, alt: project.title }]
+    : undefined
   return {
     title: `${project.title} — Mitchell Anderson`,
     description: project.summary,
+    alternates: {
+      canonical: `https://mitchellanderson.dev/work/${slug}/`,
+    },
+    openGraph: {
+      title: `${project.title} — Mitchell Anderson`,
+      description: project.summary,
+      url: `https://mitchellanderson.dev/work/${slug}/`,
+      images: ogImages,
+    },
+    twitter: {
+      title: `${project.title} — Mitchell Anderson`,
+      description: project.summary,
+      images: project.heroImage ? [project.heroImage] : undefined,
+    },
   }
 }
 
@@ -30,8 +47,24 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const accentColor = project.color || '#7C1D2E'
   const otherProjects = getAllProjects().filter(p => p.slug !== slug).slice(0, 3)
 
+  const projectSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.summary,
+    url: `https://mitchellanderson.dev/work/${slug}/`,
+    author: {
+      '@type': 'Person',
+      name: 'Mitchell Anderson',
+      url: 'https://mitchellanderson.dev',
+    },
+    ...(project.heroImage && { image: `https://mitchellanderson.dev${project.heroImage}` }),
+    ...(project.year && { dateCreated: project.year }),
+  }
+
   return (
     <div className="min-h-screen bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }} />
 
       
 
@@ -160,7 +193,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
                 <img
                   src={project.beforeImage}
-                  alt="Before redesign"
+                  alt={`${project.title} — before redesign`}
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -170,7 +203,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
                 <img
                   src={project.heroImage}
-                  alt="After redesign"
+                  alt={`${project.title} — after redesign`}
                   className="w-full h-full object-cover object-top"
                 />
               </div>

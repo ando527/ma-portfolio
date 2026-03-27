@@ -8,6 +8,7 @@ beforeImage: "/images/case-studies/sippy-tom-before.jpg"
 summary: "A complete brand refresh and Webflow site for a boutique Brisbane cafe — delivered in two days to meet a tight budget."
 featured: true
 liveUrl: "https://www.sippytom.com.au"
+favicon: "/images/favicons/sippytom.png"
 client: "Sippy Tom — Teneriffe, Brisbane"
 role: "Webflow Developer"
 year: "2025"

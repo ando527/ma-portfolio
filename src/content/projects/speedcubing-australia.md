@@ -8,6 +8,7 @@ beforeImage: "/images/case-studies/speedcubing-before.jpg"
 summary: "A full platform rebuild for Australia's national speedcubing organisation — from a static grey template to a dynamic, community-driven Webflow site with an interactive competition map and live national records database."
 featured: true
 liveUrl: "https://www.speedcubing.org.au"
+favicon: "/images/favicons/speedcubing.png"
 client: "Speedcubing Australia (Not-for-profit)"
 role: "Webflow Developer & UI Designer"
 year: "2023"

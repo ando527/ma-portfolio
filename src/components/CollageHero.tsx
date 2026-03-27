@@ -27,6 +27,20 @@ const SLOTS = [
   { top: 54, left: 82, w: 12, rot: -3, dur:  8, delay: 2.8, aspect: '4/3', depth: 0.6 },
 ] as const
 
+// Mobile: 8 slots in 2 rows × 4 columns, each bigger, spread across the section height
+const MOBILE_SLOTS = [
+  // Row 1 — upper band
+  { top: 12, left:  2, w: 24, rot: -3, dur:  9, delay: 0.0, aspect: '3/4', depth: 0.6 },
+  { top: 11, left: 27, w: 24, rot:  2, dur: 11, delay: 1.5, aspect: '4/3', depth: 0.7 },
+  { top: 13, left: 53, w: 23, rot: -2, dur:  8, delay: 0.8, aspect: '3/4', depth: 0.8 },
+  { top: 10, left: 74, w: 24, rot:  3, dur: 10, delay: 2.0, aspect: '4/3', depth: 0.9 },
+  // Row 2 — lower band
+  { top: 44, left:  3, w: 24, rot:  3, dur: 10, delay: 2.5, aspect: '4/3', depth: 0.7 },
+  { top: 42, left: 29, w: 24, rot: -3, dur:  9, delay: 3.5, aspect: '3/4', depth: 0.8 },
+  { top: 45, left: 55, w: 23, rot:  2, dur: 11, delay: 1.0, aspect: '4/3', depth: 0.6 },
+  { top: 43, left: 75, w: 23, rot: -2, dur:  8, delay: 2.8, aspect: '3/4', depth: 0.9 },
+] as const
+
 const SWAP_INTERVAL = 2800
 const FADE_DURATION = 700
 const LERP          = 0.055   // smoothness of parallax follow
@@ -38,6 +52,14 @@ export default function CollageHero({ images }: { images: string[] }) {
 
   const [assigned, setAssigned] = useState<string[]>(initialAssign)
   const [fading,   setFading]   = useState<Set<number>>(new Set())
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check, { passive: true })
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const swapQueue   = useRef<number[]>([...SLOTS.map((_, i) => i)].sort(() => Math.random() - 0.5))
   const assignedRef = useRef(initialAssign)
@@ -124,27 +146,32 @@ export default function CollageHero({ images }: { images: string[] }) {
       />
 
       {/* Photo slots */}
-      {SLOTS.map((slot, i) => (
+      {SLOTS.map((slot, i) => {
+        // On mobile use the dedicated mobile layout; hide slots beyond its length
+        const mSlot = isMobile ? MOBILE_SLOTS[i] : null
+        if (isMobile && !mSlot) return null
+        const { top, left, w, rot, aspect, dur, delay } = mSlot ?? slot
+        return (
         /* Outer: absolute position + mouse parallax target */
         <div
           key={i}
           ref={el => { mouseRefs.current[i] = el }}
           style={{
             position:   'absolute',
-            top:        `${slot.top}%`,
-            left:       `${slot.left}%`,
-            width:      `${slot.w}%`,
+            top:        `${top}%`,
+            left:       `${left}%`,
+            width:      `${w}%`,
             zIndex:     5,
             willChange: 'transform',
           }}
         >
           {/* Float animation wrapper */}
-          <div style={{ animation: `float-y ${slot.dur}s ease-in-out ${slot.delay}s infinite` }}>
+          <div style={{ animation: `float-y ${dur}s ease-in-out ${delay}s infinite` }}>
             {/* Rotation + cross-fade opacity */}
             <div
               style={{
-                transform:    `rotate(${slot.rot}deg)`,
-                aspectRatio:  slot.aspect.replace('/', ' / '),
+                transform:    `rotate(${rot}deg)`,
+                aspectRatio:  aspect.replace('/', ' / '),
                 overflow:     'hidden',
                 borderRadius: '0.75rem',
                 boxShadow:    '0 8px 32px rgba(0,0,0,0.15)',
@@ -161,7 +188,8 @@ export default function CollageHero({ images }: { images: string[] }) {
             </div>
           </div>
         </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

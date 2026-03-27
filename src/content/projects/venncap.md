@@ -8,6 +8,7 @@ beforeImage: "/images/case-studies/venncap-before.jpg"
 summary: "A full brand identity overhaul and Webflow rebuild for a specialist real estate investment firm managing $0.93bn in assets."
 featured: true
 liveUrl: "https://www.venncap.com.au"
+favicon: "/images/favicons/venncap.png"
 client: "VennCap Real Estate"
 role: "Webflow Developer & Brand Designer"
 year: "2025"

@@ -33,8 +33,6 @@ function parseSections(content: string): { heading: string; body: string }[] {
 
 const FUN_FACTS = [
   '🎲 Represented Australia at the WCA World Championships — twice.',
-  "🏎️  Lead driver for UQ Racing's #1-ranked Formula SAE car in Australia.",
-  '⚡ Automated a week-long GIS task down to a single day at Fulton Hogan.',
   '🏆 Silver medalist at the 2025 QLD Speedcubing State Championships.',
   '🌐 Runs speedcubing.org.au as Website Coordinator for Speedcubing Australia.',
   '🏅 2022 IDA Honourable Mention for the McR ESG Web Project.',
@@ -43,7 +41,7 @@ const FUN_FACTS = [
 const SHORTCUTS = [
   { label: 'Work',    href: '/work',   emoji: '💼' },
   { label: 'About',  href: '/about',  emoji: '👋' },
-  { label: 'GitHub', href: '#',       emoji: '🐙' },
+  { label: 'GitHub', href: 'https://github.com/ando527',       emoji: '🐙' },
   { label: 'Cubing', href: 'https://speedcubing.org.au', emoji: '🎲' },
 ]
 
@@ -248,15 +246,6 @@ export default function BrowserWindow({ projects }: { projects: Project[] }) {
           ))}
         </div>
 
-        <div className="flex items-center gap-1 ml-2 text-gray-600">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          <svg className="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
-
         <div className="flex-1 max-w-xs mx-auto">
           <div className="bg-[#2c2c2e] rounded-lg h-7 flex items-center justify-center gap-1.5 px-3">
             <svg className="w-3 h-3 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -270,7 +259,7 @@ export default function BrowserWindow({ projects }: { projects: Project[] }) {
       </div>
 
       {/* ── Chrome tab bar ───────────────────────────────────────── */}
-      <div className="bg-[#292929] flex items-end px-2 pt-2 gap-0.5 select-none overflow-hidden">
+      <div className="bg-[#292929] flex items-end px-2 pt-2 gap-0.5 select-none overflow-x-auto overflow-y-hidden scrollbar-none">
         {tabs.map((tab, i) => (
           <button
             key={tab.kind === 'project' ? tab.project.slug : `new-${tab.id}`}
@@ -284,11 +273,23 @@ export default function BrowserWindow({ projects }: { projects: Project[] }) {
               }
             `}
           >
-            <span className={`w-3 h-3 rounded-sm flex-shrink-0 transition-colors duration-150 ${
-              tab.kind === 'new'
-                ? i === activeIdx ? 'bg-gray-400' : 'bg-gray-600'
-                : i === activeIdx ? 'bg-primary' : 'bg-primary/50'
-            }`} />
+            {tab.kind === 'project' && tab.project.favicon ? (
+              <img
+                src={tab.project.favicon}
+                alt=""
+                className="w-3 h-3 rounded-sm flex-shrink-0 object-cover"
+              />
+            ) : tab.kind === 'new' ? (
+              <img
+                src="/images/ma-logo.svg"
+                alt=""
+                className="w-3 h-3 rounded-sm flex-shrink-0 object-cover"
+              />
+            ) : (
+              <span className={`w-3 h-3 rounded-sm flex-shrink-0 transition-colors duration-150 ${
+                i === activeIdx ? 'bg-primary' : 'bg-primary/50'
+              }`} />
+            )}
             <span className="truncate flex-1 text-left">{tabLabel(tab)}</span>
             <span
               onClick={(e) => closeTab(i, e)}

@@ -17,8 +17,27 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mitchellanderson.dev'),
   title: 'Mitchell Anderson — Web Developer',
   description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Mitchell Anderson',
+    title: 'Mitchell Anderson — Web Developer',
+    description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
+    url: 'https://mitchellanderson.dev/',
+    images: [{ url: '/images/hero.png', alt: 'Mitchell Anderson — Web Developer' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Mitchell Anderson — Web Developer',
+    description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
+    images: ['/images/hero.png'],
+  },
 }
 
 export default function RootLayout({

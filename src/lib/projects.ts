@@ -26,6 +26,7 @@ export interface Project {
   stats?: ProjectStat[]
   beforeImage?: string
   color?: string
+  favicon?: string
 }
 
 const projectsDir = path.join(process.cwd(), 'src/content/projects')
@@ -60,6 +61,7 @@ export function getAllProjects(): Project[] {
         stats: data.stats || [],
         beforeImage: data.beforeImage || '',
         color: data.color || '',
+        favicon: data.favicon || '',
       } as Project
     })
     .sort((a, b) => {
@@ -94,6 +96,7 @@ export function getProjectBySlug(slug: string): Project | null {
       stats: data.stats || [],
       beforeImage: data.beforeImage || '',
       color: data.color || '',
+      favicon: data.favicon || '',
     }
   } catch {
     return null

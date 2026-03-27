@@ -1,13 +1,57 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllProjects } from '@/lib/projects'
 import HeroBackground from '@/components/HeroBackground'
 import BrowserWindow from '@/components/BrowserWindow'
+
+export const metadata: Metadata = {
+  title: 'Mitchell Anderson — Web Developer',
+  description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
+  alternates: {
+    canonical: 'https://mitchellanderson.dev/',
+  },
+  openGraph: {
+    title: 'Mitchell Anderson — Web Developer',
+    description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
+    url: 'https://mitchellanderson.dev/',
+  },
+}
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Mitchell Anderson',
+  url: 'https://mitchellanderson.dev',
+  jobTitle: 'Web Developer',
+  worksFor: { '@type': 'Organization', name: 'SLATE Media' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Brisbane',
+    addressRegion: 'QLD',
+    addressCountry: 'AU',
+  },
+  sameAs: [
+    'https://github.com/ando527',
+    'https://www.linkedin.com/in/mitchellanderson',
+  ],
+  knowsAbout: ['Webflow', 'Shopify', 'Next.js', 'Front-end Development', 'UX Design', 'Web Development'],
+}
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Mitchell Anderson — Web Developer',
+  url: 'https://mitchellanderson.dev',
+}
 
 export default function Home() {
   const featured = getAllProjects().filter(p => p.featured).slice(0, 4)
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <section className="sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#100408]">
 

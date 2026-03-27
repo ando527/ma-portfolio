@@ -1,5 +1,23 @@
+import type { Metadata } from 'next'
 import { getAllProjects } from '@/lib/projects'
 import ProjectCard from '@/components/ProjectCard'
+
+export const metadata: Metadata = {
+  title: 'Work — Mitchell Anderson',
+  description: 'A selection of client work and personal projects by Mitchell Anderson — spanning Webflow, Shopify, Next.js and front-end development.',
+  alternates: {
+    canonical: 'https://mitchellanderson.dev/work/',
+  },
+  openGraph: {
+    title: 'Work — Mitchell Anderson',
+    description: 'A selection of client work and personal projects — Webflow, Shopify, Next.js and front-end development.',
+    url: 'https://mitchellanderson.dev/work/',
+  },
+  twitter: {
+    title: 'Work — Mitchell Anderson',
+    description: 'A selection of client work and personal projects — Webflow, Shopify, Next.js and front-end development.',
+  },
+}
 
 export default function WorkPage() {
   const projects = getAllProjects()
