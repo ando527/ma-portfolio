@@ -9,6 +9,7 @@ summary: "A complete brand refresh and Webflow site for a boutique Brisbane cafe
 featured: true
 liveUrl: "https://www.sippytom.com.au"
 favicon: "/images/favicons/sippytom.png"
+badge: "SLATE"
 client: "Sippy Tom — Teneriffe, Brisbane"
 role: "Webflow Developer"
 year: "2025"

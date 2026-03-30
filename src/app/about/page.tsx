@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: 'About — Mitchell Anderson',
   description: 'Web developer based in Brisbane, QLD. Head of Web Development at SLATE Media.',
   alternates: {
-    canonical: 'https://mitchellanderson.dev/about/',
+    canonical: 'https://mitchellanderson.com.au/about/',
   },
   openGraph: {
     title: 'About — Mitchell Anderson',
     description: 'Web developer based in Brisbane, QLD. Head of Web Development at SLATE Media.',
-    url: 'https://mitchellanderson.dev/about/',
+    url: 'https://mitchellanderson.com.au/about/',
   },
   twitter: {
     title: 'About — Mitchell Anderson',

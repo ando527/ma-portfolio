@@ -1,7 +1,16 @@
 import { getAllProjects, getProjectBySlug, type Project } from '@/lib/projects'
+
+const BADGE_STYLES: Record<string, string> = {
+  SLATE:      'bg-primary text-white',
+  Freelance:  'bg-foreground text-background',
+  'Pro-bono': 'bg-emerald-700 text-white',
+}
 import { notFound } from 'next/navigation'
-import { remark } from 'remark'
-import html from 'remark-html'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeRaw from 'rehype-raw'
+import rehypeStringify from 'rehype-stringify'
 import Link from 'next/link'
 
 export async function generateStaticParams() {
@@ -20,12 +29,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${project.title} — Mitchell Anderson`,
     description: project.summary,
     alternates: {
-      canonical: `https://mitchellanderson.dev/work/${slug}/`,
+      canonical: `https://mitchellanderson.com.au/work/${slug}/`,
     },
     openGraph: {
       title: `${project.title} — Mitchell Anderson`,
       description: project.summary,
-      url: `https://mitchellanderson.dev/work/${slug}/`,
+      url: `https://mitchellanderson.com.au/work/${slug}/`,
       images: ogImages,
     },
     twitter: {
@@ -41,7 +50,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = getProjectBySlug(slug)
   if (!project) notFound()
 
-  const processedContent = await remark().use(html, { allowDangerousHtml: true }).process(project.content)
+  const processedContent = await unified()
+    .use(remarkParse)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeStringify)
+    .process(project.content)
   const contentHtml = processedContent.toString()
 
   const accentColor = project.color || '#7C1D2E'
@@ -52,13 +66,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     '@type': 'CreativeWork',
     name: project.title,
     description: project.summary,
-    url: `https://mitchellanderson.dev/work/${slug}/`,
+    url: `https://mitchellanderson.com.au/work/${slug}/`,
     author: {
       '@type': 'Person',
       name: 'Mitchell Anderson',
-      url: 'https://mitchellanderson.dev',
+      url: 'https://mitchellanderson.com.au',
     },
-    ...(project.heroImage && { image: `https://mitchellanderson.dev${project.heroImage}` }),
+    ...(project.heroImage && { image: `https://mitchellanderson.com.au${project.heroImage}` }),
     ...(project.year && { dateCreated: project.year }),
   }
 
@@ -131,6 +145,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div>
               <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-0.5">Year</p>
               <p className="font-sans text-sm font-medium text-foreground">{project.year}</p>
+            </div>
+          )}
+          {project.badge && (
+            <div>
+              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-1.5">Context</p>
+              <span className={`text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${BADGE_STYLES[project.badge] ?? 'bg-foreground text-background'}`}>
+                {project.badge}
+              </span>
             </div>
           )}
           {project.liveUrl && (

@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import type { Project } from '@/lib/projects'
 
+const BADGE_STYLES: Record<string, string> = {
+  SLATE:     'bg-primary text-white',
+  Freelance: 'bg-foreground text-background',
+  'Pro-bono':'bg-emerald-700 text-white',
+}
+
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link href={`/work/${project.slug}/`} className="group block">
@@ -21,6 +27,15 @@ export default function ProjectCard({ project }: { project: Project }) {
                   {project.title.charAt(0)}
                 </span>
               </div>
+            </div>
+          )}
+
+          {/* Badge */}
+          {project.badge && (
+            <div className="absolute top-3 right-3 z-10">
+              <span className={`text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm ${BADGE_STYLES[project.badge] ?? 'bg-foreground text-background'}`}>
+                {project.badge}
+              </span>
             </div>
           )}
         </div>

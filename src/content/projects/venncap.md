@@ -9,6 +9,7 @@ summary: "A full brand identity overhaul and Webflow rebuild for a specialist re
 featured: true
 liveUrl: "https://www.venncap.com.au"
 favicon: "/images/favicons/venncap.png"
+badge: "SLATE"
 client: "VennCap Real Estate"
 role: "Webflow Developer"
 year: "2025"

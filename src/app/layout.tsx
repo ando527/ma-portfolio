@@ -18,7 +18,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://mitchellanderson.dev'),
+  metadataBase: new URL('https://mitchellanderson.com.au'),
   title: 'Mitchell Anderson — Web Developer',
   description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
   icons: {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: 'Mitchell Anderson',
     title: 'Mitchell Anderson — Web Developer',
     description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
-    url: 'https://mitchellanderson.dev/',
+    url: 'https://mitchellanderson.com.au/',
     images: [{ url: '/images/hero.png', alt: 'Mitchell Anderson — Web Developer' }],
   },
   twitter: {

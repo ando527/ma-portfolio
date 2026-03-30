@@ -9,6 +9,7 @@ summary: "A full platform rebuild for Australia's national speedcubing organisat
 featured: true
 liveUrl: "https://www.speedcubing.org.au"
 favicon: "/images/favicons/speedcubing.png"
+badge: "Pro-bono"
 client: "Speedcubing Australia (Not-for-profit)"
 role: "Webflow Developer & UI Designer"
 year: "2023"

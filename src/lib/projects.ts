@@ -27,6 +27,7 @@ export interface Project {
   beforeImage?: string
   color?: string
   favicon?: string
+  badge?: 'Freelance' | 'Pro-bono' | 'SLATE'
 }
 
 const projectsDir = path.join(process.cwd(), 'src/content/projects')
@@ -62,6 +63,7 @@ export function getAllProjects(): Project[] {
         beforeImage: data.beforeImage || '',
         color: data.color || '',
         favicon: data.favicon || '',
+        badge: data.badge || undefined,
       } as Project
     })
     .sort((a, b) => {
@@ -97,6 +99,7 @@ export function getProjectBySlug(slug: string): Project | null {
       beforeImage: data.beforeImage || '',
       color: data.color || '',
       favicon: data.favicon || '',
+      badge: data.badge || undefined,
     }
   } catch {
     return null

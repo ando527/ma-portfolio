@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Mitchell Anderson',
-  description: 'Privacy policy for mitchellanderson.dev — how analytics data is collected and used.',
+  description: 'Privacy policy for mitchellanderson.com.au — how analytics data is collected and used.',
   robots: { index: false },
 }
 

@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: 'Mitchell Anderson — Web Developer',
   description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
   alternates: {
-    canonical: 'https://mitchellanderson.dev/',
+    canonical: 'https://mitchellanderson.com.au/',
   },
   openGraph: {
     title: 'Mitchell Anderson — Web Developer',
     description: 'Web developer based in Brisbane. Webflow, Shopify, Next.js and front-end development.',
-    url: 'https://mitchellanderson.dev/',
+    url: 'https://mitchellanderson.com.au/',
   },
 }
 
@@ -21,7 +21,7 @@ const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Mitchell Anderson',
-  url: 'https://mitchellanderson.dev',
+  url: 'https://mitchellanderson.com.au',
   jobTitle: 'Web Developer',
   worksFor: { '@type': 'Organization', name: 'SLATE Media' },
   address: {
@@ -41,7 +41,7 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Mitchell Anderson — Web Developer',
-  url: 'https://mitchellanderson.dev',
+  url: 'https://mitchellanderson.com.au',
 }
 
 export default function Home() {
