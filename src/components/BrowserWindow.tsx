@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useTransform, animate, type PanInfo } from 'framer-motion'
 import Link from 'next/link'
 import type { Project } from '@/lib/projects'
 
@@ -253,6 +253,70 @@ function DesktopBrowser({ projects }: { projects: Project[] }) {
 // ── Mobile Phone ──────────────────────────────────────────────────────────────
 let mobileTabCounter = 0
 
+// ── Swipeable tab card ────────────────────────────────────────────────────────
+function TabCard({ tab, i, isActive, onOpen, onClose }: {
+  tab: Tab
+  i: number
+  isActive: boolean
+  onOpen: () => void
+  onClose: () => void
+}) {
+  const x       = useMotionValue(0)
+  const opacity = useTransform(x, [-110, -60, 0, 60, 110], [0, 0.5, 1, 0.5, 0])
+  const rotate  = useTransform(x, [-110, 0, 110], [-7, 0, 7])
+
+  const handleDragEnd = (_: PointerEvent, info: PanInfo) => {
+    if (Math.abs(info.offset.x) > 70) {
+      onClose()
+    } else {
+      animate(x, 0, { type: 'spring', stiffness: 300, damping: 25 })
+    }
+  }
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.88 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.88 }}
+      transition={{ type: 'spring', stiffness: 340, damping: 28, delay: i * 0.04 }}
+    >
+      <motion.button
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.4}
+        onDragEnd={handleDragEnd}
+        style={{ x, opacity, rotate, touchAction: 'pan-y' }}
+        onClick={onOpen}
+        className={`relative w-full rounded-xl overflow-hidden border-2 ${isActive ? 'border-[#0a84ff]' : 'border-transparent'}`}
+      >
+        <div className="aspect-[4/3] bg-[#2c2c2e] overflow-hidden">
+          {tab.kind === 'project' && tab.project.heroImage
+            ? <img src={tab.project.heroImage} alt="" className="w-full h-full object-cover object-top" />
+            : <div className="w-full h-full bg-[#f5f0f1] flex items-center justify-center">
+                <img src="/images/ma-logo.svg" alt="" className="w-7 h-7" />
+              </div>
+          }
+        </div>
+        <div className="bg-[#2c2c2e] px-2 py-[6px] flex items-center gap-1.5 min-w-0">
+          {tab.kind === 'project' && tab.project.favicon
+            ? <img src={tab.project.favicon} alt="" className="w-3 h-3 rounded-[3px] flex-shrink-0 object-cover" />
+            : <img src="/images/ma-logo.svg"  alt="" className="w-3 h-3 rounded-[3px] flex-shrink-0" />
+          }
+          <span className="font-sans text-white/80 text-[10px] truncate flex-1 text-left leading-none">
+            {tab.kind === 'project' ? tab.project.title : 'New Tab'}
+          </span>
+          <span
+            role="button"
+            onClick={(e) => { e.stopPropagation(); onClose() }}
+            className="flex-shrink-0 text-white/40 hover:text-white/80 text-sm leading-none flex items-center justify-center w-4 h-4"
+          >×</span>
+        </div>
+      </motion.button>
+    </motion.div>
+  )
+}
+
 function MobilePhone({ projects }: { projects: Project[] }) {
   const [tabs, setTabs]           = useState<Tab[]>(() => projects.slice(0, 4).map(p => ({ kind: 'project', project: p })))
   const [activeIdx, setActiveIdx] = useState(0)
@@ -472,38 +536,19 @@ function MobilePhone({ projects }: { projects: Project[] }) {
                   <div className="grid grid-cols-2 gap-2 px-3 pb-4">
                     <AnimatePresence mode="popLayout">
                       {tabs.map((tab, i) => (
-                        <motion.button
+                        <TabCard
                           key={tab.kind === 'project' ? tab.project.slug : `new-${tab.id}`}
-                          layout
-                          initial={{ opacity: 0, scale: 0.88 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.88 }}
-                          transition={{ type: 'spring', stiffness: 340, damping: 28, delay: i * 0.04 }}
-                          onClick={() => openTab(i)}
-                          className={`relative rounded-xl overflow-hidden border-2 ${i === activeIdx ? 'border-[#0a84ff]' : 'border-transparent'}`}
-                        >
-                          <div className="aspect-[4/3] bg-[#2c2c2e] overflow-hidden">
-                            {tab.kind === 'project' && tab.project.heroImage
-                              ? <img src={tab.project.heroImage} alt="" className="w-full h-full object-cover object-top" />
-                              : <div className="w-full h-full bg-[#f5f0f1] flex items-center justify-center">
-                                  <img src="/images/ma-logo.svg" alt="" className="w-7 h-7" />
-                                </div>
-                            }
-                          </div>
-                          <div className="bg-[#2c2c2e] px-2 py-[6px] flex items-center gap-1.5 min-w-0">
-                            {tab.kind === 'project' && tab.project.favicon
-                              ? <img src={tab.project.favicon} alt="" className="w-3 h-3 rounded-[3px] flex-shrink-0 object-cover" />
-                              : <img src="/images/ma-logo.svg"  alt="" className="w-3 h-3 rounded-[3px] flex-shrink-0" />
-                            }
-                            <span className="font-sans text-white/80 text-[10px] truncate flex-1 text-left leading-none">
-                              {tab.kind === 'project' ? tab.project.title : 'New Tab'}
-                            </span>
-                            <span
-                              role="button" onClick={(e) => closeTab(i, e)}
-                              className="flex-shrink-0 text-white/40 hover:text-white/80 text-sm leading-none flex items-center justify-center w-4 h-4"
-                            >×</span>
-                          </div>
-                        </motion.button>
+                          tab={tab}
+                          i={i}
+                          isActive={i === activeIdx}
+                          onOpen={() => openTab(i)}
+                          onClose={() => {
+                            if (tabs.length === 1) return
+                            const next = tabs.filter((_, idx) => idx !== i)
+                            setTabs(next)
+                            setActiveIdx(prev => Math.min(prev, next.length - 1))
+                          }}
+                        />
                       ))}
                     </AnimatePresence>
                   </div>
