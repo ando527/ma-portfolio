@@ -92,38 +92,34 @@ export default function Home() {
 
       {/* ── Featured Work ─────────────────────────────────────────── */}
       {featured.length > 0 && (
-        <section
-          className="relative z-10 bg-card border-t border-maroon-100"
-          style={{ paddingBottom: '55vh' }}
-        >
-          <div
-            className="sticky flex items-center justify-center"
-            style={{ top: 64, height: 'calc(100dvh - 64px)' }}
-          >
-            <div className="w-full max-w-6xl mx-auto px-6 flex items-center gap-5 h-full py-8">
-
-              {/* Left column — vertical label (lg+) */}
-              <div className="hidden lg:flex flex-col justify-between items-start self-stretch py-6 flex-shrink-0 w-10">
-                <p
-                  className="font-sans font-semibold text-[10px] tracking-widest uppercase text-primary/70"
-                  style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-                >
+        <section className="relative z-10 py-24 bg-card border-t border-maroon-100">
+          <div className="max-w-6xl mx-auto px-6">
+            <AnimateIn className="flex items-end justify-between mb-10">
+              <div>
+                <p className="font-sans font-semibold text-sm tracking-widest uppercase text-primary mb-2">
                   Selected Work
                 </p>
-                <Link
-                  href="/work"
-                  className="font-sans font-medium text-accent/70 hover:text-accent transition-colors duration-200 text-[10px]"
-                  style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-                >
-                  View all →
-                </Link>
+                <h2 className="font-heading font-bold text-4xl md:text-5xl text-foreground">
+                  Featured Projects
+                </h2>
               </div>
-
-              {/* Browser / Phone */}
-              <div className="flex-1 flex items-center justify-center">
-                <BrowserWindow projects={featured} />
-              </div>
-
+              <Link
+                href="/work"
+                className="hidden sm:inline-flex font-sans font-medium text-accent hover:text-accent/70 transition-colors duration-200 text-sm"
+              >
+                View all →
+              </Link>
+            </AnimateIn>
+            <AnimateIn delay={0.1}>
+              <BrowserWindow projects={featured} />
+            </AnimateIn>
+            <div className="mt-8 sm:hidden">
+              <Link
+                href="/work"
+                className="font-sans font-medium text-accent hover:text-accent/70 transition-colors duration-200 text-sm"
+              >
+                View all work →
+              </Link>
             </div>
           </div>
         </section>
