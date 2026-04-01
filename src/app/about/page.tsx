@@ -3,6 +3,7 @@ import fs   from 'fs'
 import path from 'path'
 import CubingSection from '@/components/CubingSection'
 import CollageHero   from '@/components/CollageHero'
+import { AnimateIn, StaggerIn, FadeItem } from '@/components/ui/animate-in'
 
 export const metadata: Metadata = {
   title: 'About — Mitchell Anderson',
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 const skills = [
   'Webflow', 'Shopify', 'Next.js',
   'HTML / CSS / JS', 'UX & Wireframing', 'Front-end Development',
-  'Performance & Accessibility', 
+  'Performance & Accessibility',
 ]
 
 const experience = [
@@ -59,14 +60,17 @@ export default function AboutPage() {
         <CollageHero images={collageImages} />
 
         {/* Text — sits at the bottom-left, above the gradient */}
-        <div className="relative z-20 max-w-5xl mx-auto px-6 pb-16 w-full">
+        <AnimateIn
+          className="relative z-20 max-w-5xl mx-auto px-6 pb-16 w-full"
+          delay={0.2}
+        >
           <p className="font-sans font-semibold text-sm tracking-widest uppercase text-primary mb-4">
             About
           </p>
           <h1 className="font-heading font-bold text-6xl md:text-8xl text-foreground tracking-tight leading-[0.92]">
             Hello.
           </h1>
-        </div>
+        </AnimateIn>
 
       </section>
 
@@ -75,7 +79,7 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-6 space-y-16">
 
           {/* ── Bio ─────────────────────────────────────────────── */}
-          <div>
+          <AnimateIn>
             <h2 className="font-heading font-bold text-2xl text-foreground mb-5">About Me</h2>
             <div className="space-y-4 font-sans text-muted-foreground leading-relaxed text-base max-w-2xl">
               <p>
@@ -94,31 +98,38 @@ export default function AboutPage() {
                 things interesting.
               </p>
             </div>
-          </div>
+          </AnimateIn>
 
           {/* ── Skills ──────────────────────────────────────────── */}
           <div>
-            <h2 className="font-heading font-bold text-2xl text-foreground mb-5">
-              Skills &amp; Tools
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-6">
+            <AnimateIn>
+              <h2 className="font-heading font-bold text-2xl text-foreground mb-5">
+                Skills &amp; Tools
+              </h2>
+            </AnimateIn>
+            <StaggerIn
+              className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-6"
+              stagger={0.06}
+            >
               {skills.map(skill => (
-                <div key={skill} className="flex items-center gap-2 font-sans text-sm text-foreground">
+                <FadeItem key={skill} className="flex items-center gap-2 font-sans text-sm text-foreground">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                   {skill}
-                </div>
+                </FadeItem>
               ))}
-            </div>
+            </StaggerIn>
           </div>
 
           {/* ── Experience ──────────────────────────────────────── */}
           <div>
-            <h2 className="font-heading font-bold text-2xl text-foreground mb-6">
-              Experience
-            </h2>
-            <div className="space-y-6">
+            <AnimateIn>
+              <h2 className="font-heading font-bold text-2xl text-foreground mb-6">
+                Experience
+              </h2>
+            </AnimateIn>
+            <StaggerIn className="space-y-6" stagger={0.1}>
               {experience.map((item, i) => (
-                <div key={i} className="flex gap-6 group">
+                <FadeItem key={i} className="flex gap-6 group">
                   <div className="flex flex-col items-center gap-1 pt-1">
                     <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
                     {i < experience.length - 1 && (
@@ -134,13 +145,15 @@ export default function AboutPage() {
                     </p>
                     <p className="font-sans text-sm text-muted-foreground">{item.org}</p>
                   </div>
-                </div>
+                </FadeItem>
               ))}
-            </div>
+            </StaggerIn>
           </div>
 
           {/* ── Speedcubing ─────────────────────────────────────── */}
-          <CubingSection />
+          <AnimateIn>
+            <CubingSection />
+          </AnimateIn>
 
         </div>
       </section>

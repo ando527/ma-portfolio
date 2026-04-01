@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllProjects } from '@/lib/projects'
-import ProjectCard from '@/components/ProjectCard'
+import WorkGrid from '@/components/WorkGrid'
+import { AnimateIn } from '@/components/ui/animate-in'
 
 export const metadata: Metadata = {
   title: 'Work — Mitchell Anderson',
@@ -26,7 +27,7 @@ export default function WorkPage() {
     <div className="min-h-screen bg-background">
       {/* ── Page header ─────────────────────────────────────────── */}
       <section className="py-20 border-b border-maroon-100 mt-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <AnimateIn className="max-w-6xl mx-auto px-6">
           <p className="font-sans font-semibold text-sm tracking-widest uppercase text-primary mb-3">
             Portfolio
           </p>
@@ -37,26 +38,13 @@ export default function WorkPage() {
             A selection of client work and personal projects — spanning Webflow,
             Shopify, Next.js and front-end development.
           </p>
-        </div>
+        </AnimateIn>
       </section>
 
       {/* ── Projects grid ───────────────────────────────────────── */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-6">
-          {projects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map(project => (
-                <ProjectCard key={project.slug} project={project} />
-              ))}
-            </div>
-          ) : (
-            <div className="py-32 text-center">
-              <div className="w-16 h-16 rounded-full bg-maroon-100 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✦</span>
-              </div>
-              <p className="font-sans text-muted-foreground">Projects coming soon.</p>
-            </div>
-          )}
+          <WorkGrid projects={projects} />
         </div>
       </section>
     </div>
