@@ -77,8 +77,8 @@ export default function Home() {
           style={{ background: 'linear-gradient(160deg, rgba(16,4,8,0.72) 45%, rgba(16,4,8,0.25) 80%, transparent 100%)' }}
         />
 
-        {/* Text — vertically centred, left column */}
-        <div className="relative z-30 h-full flex flex-col justify-center px-10 md:px-16 lg:px-24">
+        {/* Text — bottom-aligned, left column */}
+        <div className="relative z-30 h-full flex flex-col justify-end pb-24 px-10 md:px-16 lg:px-24">
           <HeroContent />
         </div>
 
