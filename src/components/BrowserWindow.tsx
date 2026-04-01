@@ -115,7 +115,7 @@ function MiniCaseStudy({ project }: { project: Project }) {
   const sections = parseSections(project.content).slice(0, 3)
   return (
     <div className="min-h-full bg-white">
-      <div className="w-full aspect-[16/6] bg-maroon-50 overflow-hidden">
+      <div className="w-full aspect-[16/5] bg-maroon-50 overflow-hidden">
         {project.heroImage
           ? <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover" />
           : <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-maroon-50 via-maroon-100 to-maroon-50">
@@ -123,19 +123,19 @@ function MiniCaseStudy({ project }: { project: Project }) {
             </div>
         }
       </div>
-      <div className="max-w-2xl mx-auto px-8 py-8">
+      <div className="max-w-2xl mx-auto px-5 py-5">
         {project.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-3">
             {project.tags.map(tag => (
               <span key={tag} className="text-xs font-sans font-medium text-primary bg-maroon-50 px-2.5 py-1 rounded-full border border-maroon-200">{tag}</span>
             ))}
           </div>
         )}
-        <h3 className="font-heading font-bold text-2xl text-foreground tracking-tight mb-1">{project.title}</h3>
-        {project.date && <p className="font-sans text-xs text-muted-foreground mb-4">{project.date}</p>}
-        <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-8">{project.summary}</p>
+        <h3 className="font-heading font-bold text-xl text-foreground tracking-tight mb-1">{project.title}</h3>
+        {project.date && <p className="font-sans text-xs text-muted-foreground mb-3">{project.date}</p>}
+        <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-5">{project.summary}</p>
         {sections.length > 0 && (
-          <div className="space-y-6 border-t border-maroon-100 pt-8">
+          <div className="space-y-4 border-t border-maroon-100 pt-5">
             {sections.map(({ heading, body }) => (
               <div key={heading}>
                 <h4 className="font-heading font-semibold text-sm text-foreground uppercase tracking-widest mb-2">{heading}</h4>
@@ -146,7 +146,7 @@ function MiniCaseStudy({ project }: { project: Project }) {
             ))}
           </div>
         )}
-        <div className="mt-10 pt-6 border-t border-maroon-100">
+        <div className="mt-6 pt-4 border-t border-maroon-100">
           <Link href={`/work/${project.slug}/`} className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-primary hover:text-maroon-700 transition-colors duration-200 group">
             View full case study
             <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -327,17 +327,26 @@ function MobilePhone({ projects }: { projects: Project[] }) {
 
       {/* Phone body */}
       <div
-        className="rounded-[2.6rem] p-[10px] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.08),0_0_0_1px_rgba(0,0,0,0.4)]"
+        className="rounded-[2.1rem] p-[10px] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.08),0_0_0_1px_rgba(0,0,0,0.4)]"
         style={{
           background: 'linear-gradient(160deg, #2e2e2e 0%, #1a1a1a 100%)',
           height: 'min(calc(100dvh - 90px), 620px)',
         }}
       >
         {/* Screen */}
-        <div className="relative rounded-[2rem] overflow-hidden h-full flex flex-col bg-white select-none">
+        <div className="relative rounded-[1.6rem] overflow-hidden h-full flex flex-col bg-white select-none">
 
-          {/* Dynamic Island */}
-          <div className="absolute left-1/2 -translate-x-1/2 bg-black rounded-full z-30 pointer-events-none" style={{ top: 9, width: 86, height: 20 }} />
+          {/* Punch-hole camera lens */}
+          <div className="absolute left-1/2 -translate-x-1/2 z-30 pointer-events-none" style={{ top: 11 }}>
+            <div className="rounded-full bg-black flex items-center justify-center relative" style={{ width: 14, height: 14 }}>
+              <div className="rounded-full flex items-center justify-center" style={{ width: 11, height: 11, background: '#1a1a22', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+                <div className="rounded-full bg-black flex items-center justify-center" style={{ width: 7, height: 7 }}>
+                  <div className="rounded-full" style={{ width: 3, height: 3, background: 'rgba(70,90,200,0.25)' }} />
+                </div>
+              </div>
+              <div className="absolute rounded-full bg-white/20" style={{ width: 2.5, height: 2.5, top: 1.5, left: 2 }} />
+            </div>
+          </div>
 
           {/* Volume HUD */}
           <AnimatePresence>
@@ -385,7 +394,16 @@ function MobilePhone({ projects }: { projects: Project[] }) {
                 onClick={() => setIsOff(false)}
                 className="absolute inset-0 z-40 bg-black flex flex-col items-center justify-center w-full cursor-pointer"
               >
-                <div className="absolute bg-black rounded-full" style={{ top: 9, left: '50%', transform: 'translateX(-50%)', width: 86, height: 20 }} />
+                <div className="absolute z-[1] pointer-events-none" style={{ top: 11, left: '50%', transform: 'translateX(-50%)' }}>
+                  <div className="rounded-full bg-black flex items-center justify-center relative" style={{ width: 14, height: 14 }}>
+                    <div className="rounded-full flex items-center justify-center" style={{ width: 11, height: 11, background: '#1a1a22', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+                      <div className="rounded-full bg-black flex items-center justify-center" style={{ width: 7, height: 7 }}>
+                        <div className="rounded-full" style={{ width: 3, height: 3, background: 'rgba(70,90,200,0.25)' }} />
+                      </div>
+                    </div>
+                    <div className="absolute rounded-full bg-white/20" style={{ width: 2.5, height: 2.5, top: 1.5, left: 2 }} />
+                  </div>
+                </div>
                 <p className="font-sans text-white/35 text-[10px] tracking-widest uppercase">{dateStr}</p>
                 <p className="font-heading font-bold text-white leading-none tracking-tight mt-2" style={{ fontSize: '3.8rem' }}>{timeStr}</p>
                 <motion.p
@@ -405,25 +423,26 @@ function MobilePhone({ projects }: { projects: Project[] }) {
             style={{ paddingTop: 13, paddingBottom: 5 }}
           >
             <span className="font-sans font-semibold text-[11px]">{timeStr}</span>
-            <div className="flex items-center gap-[4px]">
-              <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" style={{ opacity: 0.85 }}>
-                <rect x="0"    y="7"   width="3"   height="4"   rx="0.6"/>
-                <rect x="4.5"  y="5"   width="3"   height="6"   rx="0.6"/>
-                <rect x="9"    y="2.5" width="3"   height="8.5" rx="0.6"/>
-                <rect x="13.5" y="0"   width="2.5" height="11"  rx="0.6"/>
+            <div className="flex items-center gap-[5px]" style={{ opacity: 0.65 }}>
+              {/* Signal bars */}
+              <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
+                <rect x="0"    y="8"   width="2.5" height="3"   rx="0.9"/>
+                <rect x="4.2"  y="5.5" width="2.5" height="5.5" rx="0.9"/>
+                <rect x="8.4"  y="3"   width="2.5" height="8"   rx="0.9"/>
+                <rect x="12.5" y="0"   width="2.5" height="11"  rx="0.9"/>
               </svg>
-              <svg width="15" height="11" viewBox="0 0 15 11" fill="none" style={{ opacity: 0.85 }}>
-                <circle cx="7.5" cy="10" r="1.2" fill="currentColor"/>
-                <path d="M4.5 7.5a4.2 4.2 0 0 1 6 0"     stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M2 5a8 8 0 0 1 11 0"            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M0 2.5a11.5 11.5 0 0 1 15 0"   stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              {/* WiFi */}
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                <circle cx="7" cy="10.2" r="1.3" fill="currentColor"/>
+                <path d="M4.3 7.6a3.8 3.8 0 0 1 5.4 0"   stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                <path d="M1.5 4.8a8.2 8.2 0 0 1 11 0"    stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
               </svg>
-              <div className="flex items-center gap-[2px]" style={{ opacity: 0.85 }}>
-                <div className="rounded-[2.5px] border flex items-center px-[2px]" style={{ width: 24, height: 12, borderColor: 'currentColor' }}>
-                  <div className="rounded-[1px] bg-current" style={{ width: '70%', height: 7 }} />
-                </div>
-                <div className="rounded-r-sm bg-current opacity-50" style={{ width: 2, height: 6 }} />
-              </div>
+              {/* Battery */}
+              <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                <rect x="0.6" y="0.6" width="20" height="10.8" rx="2.4" stroke="currentColor" strokeWidth="1.2"/>
+                <rect x="21" y="3.5" width="2.4" height="5" rx="1.2" fill="currentColor" opacity="0.5"/>
+                <rect x="2.2" y="2.2" width="15" height="7.6" rx="1.4" fill="currentColor"/>
+              </svg>
             </div>
           </div>
 
@@ -517,17 +536,17 @@ function MobilePhone({ projects }: { projects: Project[] }) {
                         <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-[#f2f2f7] to-transparent pointer-events-none" />
                       </div>
                       <button onClick={addTab} aria-label="New tab"
-                        className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black/40 active:text-black transition-colors rounded-lg"
+                        className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-black/[0.07] hover:bg-black/[0.12] active:bg-black/[0.18] transition-colors"
                       >
-                        <svg className="w-[15px] h-[15px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+                        <svg className="w-[14px] h-[14px] text-black/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                       </button>
                       <button onClick={() => setView('tabs')} aria-label="Show all tabs"
-                        className="flex-shrink-0 rounded-[5px] border-[1.5px] border-black/25 flex items-center justify-center active:bg-black/5 transition-colors"
-                        style={{ width: 22, height: 22 }}
+                        className="flex-shrink-0 rounded-[5px] bg-black/[0.07] hover:bg-black/[0.12] border border-black/20 flex items-center justify-center active:bg-black/[0.18] transition-colors"
+                        style={{ width: 24, height: 24 }}
                       >
-                        <span className="font-sans font-bold text-[10px] text-black/50 leading-none">{tabs.length}</span>
+                        <span className="font-sans font-bold text-[11px] text-black/65 leading-none">{tabs.length}</span>
                       </button>
                     </div>
                   </motion.div>
