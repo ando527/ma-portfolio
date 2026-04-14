@@ -34,7 +34,7 @@ const personSchema = {
   },
   sameAs: [
     'https://github.com/ando527',
-    'https://www.linkedin.com/in/mitchellanderson',
+    'https://www.linkedin.com/in/mitchell-anderson-527au',
   ],
   knowsAbout: ['Webflow', 'Shopify', 'Next.js', 'Front-end Development', 'UX Design', 'Web Development'],
 }
@@ -210,7 +210,7 @@ export default function Home() {
             </p>
           </div>
           <a
-            href="https://www.linkedin.com/in/mitchellanderson"
+            href="https://www.linkedin.com/in/mitchell-anderson-527au"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-accent hover:bg-blue-700 text-white font-sans font-semibold px-7 py-3.5 rounded-xl transition-colors duration-200 shadow-sm whitespace-nowrap"
