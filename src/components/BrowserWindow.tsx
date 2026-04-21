@@ -254,10 +254,11 @@ function DesktopBrowser({ projects }: { projects: Project[] }) {
 let mobileTabCounter = 0
 
 // ── Swipeable tab card ────────────────────────────────────────────────────────
-function TabCard({ tab, i, isActive, onOpen, onClose }: {
+function TabCard({ tab, i, isActive, highlighted = false, onOpen, onClose }: {
   tab: Tab
   i: number
   isActive: boolean
+  highlighted?: boolean
   onOpen: () => void
   onClose: () => void
 }) {
@@ -288,7 +289,7 @@ function TabCard({ tab, i, isActive, onOpen, onClose }: {
         onDragEnd={handleDragEnd}
         style={{ x, opacity, rotate, touchAction: 'pan-y' }}
         onClick={onOpen}
-        className={`relative w-full rounded-xl overflow-hidden border-2 ${isActive ? 'border-[#0a84ff]' : 'border-transparent'}`}
+        className={`relative w-full rounded-xl overflow-hidden border-2 ${highlighted || isActive ? 'border-[#0a84ff]' : 'border-transparent'}`}
       >
         <div className="aspect-[4/3] bg-[#2c2c2e] overflow-hidden">
           {tab.kind === 'project' && tab.project.heroImage
@@ -327,6 +328,37 @@ function MobilePhone({ projects }: { projects: Project[] }) {
   const [showVolume, setShowVolume]   = useState(false)
   const volumeTimer                   = useRef<ReturnType<typeof setTimeout>>()
   const scrollRef                     = useRef<HTMLDivElement>(null)
+  const scrollTimerRef                = useRef<ReturnType<typeof setTimeout>>()
+  // 0=none  1=tabs-highlight  2=scroll-highlight  3=tab-btn-highlight
+  const [tooltipStep, setTooltipStep] = useState(0)
+
+  // ── Real device status ────────────────────────────────────────────────────
+  const [battery, setBattery]         = useState<{ level: number; charging: boolean } | null>(null)
+  const [connType, setConnType]       = useState<string | null>(null)
+
+  useEffect(() => {
+    // Battery Status API (Chrome/Android; not available on iOS Safari)
+    if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
+      ;(navigator as any).getBattery().then((bat: any) => {
+        const update = () => setBattery({ level: bat.level, charging: bat.charging })
+        update()
+        bat.addEventListener('levelchange',   update)
+        bat.addEventListener('chargingchange', update)
+        return () => {
+          bat.removeEventListener('levelchange',   update)
+          bat.removeEventListener('chargingchange', update)
+        }
+      })
+    }
+    // Network Information API (Chrome/Android; not available on iOS Safari)
+    const nav = navigator as any
+    if (nav.connection) {
+      const update = () => setConnType(nav.connection.effectiveType ?? nav.connection.type ?? null)
+      update()
+      nav.connection.addEventListener('change', update)
+      return () => nav.connection.removeEventListener('change', update)
+    }
+  }, [])
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000)
@@ -334,6 +366,14 @@ function MobilePhone({ projects }: { projects: Project[] }) {
   }, [])
 
   useEffect(() => () => clearTimeout(volumeTimer.current), [])
+  useEffect(() => () => clearTimeout(scrollTimerRef.current), [])
+
+  // ── First-time tooltip: only show if user hasn't completed the tour yet ──
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('ma_tooltip_v1')) return
+    const t = setTimeout(() => setTooltipStep(1), 900)
+    return () => clearTimeout(t)
+  }, [])
 
   const timeStr = time.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', hour12: false })
   const dateStr = time.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' })
@@ -342,7 +382,22 @@ function MobilePhone({ projects }: { projects: Project[] }) {
   const urlSlug   = activeTab?.kind === 'project' ? activeTab.project.slug : ''
   const urlText   = activeTab?.kind === 'new' ? 'New Tab' : `mitchellanderson.com.au/work/${urlSlug}`
 
-  const openTab = (i: number) => { setActiveIdx(i); setView('browser') }
+  const openTab = (i: number) => {
+    setActiveIdx(i)
+    setView('browser')
+    if (tooltipStep === 1) setTooltipStep(2)
+  }
+
+  const completeTooltip = () => {
+    if (typeof window !== 'undefined') localStorage.setItem('ma_tooltip_v1', '1')
+    setTooltipStep(0)
+  }
+
+  const goToTabs = () => {
+    setView('tabs')
+    if (tooltipStep === 3) completeTooltip()       // completed the tour
+    else if (tooltipStep === 2) setTooltipStep(1)  // went back before scrolling
+  }
 
   const closeTab = (i: number, e: React.MouseEvent) => {
     e.stopPropagation()
@@ -488,25 +543,54 @@ function MobilePhone({ projects }: { projects: Project[] }) {
           >
             <span className="font-sans font-semibold text-[11px]">{timeStr}</span>
             <div className="flex items-center gap-[5px]" style={{ opacity: 0.65 }}>
-              {/* Signal bars */}
-              <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
-                <rect x="0"    y="8"   width="2.5" height="3"   rx="0.9"/>
-                <rect x="4.2"  y="5.5" width="2.5" height="5.5" rx="0.9"/>
-                <rect x="8.4"  y="3"   width="2.5" height="8"   rx="0.9"/>
-                <rect x="12.5" y="0"   width="2.5" height="11"  rx="0.9"/>
-              </svg>
-              {/* WiFi */}
-              <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-                <circle cx="7" cy="10.2" r="1.3" fill="currentColor"/>
-                <path d="M4.3 7.6a3.8 3.8 0 0 1 5.4 0"   stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                <path d="M1.5 4.8a8.2 8.2 0 0 1 11 0"    stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-              </svg>
-              {/* Battery */}
-              <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
-                <rect x="0.6" y="0.6" width="20" height="10.8" rx="2.4" stroke="currentColor" strokeWidth="1.2"/>
-                <rect x="21" y="3.5" width="2.4" height="5" rx="1.2" fill="currentColor" opacity="0.5"/>
-                <rect x="2.2" y="2.2" width="15" height="7.6" rx="1.4" fill="currentColor"/>
-              </svg>
+              {/* Signal / connection — real if available, otherwise static full bars */}
+              {connType === 'wifi' || connType === null ? (
+                <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                  <circle cx="7" cy="10.2" r="1.3" fill="currentColor"/>
+                  <path d="M4.3 7.6a3.8 3.8 0 0 1 5.4 0"   stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                  <path d="M1.5 4.8a8.2 8.2 0 0 1 11 0"    stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                </svg>
+              ) : (
+                /* Cellular bars — dim inactive bars for weaker connections */
+                <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
+                  <rect x="0"    y="8"   width="2.5" height="3"   rx="0.9" opacity={1}/>
+                  <rect x="4.2"  y="5.5" width="2.5" height="5.5" rx="0.9" opacity={connType === '2g' ? 0.3 : 1}/>
+                  <rect x="8.4"  y="3"   width="2.5" height="8"   rx="0.9" opacity={connType === '2g' || connType === '3g' ? 0.3 : 1}/>
+                  <rect x="12.5" y="0"   width="2.5" height="11"  rx="0.9" opacity={connType !== '4g' ? 0.3 : 1}/>
+                </svg>
+              )}
+              {/* Battery — real level + percentage + charging bolt if available */}
+              {battery ? (
+                <div className="flex items-center gap-[3px]">
+                  {/* Percentage */}
+                  <span className="font-sans font-semibold text-[10px] leading-none tabular-nums">
+                    {Math.round(battery.level * 100)}%
+                  </span>
+                  {/* Lightning bolt SVG — sits between percentage and battery when charging */}
+                  {battery.charging && (
+                    <svg width="5" height="9" viewBox="0 0 5 9" fill="none">
+                      <path d="M3 0L0 4.5H2.2L1.5 9L5 4.5H2.8L3 0Z" fill="currentColor"/>
+                    </svg>
+                  )}
+                  {/* Battery icon — fill scaled to real level */}
+                  <svg width="24" height="12" viewBox="0 0 24 12" fill="none" style={{ marginLeft: 3 }}>
+                    <rect x="0.6" y="0.6" width="20" height="10.8" rx="2.4" stroke="currentColor" strokeWidth="1.2"/>
+                    <rect x="21" y="3.5" width="2.4" height="5" rx="1.2" fill="currentColor" opacity="0.5"/>
+                    <rect
+                      x="2.2" y="2.2"
+                      width={Math.max(1, battery.level * 15)}
+                      height="7.6" rx="1.4"
+                      fill={battery.charging ? '#4fe870' : battery.level < 0.2 ? '#ff3b30' : 'currentColor'}
+                    />
+                  </svg>
+                </div>
+              ) : (
+                <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                  <rect x="0.6" y="0.6" width="20" height="10.8" rx="2.4" stroke="currentColor" strokeWidth="1.2"/>
+                  <rect x="21" y="3.5" width="2.4" height="5" rx="1.2" fill="currentColor" opacity="0.5"/>
+                  <rect x="2.2" y="2.2" width="15" height="7.6" rx="1.4" fill="currentColor"/>
+                </svg>
+              )}
             </div>
           </div>
 
@@ -524,32 +608,68 @@ function MobilePhone({ projects }: { projects: Project[] }) {
                   transition={{ duration: 0.2 }}
                   className="absolute inset-0 overflow-y-auto overscroll-contain bg-[#1c1c1e] flex flex-col"
                 >
-                  <div className="flex items-center justify-between px-4 pt-2 pb-3 sticky top-0 bg-[#1c1c1e] z-10">
+                  {/* Header bar — dimmed during step 1 */}
+                  <div className="relative flex items-center justify-between px-4 pt-2 pb-3 sticky top-0 bg-[#1c1c1e] z-10">
                     <span className="font-sans font-bold text-white text-sm">
                       {tabs.length} {tabs.length === 1 ? 'Tab' : 'Tabs'}
                     </span>
                     <button onClick={addTab} className="font-sans text-[#0a84ff] text-sm font-semibold active:opacity-60 transition-opacity">
                       + New Tab
                     </button>
+                    {tooltipStep === 1 && (
+                      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 px-3 pb-4">
                     <AnimatePresence mode="popLayout">
-                      {tabs.map((tab, i) => (
-                        <TabCard
-                          key={tab.kind === 'project' ? tab.project.slug : `new-${tab.id}`}
-                          tab={tab}
-                          i={i}
-                          isActive={i === activeIdx}
-                          onOpen={() => openTab(i)}
-                          onClose={() => {
-                            if (tabs.length === 1) return
-                            const next = tabs.filter((_, idx) => idx !== i)
-                            setTabs(next)
-                            setActiveIdx(prev => Math.min(prev, next.length - 1))
-                          }}
-                        />
-                      ))}
+                      {tabs.map((tab, i) => {
+                        const isHighlighted = tooltipStep === 1 && i === 0
+                        return (
+                          <div
+                            key={tab.kind === 'project' ? tab.project.slug : `new-${tab.id}`}
+                            className={`relative ${isHighlighted ? 'z-10 rounded-xl shadow-[0_0_0_2px_#0a84ff,0_0_18px_rgba(10,132,255,0.55)]' : ''}`}
+                          >
+                            <TabCard
+                              tab={tab}
+                              i={i}
+                              isActive={i === activeIdx}
+                              highlighted={isHighlighted}
+                              onOpen={() => openTab(i)}
+                              onClose={() => {
+                                if (tabs.length === 1) return
+                                const next = tabs.filter((_, idx) => idx !== i)
+                                setTabs(next)
+                                setActiveIdx(prev => Math.min(prev, next.length - 1))
+                              }}
+                            />
+                            {/* Dim non-highlighted cards during step 1 */}
+                            {tooltipStep === 1 && i !== 0 && (
+                              <div className="absolute inset-0 bg-black/65 rounded-xl pointer-events-none" />
+                            )}
+                            {/* Speech bubble — left:0 right:0 + items-center avoids Framer Motion clobbering translateX */}
+                            {isHighlighted && (
+                              <div
+                                className="absolute flex flex-col items-center pointer-events-none z-50"
+                                style={{ top: 'calc(100% + 4px)', left: 0, right: 0 }}
+                              >
+                                <motion.div
+                                  key="step1-label"
+                                  initial={{ opacity: 0, y: -4 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: 0.35, type: 'spring', stiffness: 280, damping: 24 }}
+                                  className="flex flex-col items-center"
+                                >
+                                  <div style={{ width: 0, height: 0, borderLeft: '7px solid transparent', borderRight: '7px solid transparent', borderBottom: '8px solid #0a84ff' }} />
+                                  <div className="bg-[#0a84ff] text-white font-sans font-semibold text-[11px] px-3.5 py-2 rounded-2xl shadow-xl whitespace-nowrap">
+                                    Tap to open a project
+                                  </div>
+                                </motion.div>
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
                     </AnimatePresence>
                   </div>
                 </motion.div>
@@ -587,28 +707,103 @@ function MobilePhone({ projects }: { projects: Project[] }) {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                       </button>
-                      <button onClick={() => setView('tabs')} aria-label="Show all tabs"
-                        className="flex-shrink-0 rounded-[5px] bg-black/[0.07] hover:bg-black/[0.12] border border-black/20 flex items-center justify-center active:bg-black/[0.18] transition-colors"
+                      <button onClick={goToTabs} aria-label="Show all tabs"
+                        className="relative flex-shrink-0 rounded-[5px] bg-black/[0.07] hover:bg-black/[0.12] border border-black/20 flex items-center justify-center active:bg-black/[0.18] transition-colors"
                         style={{ width: 24, height: 24 }}
                       >
+                        {/* Step 3: static blue ring around tab count button (no infinite loop = no flash) */}
+                        <AnimatePresence>
+                          {tooltipStep === 3 && (
+                            <motion.span
+                              key="tab-btn-ring"
+                              initial={{ opacity: 0, scale: 0.7 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.7 }}
+                              transition={{ duration: 0.2 }}
+                              className="absolute rounded-[6px] pointer-events-none"
+                              style={{ inset: -3, border: '2px solid #0a84ff', boxShadow: '0 0 10px rgba(10,132,255,0.55)' }}
+                            />
+                          )}
+                        </AnimatePresence>
                         <span className="font-sans font-bold text-[11px] text-black/65 leading-none">{tabs.length}</span>
                       </button>
                     </div>
                   </motion.div>
 
-                  {/* Content */}
-                  <motion.div
-                    ref={scrollRef}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1, duration: 0.22 }}
-                    className="flex-1 overflow-y-auto overscroll-contain"
-                  >
-                    {activeTab?.kind === 'project'
-                      ? <MiniCaseStudy project={activeTab.project} />
-                      : <NewTabPage compact />
-                    }
-                  </motion.div>
+                  {/* Step 3: label + arrow below/beside the tab count button */}
+                  <AnimatePresence>
+                    {tooltipStep === 3 && (
+                      <motion.div
+                        key="tab-btn-label"
+                        initial={{ opacity: 0, x: 8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 8 }}
+                        transition={{ delay: 0.15, duration: 0.22 }}
+                        className="absolute pointer-events-none z-30 flex flex-col items-end"
+                        style={{ top: 54, right: 8 }}
+                      >
+                        <div style={{ width: 0, height: 0, marginRight: 28, borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderBottom: '6px solid #0a84ff' }} />
+                        <div className="bg-[#0a84ff] text-white font-sans font-semibold text-[10px] px-2.5 py-1.5 rounded-xl shadow-lg whitespace-nowrap">
+                          Browse other projects
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Content wrapper (relative so overlays can sit inside) */}
+                  <div className="flex-1 relative overflow-hidden">
+                    <motion.div
+                      ref={scrollRef}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1, duration: 0.22 }}
+                      className="h-full overflow-y-auto overscroll-contain"
+                      onScroll={() => {
+                        if (tooltipStep === 2) {
+                          clearTimeout(scrollTimerRef.current)
+                          scrollTimerRef.current = setTimeout(() => setTooltipStep(3), 800)
+                        }
+                      }}
+                      onClick={() => { if (tooltipStep === 3) completeTooltip() }}
+                    >
+                      {activeTab?.kind === 'project'
+                        ? <MiniCaseStudy project={activeTab.project} />
+                        : <NewTabPage compact />
+                      }
+                    </motion.div>
+
+                    {/* Step 2: static blue ring + label (no infinite loop = no flash on dismiss) */}
+                    <AnimatePresence>
+                      {tooltipStep === 2 && (
+                        <>
+                          <motion.div
+                            key="scroll-ring"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="absolute inset-0 pointer-events-none z-10"
+                            style={{ border: '2.5px solid #0a84ff', boxShadow: 'inset 0 0 16px rgba(10,132,255,0.15)' }}
+                          />
+                          <motion.div
+                            key="scroll-label"
+                            initial={{ opacity: 0, y: -6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
+                            transition={{ delay: 0.15, duration: 0.22 }}
+                            className="absolute top-3 inset-x-0 flex justify-center pointer-events-none z-20"
+                          >
+                            <div className="bg-[#0a84ff] text-white font-sans font-semibold text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
+                              Scroll to read the case study
+                              <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+                              </svg>
+                            </div>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </motion.div>
               )}
 
