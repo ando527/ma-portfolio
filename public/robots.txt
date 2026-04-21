@@ -1,4 +1,70 @@
+# robots.txt for mitchellanderson.com.au
+# Allow all crawlers including AI/LLM scrapers
+ 
+# Default: allow everything
 User-agent: *
 Allow: /
-
+ 
+# Block non-useful paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+ 
+# --- Search Engines ---
+User-agent: Googlebot
+Allow: /
+ 
+User-agent: Bingbot
+Allow: /
+ 
+User-agent: DuckDuckBot
+Allow: /
+ 
+# --- AI / LLM Crawlers (explicitly allowed for SEO & AI visibility) ---
+User-agent: GPTBot
+Allow: /
+ 
+User-agent: ChatGPT-User
+Allow: /
+ 
+User-agent: OAI-SearchBot
+Allow: /
+ 
+User-agent: ClaudeBot
+Allow: /
+ 
+User-agent: Claude-Web
+Allow: /
+ 
+User-agent: anthropic-ai
+Allow: /
+ 
+User-agent: Google-Extended
+Allow: /
+ 
+User-agent: Gemini
+Allow: /
+ 
+User-agent: PerplexityBot
+Allow: /
+ 
+User-agent: YouBot
+Allow: /
+ 
+User-agent: CCBot
+Allow: /
+ 
+User-agent: Amazonbot
+Allow: /
+ 
+User-agent: FacebookBot
+Allow: /
+ 
+User-agent: cohere-ai
+Allow: /
+ 
+User-agent: Meta-ExternalAgent
+Allow: /
+ 
+# Sitemap
 Sitemap: https://mitchellanderson.com.au/sitemap.xml

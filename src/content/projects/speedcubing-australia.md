@@ -5,7 +5,7 @@ tags: ["Webflow", "UI Design", "CMS", "Interactive"]
 thumbnail: "/images/case-studies/sca-hero.png"
 heroImage: "/images/case-studies/sca-hero.png"
 beforeImage: "/images/case-studies/speedcubing-before.jpg"
-summary: "A full platform rebuild for Australia's national speedcubing organisation — from a static grey template to a dynamic, community-driven Webflow site with an interactive competition map and live national records database."
+summary: "A full Webflow rebuild for Australia's national speedcubing organisation — interactive competition map, live records database, and community-driven CMS."
 featured: true
 liveUrl: "https://www.speedcubing.org.au"
 favicon: "/images/favicons/speedcubing.png"
