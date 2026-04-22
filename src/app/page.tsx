@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllProjects } from '@/lib/projects'
+import { toWebP } from '@/lib/image-utils'
 import HeroBackground from '@/components/HeroBackground'
 import BrowserWindow from '@/components/BrowserWindow'
 import HeroContent from '@/components/HeroContent'
@@ -47,7 +48,10 @@ const websiteSchema = {
 }
 
 export default function Home() {
-  const featured = getAllProjects().filter(p => p.featured).slice(0, 4)
+  const featured = getAllProjects()
+    .filter(p => p.featured)
+    .slice(0, 4)
+    .map(p => ({ ...p, heroImage: toWebP(p.heroImage) }))
 
   return (
     <>
@@ -62,9 +66,10 @@ export default function Home() {
         {/* Photo + bottom fade — treated as one unit */}
         <div className="absolute bottom-0 right-0 h-[92%] w-screen z-[10] select-none pointer-events-none flex justify-end">
           <img
-            src="/images/hero.png"
+            src="/images/hero.webp"
             alt="Mitchell Anderson"
             className="h-full w-auto object-cover object-top"
+            fetchPriority="high"
             draggable={false}
           />
           {/* Gradient lives inside so it always travels with the image */}

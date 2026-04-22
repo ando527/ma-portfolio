@@ -1,4 +1,5 @@
 import { getAllProjects, getProjectBySlug, type Project } from '@/lib/projects'
+import { toWebP } from '@/lib/image-utils'
 
 const BADGE_STYLES: Record<string, string> = {
   SLATE:      'bg-primary text-white',
@@ -87,9 +88,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {project.heroImage && (
         <div className="w-full border-y border-maroon-100 bg-maroon-50">
           <img
-            src={project.heroImage}
+            src={toWebP(project.heroImage)}
             alt={`${project.title} — live site`}
             className="w-full object-cover max-h-[70vh]"
+            fetchPriority="high"
           />
         </div>
       )}
@@ -214,9 +216,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div>
               <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
                 <img
-                  src={project.beforeImage}
+                  src={toWebP(project.beforeImage)}
                   alt={`${project.title} — before redesign`}
                   className="w-full h-full object-cover object-top"
+                  loading="lazy"
                 />
               </div>
               <p className="mt-3 font-sans text-xs text-muted-foreground text-center">Before</p>
@@ -224,9 +227,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div>
               <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
                 <img
-                  src={project.heroImage}
+                  src={toWebP(project.heroImage)}
                   alt={`${project.title} — after redesign`}
                   className="w-full h-full object-cover object-top"
+                  loading="lazy"
                 />
               </div>
               <p className="mt-3 font-sans text-xs text-muted-foreground text-center">After</p>

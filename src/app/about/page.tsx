@@ -38,10 +38,14 @@ const experience = [
 function getCollageImages(): string[] {
   const dir = path.join(process.cwd(), 'public', 'images', 'collage')
   try {
-    return fs
-      .readdirSync(dir)
-      .filter(f => /\.(jpe?g|png|webp|gif|avif)$/i.test(f))
-      .map(f => `/images/collage/${f}`)
+    const files = fs.readdirSync(dir)
+    const webpSet = new Set(files.filter(f => /\.webp$/i.test(f)).map(f => f.replace(/\.webp$/i, '')))
+    return files
+      .filter(f => /\.(jpe?g|png)$/i.test(f))
+      .map(f => {
+        const base = f.replace(/\.(jpe?g|png)$/i, '')
+        return `/images/collage/${webpSet.has(base) ? base + '.webp' : f}`
+      })
   } catch {
     return []
   }

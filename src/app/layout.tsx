@@ -48,6 +48,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${archivo.variable} ${spaceGrotesk.variable}`}>
+      <head>
+        <link rel="preload" as="image" href="/images/hero.webp" fetchPriority="high" />
+      </head>
       <body className="font-sans bg-background text-foreground min-h-screen flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>

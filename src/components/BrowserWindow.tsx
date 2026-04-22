@@ -117,7 +117,7 @@ function MiniCaseStudy({ project }: { project: Project }) {
     <div className="min-h-full bg-white">
       <div className="w-full aspect-[16/5] bg-maroon-50 overflow-hidden">
         {project.heroImage
-          ? <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover" />
+          ? <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover" loading="lazy" />
           : <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-maroon-50 via-maroon-100 to-maroon-50">
               <span className="font-heading font-bold text-8xl text-primary/10 select-none">{project.title.charAt(0)}</span>
             </div>
@@ -293,7 +293,7 @@ function TabCard({ tab, i, isActive, highlighted = false, onOpen, onClose }: {
       >
         <div className="aspect-[4/3] bg-[#2c2c2e] overflow-hidden">
           {tab.kind === 'project' && tab.project.heroImage
-            ? <img src={tab.project.heroImage} alt="" className="w-full h-full object-cover object-top" />
+            ? <img src={tab.project.heroImage} alt="" className="w-full h-full object-cover object-top" loading="lazy" />
             : <div className="w-full h-full bg-[#f5f0f1] flex items-center justify-center">
                 <img src="/images/ma-logo.svg" alt="" className="w-7 h-7" />
               </div>
