@@ -1,0 +1,16 @@
+# Cache headers for mitchellanderson.com.au
+# Netlify / Cloudflare Pages apply this automatically from public/_headers.
+# For DigitalOcean App Platform, configure matching rules via .do/app.yaml
+# or the DO App Platform dashboard → Settings → Response Headers.
+
+# Next.js static assets — hashed filenames, safe to cache for 1 year
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images — not hashed, cache for 30 days
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# HTML pages and all other routes — always revalidate
+/*
+  Cache-Control: public, max-age=0, must-revalidate

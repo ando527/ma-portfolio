@@ -1,0 +1,21 @@
+name: ma-portfolio
+static_sites:
+- name: portfolio
+  github:
+    repo: ando527/ma-portfolio
+    branch: main
+    deploy_on_push: true
+  build_command: npm run build
+  output_dir: out
+  routes:
+  - path: /
+  headers:
+  - path: /_next/static/*
+    name: Cache-Control
+    value: public, max-age=31536000, immutable
+  - path: /images/*
+    name: Cache-Control
+    value: public, max-age=2592000, stale-while-revalidate=86400
+  - path: /*
+    name: Cache-Control
+    value: public, max-age=0, must-revalidate

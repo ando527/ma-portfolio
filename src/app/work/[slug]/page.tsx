@@ -1,5 +1,6 @@
 import { getAllProjects, getProjectBySlug, type Project } from '@/lib/projects'
 import { toWebP } from '@/lib/image-utils'
+import './prose.css'
 
 const BADGE_STYLES: Record<string, string> = {
   SLATE:      'bg-primary text-white',
@@ -243,7 +244,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {contentHtml && contentHtml.replace(/<[^>]*>/g, '').trim() && (
         <article className="max-w-2xl mx-auto px-6 py-16">
           <div
-            className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-strong:text-foreground prose-img:w-full prose-img:rounded-xl prose-img:my-8"
+            className="article-content"
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
         </article>
