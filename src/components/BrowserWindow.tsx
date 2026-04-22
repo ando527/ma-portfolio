@@ -45,11 +45,13 @@ const SHORTCUTS = [
 ]
 
 function NewTabPage({ compact = false }: { compact?: boolean }) {
-  const [time, setTime]               = useState(() => new Date())
-  const [factIdx, setFactIdx]         = useState(() => Math.floor(Math.random() * FUN_FACTS.length))
+  const [time, setTime]               = useState<Date | null>(null)
+  const [factIdx, setFactIdx]         = useState(0)
   const [factVisible, setFactVisible] = useState(true)
 
   useEffect(() => {
+    setTime(new Date())
+    setFactIdx(Math.floor(Math.random() * FUN_FACTS.length))
     const clock = setInterval(() => setTime(new Date()), 1000)
     return () => clearInterval(clock)
   }, [])
@@ -62,10 +64,10 @@ function NewTabPage({ compact = false }: { compact?: boolean }) {
     return () => clearInterval(cycle)
   }, [])
 
-  const h        = time.getHours()
+  const h        = time ? time.getHours() : 12
   const greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
-  const timeStr  = time.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })
-  const dateStr  = time.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' })
+  const timeStr  = time ? time.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' }) : ''
+  const dateStr  = time ? time.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' }) : ''
 
   return (
     <div className={`h-full flex flex-col items-center justify-center bg-[#f5f0f1] ${compact ? 'px-5 py-5 gap-5' : 'px-8 py-10 gap-8'}`}>
