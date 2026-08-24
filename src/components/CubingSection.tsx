@@ -8,7 +8,7 @@ const CompetitionMap = dynamic(() => import('./CompetitionMap'), { ssr: false })
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const BASE        = 'https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api'
+const BASE        = 'https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/refs/heads/v1'
 const WCA_ID      = '2022ANDE01'
 const WCA_PROFILE = `https://www.worldcubeassociation.org/persons/${WCA_ID}`
 
