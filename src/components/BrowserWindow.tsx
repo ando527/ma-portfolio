@@ -41,7 +41,7 @@ const SHORTCUTS = [
   { label: 'Work',    href: '/work',                      emoji: '💼' },
   { label: 'About',  href: '/about',                     emoji: '👋' },
   { label: 'GitHub', href: 'https://github.com/ando527',  emoji: '🐙' },
-  { label: 'Cubing', href: 'https://speedcubing.org.au', emoji: '🎲' },
+  { label: 'Cubing', href: 'https://www.worldcubeassociation.org/persons/2022ANDE01', emoji: '🎲' },
 ]
 
 function NewTabPage({ compact = false }: { compact?: boolean }) {
