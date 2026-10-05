@@ -1,16 +1,17 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy — Mitchell Anderson',
-  description: 'Privacy policy for mitchellanderson.com.au — how analytics data is collected and used.',
-  robots: { index: false },
-}
+export const metadata = pageMetadata({
+  title: 'Privacy Policy',
+  description: 'Privacy policy for mitchellanderson.com.au: what analytics data is collected, why, and how to opt out.',
+  path: '/privacy/',
+  noindex: true,
+})
 
 export default function PrivacyPolicy() {
   return (
-    <div className="max-w-2xl mx-auto px-6 py-20">
+    <div className="max-w-2xl mx-auto px-6 pt-32 pb-20">
       <h1 className="font-heading text-4xl font-bold mb-2">Privacy Policy</h1>
-      <p className="text-muted-foreground text-sm mb-12">Last updated: 2025</p>
+      <p className="text-muted-foreground text-sm mb-12">Last updated: October 2026</p>
 
       <div className="prose prose-sm max-w-none space-y-8">
         <section>
@@ -18,7 +19,7 @@ export default function PrivacyPolicy() {
           <p>
             This is the personal portfolio of <strong>Mitchell Anderson</strong>, a web developer based in Brisbane, QLD.
             You can reach me via{' '}
-            <a href="https://www.linkedin.com/in/mitchell-anderson-dev/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
+            <a href="https://www.linkedin.com/in/mitchell-anderson-527au/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
               LinkedIn
             </a>.
           </p>
@@ -62,6 +63,12 @@ export default function PrivacyPolicy() {
               Privacy Policy
             </a>
             .
+          </p>
+          <p>
+            Some pages load content from other services whether or not you accept cookies. The
+            About page fetches speedcubing results from GitHub and map tiles from OpenStreetMap,
+            which see your IP address like any website you visit. The YouTube video on that page
+            only loads, from YouTube&apos;s privacy-enhanced domain, if you press play.
           </p>
         </section>
 

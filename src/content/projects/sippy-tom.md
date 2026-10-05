@@ -6,6 +6,12 @@ thumbnail: "/images/case-studies/sippy-tom-after.jpg"
 heroImage: "/images/case-studies/sippy-tom-after.jpg"
 beforeImage: "/images/case-studies/sippy-tom-before.jpg"
 summary: "A complete brand refresh and Webflow site for a boutique Brisbane cafe — delivered in two days to meet a tight budget."
+seoTitle: "Sippy Tom: Webflow Website & Brand Refresh"
+seoDescription: "How a Teneriffe cafe got a new brand, takeaway cups, signage and a CMS-driven Webflow website with ResDiary bookings, all delivered in two days."
+heroAlt: "The new Sippy Tom homepage: an orange retro wordmark, a coffee pour and a plate of food in rounded frames, and the seasonal menu below"
+beforeAlt: "The old Sippy Tom homepage: a dark photo of the cafe interior behind the line “A place for relaxing, socialising, great food & drinks”"
+# How much of myself went into it (0–100), for the Work page's "Most involved" sort. Not shown.
+effort: 50
 featured: true
 liveUrl: "https://www.sippytom.com.au"
 favicon: "/images/favicons/sippytom.png"
@@ -47,7 +53,7 @@ The brief was clear: lean into the cafe's fun, social personality. The space is 
 
 Before writing a line of code, the brand was refreshed. The old logo was a generic serif wordmark in dark maroon tones. The new identity took a bold swing: a chunky retro-display typeface in terracotta orange, paired with playful abstract line work that reflects the relaxed, social atmosphere of the venue.
 
-![Sippy Tom Logo Redesign](/images/case-studies/sippy-tom-logos.png)
+![The old Sippy Tom serif wordmark beside the new chunky orange retro logo](/images/case-studies/sippy-tom-logos.png)
 
 The brand was rolled out immediately to physical touchpoints — takeaway cups, coasters, and A-frame signs — so the new look launched simultaneously across digital and physical. This brand refresh was led by the in-house graphic designer at SLATE, leaving me to run the website build from start to finish.
 

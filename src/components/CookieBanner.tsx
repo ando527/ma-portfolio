@@ -28,10 +28,10 @@ export default function CookieBanner({ onConsent }: Props) {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[9999] bg-foreground border-t border-maroon-700 px-5 py-3 flex items-center justify-between flex-wrap gap-3">
+    <div role="region" aria-label="Cookie consent" className="fixed bottom-0 left-0 right-0 z-[9999] bg-foreground border-t border-maroon-700 px-5 py-3 flex items-center justify-between flex-wrap gap-3">
       <p className="text-[13px] text-background/80 leading-relaxed m-0 max-w-xl">
         This site uses cookies to understand traffic via Google Analytics.{' '}
-        <Link href="/privacy" className="text-background/50 underline underline-offset-2 hover:text-background/80 transition-colors">
+        <Link prefetch={false} href="/privacy/" className="text-background/50 underline underline-offset-2 hover:text-background/80 transition-colors">
           Privacy Policy
         </Link>
       </p>

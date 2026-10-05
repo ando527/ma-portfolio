@@ -1,7 +1,11 @@
 'use client'
 
-import { motion, useInView, Variants } from 'framer-motion'
-import { useRef } from 'react'
+import { Children, cloneElement, isValidElement, useEffect, useRef, type CSSProperties, type ElementType, type ReactElement, type ReactNode } from 'react'
+
+// Scroll reveals, done in CSS (see .reveal in globals.css). The element renders
+// visible in the HTML; an inline script adds `js` to <html> before first paint
+// so it starts hidden only when JavaScript will run to reveal it. Reduced
+// motion shows everything immediately.
 
 // ── Shared easing curve (expo-out — feels snappy but not abrupt) ──────────────
 export const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
@@ -9,28 +13,36 @@ export const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
 // ── Shared spring config for interactive elements ─────────────────────────────
 export const SPRING_SNAPPY = { type: 'spring', stiffness: 400, damping: 30 } as const
 
-// ── Base fade-up variant ──────────────────────────────────────────────────────
-export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16, filter: 'blur(4px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.55, ease: EASE_OUT_EXPO },
-  },
+/** Sets data-revealed on the element once enough of it is on screen. */
+function useReveal<T extends HTMLElement>(threshold: number, once: boolean) {
+  const ref = useRef<T>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (typeof IntersectionObserver === 'undefined') {
+      el.setAttribute('data-revealed', '')
+      return
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.setAttribute('data-revealed', '')
+          if (once) io.disconnect()
+        } else if (!once) {
+          el.removeAttribute('data-revealed')
+        }
+      },
+      { threshold },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [threshold, once])
+  return ref
 }
-
-// ── Container variant — staggers children ─────────────────────────────────────
-export const staggerContainer = (stagger = 0.08, delayChildren = 0): Variants => ({
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: stagger, delayChildren },
-  },
-})
 
 // ── AnimateIn: wraps children and reveals on scroll ──────────────────────────
 interface AnimateInProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   /** Delay before the element starts animating (seconds) */
   delay?: number
@@ -38,7 +50,7 @@ interface AnimateInProps {
   threshold?: number
   /** Whether to animate only once or every time it enters the viewport */
   once?: boolean
-  as?: React.ElementType
+  as?: ElementType
 }
 
 export function AnimateIn({
@@ -49,41 +61,24 @@ export function AnimateIn({
   once = true,
   as: Tag = 'div',
 }: AnimateInProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once, amount: threshold })
-
-  const MotionTag = motion[Tag as keyof typeof motion] as typeof motion.div
-
+  const ref = useReveal<HTMLElement>(threshold, once)
+  const style = delay ? ({ '--reveal-delay': `${delay}s` } as CSSProperties) : undefined
   return (
-    <MotionTag
-      ref={ref}
-      className={className}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={{
-        hidden: { opacity: 0, y: 16, filter: 'blur(4px)' },
-        visible: {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          transition: { duration: 0.55, ease: EASE_OUT_EXPO, delay },
-        },
-      }}
-    >
+    <Tag ref={ref} className={className ? `reveal ${className}` : 'reveal'} style={style} suppressHydrationWarning>
       {children}
-    </MotionTag>
+    </Tag>
   )
 }
 
 // ── StaggerIn: reveals children with a stagger on scroll ─────────────────────
 interface StaggerInProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   stagger?: number
   delayChildren?: number
   threshold?: number
   once?: boolean
-  as?: React.ElementType
+  as?: ElementType
 }
 
 export function StaggerIn({
@@ -95,36 +90,35 @@ export function StaggerIn({
   once = true,
   as: Tag = 'div',
 }: StaggerInProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once, amount: threshold })
-
-  const MotionTag = motion[Tag as keyof typeof motion] as typeof motion.div
-
+  const ref = useReveal<HTMLElement>(threshold, once)
+  let i = 0
+  const items = Children.map(children, child => {
+    if (!isValidElement(child)) return child
+    const delay = delayChildren + stagger * i++
+    const el = child as ReactElement<{ style?: CSSProperties }>
+    return cloneElement(el, {
+      style: { ...el.props.style, '--reveal-delay': `${delay.toFixed(2)}s` } as CSSProperties,
+    })
+  })
   return (
-    <MotionTag
-      ref={ref}
-      className={className}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={staggerContainer(stagger, delayChildren)}
-    >
-      {children}
-    </MotionTag>
+    <Tag ref={ref} className={className} data-stagger="" suppressHydrationWarning>
+      {items}
+    </Tag>
   )
 }
 
 // ── FadeItem: child element inside a StaggerIn container ─────────────────────
 interface FadeItemProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
-  as?: React.ElementType
+  style?: CSSProperties
+  as?: ElementType
 }
 
-export function FadeItem({ children, className, as: Tag = 'div' }: FadeItemProps) {
-  const MotionTag = motion[Tag as keyof typeof motion] as typeof motion.div
+export function FadeItem({ children, className, style, as: Tag = 'div' }: FadeItemProps) {
   return (
-    <MotionTag className={className} variants={fadeUp}>
+    <Tag className={className ? `reveal-item ${className}` : 'reveal-item'} style={style}>
       {children}
-    </MotionTag>
+    </Tag>
   )
 }

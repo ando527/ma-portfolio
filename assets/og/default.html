@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Space+Grotesk:wght@500;600&display=block" rel="stylesheet">
+<style>
+  html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+  body{background:#100408;position:relative;font-family:'Archivo',sans-serif}
+  .glow{position:absolute;inset:0;background:radial-gradient(760px circle at 26% 40%, rgba(155,35,53,0.42), transparent 66%)}
+  .grain{position:absolute;inset:0;opacity:.06}
+  .photo{position:absolute;right:20px;bottom:0;height:600px}
+  .fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to top, rgba(16,4,8,.95), transparent)}
+  .text{position:absolute;left:84px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:640px}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#F1B8BF;margin-bottom:26px}
+  h1{margin:0;color:#fff;font-weight:800;font-size:112px;line-height:.92;letter-spacing:-.025em}
+  p{font-family:'Space Grotesk',sans-serif;color:rgba(255,255,255,.72);font-size:30px;line-height:1.35;margin:30px 0 0;max-width:520px}
+  .url{position:absolute;left:84px;bottom:52px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:22px;color:rgba(255,255,255,.55);letter-spacing:.01em}
+</style></head>
+<body>
+  <div class="glow"></div>
+  <svg class="grain" width="1200" height="630"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
+  <img class="photo" src="file:///C:/Users/Mitchell/Documents/MASite/ma-portfolio/assets/images/hero.png">
+  <div class="fade"></div>
+  <div class="text">
+    <div class="eyebrow">Web developer — Brisbane</div>
+    <h1>Mitchell<br>Anderson.</h1>
+    <p>Websites in Webflow, Shopify and Next.js, from wireframe to launch.</p>
+  </div>
+  <div class="url">mitchellanderson.com.au</div>
+</body></html>

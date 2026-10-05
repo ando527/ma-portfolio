@@ -13,11 +13,143 @@
     background-color: #FDF7F7;
     color: #1C0A0E;
   }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  /* Keyboard focus is always visible; mouse clicks don't draw a ring. */
+  :focus-visible {
+    outline: 2px solid #9B2335;
+    outline-offset: 3px;
+  }
+
+  /* Dark surfaces (hero, nav, expertise, footer) get a light ring. */
+  .on-dark :focus-visible {
+    outline-color: #F1B8BF;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
 
 @keyframes float-y {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-10px); }
+}
+
+/* ── About page photo collage ─────────────────────────────────────────────────
+   Each slot carries its desktop (-d) and mobile (-m) position as variables
+   (see CollageHero.tsx); the media query picks one, so there's no layout jump
+   when JavaScript loads. */
+.collage-slot {
+  position: absolute;
+  z-index: 5;
+  will-change: transform;
+  top: var(--top-m);
+  left: var(--left-m);
+  width: var(--w-m);
+  --rot: var(--rot-m);
+  --aspect: var(--aspect-m);
+  --dur: var(--dur-m);
+  --delay: var(--delay-m);
+}
+.collage-desktop-only {
+  display: none;
+}
+@media (min-width: 768px) {
+  .collage-slot {
+    top: var(--top-d);
+    left: var(--left-d);
+    width: var(--w-d);
+    --rot: var(--rot-d);
+    --aspect: var(--aspect-d);
+    --dur: var(--dur-d);
+    --delay: var(--delay-d);
+  }
+  .collage-desktop-only {
+    display: block;
+  }
+}
+.collage-float {
+  animation: float-y var(--dur) ease-in-out var(--delay) infinite;
+}
+.collage-frame {
+  transform: rotate(var(--rot));
+  aspect-ratio: var(--aspect);
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Logo mark, written on load ───────────────────────────────────────────────
+   Each stroke has pathLength=1, so a dash offset of 1 → 0 draws it. Strokes
+   run in writing order via --draw-delay; hover replays it (Nav.tsx). */
+.logo-mark path {
+  stroke-dasharray: 1 1;
+  animation: logo-write var(--draw-duration) cubic-bezier(0.55, 0.1, 0.35, 1) var(--draw-delay) both;
+}
+@keyframes logo-write {
+  0%   { stroke-dashoffset: 1; opacity: 0; }
+  2%   { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* ── Entrance on page load (no JavaScript needed) ─────────────────────────────
+   Used for above-the-fold text so it paints as soon as the HTML arrives,
+   instead of waiting for React to hydrate. Stagger with --enter-delay. */
+@keyframes enter-up {
+  from { opacity: 0; transform: translateY(20px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.enter {
+  animation: enter-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--enter-delay, 0s) both;
+}
+
+/* ── Reveal on scroll ─────────────────────────────────────────────────────────
+   The `js` class is added to <html> by an inline script before first paint,
+   so without JavaScript nothing is ever hidden. AnimateIn / StaggerIn set
+   data-revealed when the element scrolls into view. */
+.reveal,
+.reveal-item {
+  transition:
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s),
+    filter 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s);
+}
+
+html.js .reveal:not([data-revealed]),
+html.js [data-stagger]:not([data-revealed]) > .reveal-item {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal-item {
+    transition: none;
+  }
+
+  html.js .reveal:not([data-revealed]),
+  html.js [data-stagger]:not([data-revealed]) > .reveal-item {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .motion-float,
+  .logo-mark path {
+    animation: none !important;
+  }
 }
 
 @layer utilities {

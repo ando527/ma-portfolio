@@ -6,6 +6,12 @@ thumbnail: "/images/case-studies/sca-hero.webp"
 heroImage: "/images/case-studies/sca-hero.png"
 beforeImage: "/images/case-studies/speedcubing-before.jpg"
 summary: "The original 2023 Webflow build for Australia's national speedcubing organisation — interactive competition map, live records database, and community-driven CMS."
+seoTitle: "Speedcubing Australia 2023 Webflow Build"
+seoDescription: "The original 2023 Webflow build for Speedcubing Australia: a competition map, a national records database and a CMS volunteers run themselves."
+heroAlt: "The 2023 Speedcubing Australia homepage: a competitor solving a cube beside a stackmat timer reading 10.744"
+beforeAlt: "Speedcubing Australia's site before 2023: a blurred photo of cubes behind a plain Competitions heading"
+# How much of myself went into it (0–100), for the Work page's "Most involved" sort. Not shown.
+effort: 60
 featured: false
 liveUrl: "https://www.speedcubing.org.au"
 favicon: "/images/favicons/speedcubing.png"
@@ -55,7 +61,7 @@ The site was built in Webflow with a heavy focus on CMS architecture and interac
 
 The Competitions page features a **List/Map toggle**: switch between a colour-coded tabular list of all upcoming events, or an interactive Google Maps embed with pin markers for each competition location. Competitors can quickly find events in their state and click through to the WCA registration page.
 
-![Competitions](/images/case-studies/sca-1.png)
+![The 2023 competitions list: alternating green and yellow rows of competition names, dates and cities](/images/case-studies/sca-1.png)
 
 ### National Records Database
 
@@ -69,15 +75,15 @@ The Records page is the centrepiece of the rebuild. Each Australian National Rec
 
 A featured slider on the homepage cycles through recent record-breaking moments, giving the community a reason to return to the site regularly.
 
-![Record](/images/case-studies/sca-2.png)
+![A 2023 record page: Charlie Eggins' 3x3 blindfolded average, with a quote and solve reconstructions](/images/case-studies/sca-2.png)
 
-![Records](/images/case-studies/sca-3.png)
+![The 2023 Results page: a large heading with an arrow icon above a slider of green record cards](/images/case-studies/sca-3.png)
 
 ### Content Management
 
 Because the organisation is entirely volunteer-run, the CMS was architected so that non-technical committee members can update all content — adding new competitions, updating records, and managing team members — without any developer involvement.
 
-![CMS](/images/case-studies/sca-4.png)
+![The Webflow CMS editor: collections for delegates, committee members, roles and national records, with the committee members list open](/images/case-studies/sca-4.png)
 
 ## Outcome
 

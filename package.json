@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/update-wca-cache.mjs",
     "build": "next build",
     "start": "next start",
+    "serve": "node scripts/serve-out.mjs",
+    "images": "node scripts/optimize-images.mjs",
+    "wca": "node scripts/update-wca-cache.mjs",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,7 +25,10 @@
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "remark-rehype": "^11.1.2"
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",

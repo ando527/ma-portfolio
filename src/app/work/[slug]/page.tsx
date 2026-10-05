@@ -1,262 +1,260 @@
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { getAllProjects, getProjectBySlug, type Project } from '@/lib/projects'
-import { toWebP } from '@/lib/image-utils'
-import './prose.css'
+import { getAllServices } from '@/lib/services'
+import { renderMarkdown } from '@/lib/markdown'
+import { pageMetadata, absoluteUrl } from '@/lib/site'
+import { graph, breadcrumbNode, refs } from '@/lib/schema'
+import JsonLd from '@/components/JsonLd'
+import PageHero from '@/components/PageHero'
+import BrowserFrame from '@/components/BrowserFrame'
+import ProjectCard from '@/components/ProjectCard'
+import ProseLayout, { OnThisPage, AsideCard } from '@/components/ProseLayout'
+import ReducedMotionVideos from '@/components/ReducedMotionVideos'
+import { AnimateIn } from '@/components/ui/animate-in'
+import { btnOnDark } from '@/components/ui/button'
+import '@/app/prose.css'
 
 const BADGE_STYLES: Record<string, string> = {
   SLATE:      'bg-primary text-white',
   Freelance:  'bg-foreground text-background',
   'Pro-bono': 'bg-emerald-700 text-white',
 }
-import { notFound } from 'next/navigation'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkRehype from 'remark-rehype'
-import rehypeRaw from 'rehype-raw'
-import rehypeStringify from 'rehype-stringify'
-import Link from 'next/link'
+
+const LABEL = 'font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground'
+
+export const dynamicParams = false
 
 export async function generateStaticParams() {
-  const projects = getAllProjects()
-  return projects.map(p => ({ slug: p.slug }))
+  return getAllProjects().map(p => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const project = getProjectBySlug(slug)
   if (!project) return {}
-  const ogImages = project.heroImage
-    ? [{ url: project.heroImage, alt: project.title }]
-    : undefined
-  return {
-    title: `${project.title} — Mitchell Anderson`,
-    description: project.summary,
-    alternates: {
-      canonical: `https://mitchellanderson.com.au/work/${slug}/`,
-    },
-    openGraph: {
-      title: `${project.title} — Mitchell Anderson`,
-      description: project.summary,
-      url: `https://mitchellanderson.com.au/work/${slug}/`,
-      images: ogImages,
-    },
-    twitter: {
-      title: `${project.title} — Mitchell Anderson`,
-      description: project.summary,
-      images: project.heroImage ? [project.heroImage] : undefined,
-    },
-  }
+  return pageMetadata({
+    title: project.seoTitle,
+    description: project.seoDescription,
+    path: `/work/${slug}/`,
+    ogImage: project.ogImage,
+    ogImageAlt: project.heroAlt,
+    type: 'article',
+  })
 }
+
+/** Services whose related tags overlap this project's tags. */
+function relatedServices(project: Project) {
+  const tags = project.tags.map(t => t.toLowerCase())
+  return getAllServices().filter(s => s.relatedTags.some(t => tags.includes(t.toLowerCase())))
+}
+
+const hostOf = (url?: string) => (url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : undefined)
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const project = getProjectBySlug(slug)
   if (!project) notFound()
 
-  const processedContent = await unified()
-    .use(remarkParse)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeStringify)
-    .process(project.content)
-  const contentHtml = processedContent.toString()
-
-  const accentColor = project.color || '#7C1D2E'
+  const { html, headings } = await renderMarkdown(project.content)
   const otherProjects = getAllProjects().filter(p => p.slug !== slug).slice(0, 3)
+  const services = relatedServices(project)
+  const { hero, before } = project.images
+  const url = absoluteUrl(`/work/${slug}/`)
 
-  const projectSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    name: project.title,
-    description: project.summary,
-    url: `https://mitchellanderson.com.au/work/${slug}/`,
-    author: {
-      '@type': 'Person',
-      name: 'Mitchell Anderson',
-      url: 'https://mitchellanderson.com.au',
+  const schema = graph(
+    {
+      '@type': 'CreativeWork',
+      '@id': `${url}#case-study`,
+      name: project.title,
+      headline: project.seoTitle,
+      description: project.seoDescription,
+      url,
+      mainEntityOfPage: url,
+      inLanguage: 'en-AU',
+      isPartOf: refs.website,
+      author: refs.person,
+      creator: refs.person,
+      ...(project.ogImage && { image: absoluteUrl(project.ogImage) }),
+      ...(project.date && { dateCreated: project.date }),
+      keywords: project.tags.join(', '),
+      ...(project.client && {
+        about: {
+          '@type': 'Organization',
+          name: project.client.replace(/\s*[—(].*$/, ''),
+          ...(project.liveUrl && { url: project.liveUrl }),
+        },
+      }),
     },
-    ...(project.heroImage && { image: `https://mitchellanderson.com.au${project.heroImage}` }),
-    ...(project.year && { dateCreated: project.year }),
-  }
+    breadcrumbNode(`/work/${slug}/`, [
+      { name: 'Home', path: '/' },
+      { name: 'Work', path: '/work/' },
+      { name: project.title, path: `/work/${slug}/` },
+    ]),
+  )
+
+  const meta = [
+    project.client && { label: 'Client', value: project.client },
+    project.role && { label: 'Role', value: project.role },
+    project.year && { label: 'Year', value: project.year },
+  ].filter(Boolean) as { label: string; value: string }[]
 
   return (
-    <div className="min-h-screen bg-background">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }} />
+    <div className="bg-background">
+      <JsonLd data={schema} />
+      <ReducedMotionVideos />
 
-      
-
-
-      {/* ── Hero image (after) ────────────────────────────────────── */}
-      {project.heroImage && (
-        <div className="w-full border-y border-maroon-100 bg-maroon-50">
-          <img
-            src={toWebP(project.heroImage)}
-            alt={`${project.title} — live site`}
-            className="w-full object-cover max-h-[70vh]"
-            fetchPriority="high"
-          />
-        </div>
-      )}
-
-      {/* ── Back nav ─────────────────────────────────────────────── */}
-      <div className="max-w-5xl mx-auto px-6 pt-10 pb-4">
-        <Link
-          href="/work/"
-          className="inline-flex items-center gap-2 font-sans text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group"
-        >
-          <span className="group-hover:-translate-x-0.5 transition-transform duration-200">←</span>
-          Back to Work
-        </Link>
-      </div>
-
-      {/* ── Header ───────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 pb-10">
-        {project.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-5">
-            {project.tags.map(tag => (
-              <span
-                key={tag}
-                className="text-xs font-sans font-medium text-primary bg-maroon-50 px-3 py-1 rounded-full border border-maroon-200"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <h1 className="font-heading font-bold text-4xl md:text-6xl text-foreground tracking-tight leading-tight mb-5">
-          {project.title}
-        </h1>
-        <p className="font-sans text-xl text-muted-foreground max-w-2xl leading-relaxed mb-8">
-          {project.summary}
-        </p>
-
-        {/* Meta strip */}
-        <div className="flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-b border-maroon-100 py-4">
-          {project.client && (
-            <div>
-              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-0.5">Client</p>
-              <p className="font-sans text-sm font-medium text-foreground">{project.client}</p>
-            </div>
-          )}
-          {project.role && (
-            <div>
-              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-0.5">Role</p>
-              <p className="font-sans text-sm font-medium text-foreground">{project.role}</p>
-            </div>
-          )}
-          {project.year && (
-            <div>
-              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-0.5">Year</p>
-              <p className="font-sans text-sm font-medium text-foreground">{project.year}</p>
-            </div>
-          )}
-          {project.badge && (
-            <div>
-              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-1.5">Context</p>
-              <span className={`text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${BADGE_STYLES[project.badge] ?? 'bg-foreground text-background'}`}>
+      {/* ── Header: dark fold, screenshot straddling the edge ───────── */}
+      <PageHero
+        crumbs={[{ name: 'Home', href: '/' }, { name: 'Work', href: '/work/' }, { name: project.title }]}
+        eyebrow={
+          <span className="inline-flex items-center gap-3">
+            Case study
+            {project.badge && (
+              <span className={`text-xs font-bold tracking-wider px-2.5 py-1 rounded-full ${BADGE_STYLES[project.badge] ?? 'bg-white text-foreground'}`}>
                 {project.badge}
               </span>
-            </div>
-          )}
+            )}
+          </span>
+        }
+        title={project.title}
+        intro={project.summary}
+        overlap={
+          hero && (
+            <BrowserFrame
+              image={hero}
+              alt={project.heroAlt}
+              url={hostOf(project.liveUrl)}
+              sizes="(min-width: 1152px) 1104px, calc(100vw - 48px)"
+              priority
+            />
+          )
+        }
+      >
+        <div className="flex flex-wrap items-end gap-x-10 gap-y-5">
+          <dl className="flex flex-wrap gap-x-10 gap-y-4">
+            {meta.map(m => (
+              <div key={m.label}>
+                <dt className="font-sans text-xs font-semibold tracking-widest uppercase text-white/50 mb-1">{m.label}</dt>
+                <dd className="font-sans text-sm font-medium text-white">{m.value}</dd>
+              </div>
+            ))}
+          </dl>
           {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-auto inline-flex items-center gap-1.5 font-sans text-sm font-medium text-primary hover:opacity-70 transition-opacity"
-            >
-              Visit Live Site
-              <span className="text-xs">↗</span>
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={btnOnDark}>
+              Visit live site
+              <span aria-hidden>↗</span>
+              <span className="sr-only">(opens in a new tab)</span>
             </a>
           )}
         </div>
-      </section>
-
-      
+      </PageHero>
 
       {/* ── Deliverables + Stats ─────────────────────────────────── */}
       {(project.deliverables?.length || project.stats?.length) ? (
-        <section className="max-w-5xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 border-b border-maroon-100">
-
+        <section className="max-w-6xl mx-auto px-6 pt-16 md:pt-24 pb-16 grid md:grid-cols-2 gap-12 md:gap-20 border-b border-maroon-100">
           {project.deliverables && project.deliverables.length > 0 && (
-            <div>
-              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-5">What I Built</p>
+            <AnimateIn>
+              <h2 className={`${LABEL} mb-5`}>What I Built</h2>
               <ul className="space-y-2.5">
                 {project.deliverables.map((d, i) => (
-                  <li key={i} className="flex items-start gap-3 font-sans text-sm text-foreground">
-                    <span className="mt-1 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                  <li key={i} className="flex items-start gap-3 font-sans text-base text-foreground">
+                    <span aria-hidden className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                     {d}
                   </li>
                 ))}
               </ul>
-            </div>
+            </AnimateIn>
           )}
 
           {project.stats && project.stats.length > 0 && (
-            <div>
-              <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-5">Key Outcomes</p>
-              <div className="grid grid-cols-2 gap-6">
+            <AnimateIn delay={0.08}>
+              <h2 className={`${LABEL} mb-5`}>Key Outcomes</h2>
+              <dl className="grid grid-cols-2 gap-x-6 gap-y-8">
                 {project.stats.map((s, i) => (
-                  <div key={i}>
-                    <p className="font-heading font-bold text-3xl text-foreground leading-none mb-1">{s.value}</p>
-                    <p className="font-sans text-xs text-muted-foreground">{s.label}</p>
+                  <div key={i} className="flex flex-col-reverse">
+                    <dt className="font-sans text-sm text-muted-foreground">{s.label}</dt>
+                    <dd className="font-heading font-bold text-4xl text-foreground leading-none mb-2">{s.value}</dd>
                   </div>
                 ))}
-              </div>
-            </div>
+              </dl>
+            </AnimateIn>
           )}
-
         </section>
       ) : null}
 
       {/* ── Before / After ───────────────────────────────────────── */}
-      {project.beforeImage && project.heroImage && (
-        <section className="max-w-5xl mx-auto px-6 py-16 border-b border-maroon-100">
-          <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-8">Before & After</p>
+      {before && hero && (
+        <section className="max-w-6xl mx-auto px-6 py-16 border-b border-maroon-100">
+          <h2 className={`${LABEL} mb-8`}>Before &amp; After</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
-                <img
-                  src={toWebP(project.beforeImage)}
-                  alt={`${project.title} — before redesign`}
-                  className="w-full h-full object-cover object-top"
-                  loading="lazy"
-                />
-              </div>
-              <p className="mt-3 font-sans text-xs text-muted-foreground text-center">Before</p>
-            </div>
-            <div>
-              <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
-                <img
-                  src={toWebP(project.heroImage)}
-                  alt={`${project.title} — after redesign`}
-                  className="w-full h-full object-cover object-top"
-                  loading="lazy"
-                />
-              </div>
-              <p className="mt-3 font-sans text-xs text-muted-foreground text-center">After</p>
-            </div>
+            {[
+              { img: before, alt: project.beforeAlt, label: 'Before' },
+              { img: hero, alt: project.heroAlt, label: 'After' },
+            ].map(({ img, alt, label }) => (
+              <figure key={label}>
+                <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
+                  <img
+                    src={img.src}
+                    srcSet={img.srcSet}
+                    sizes="(min-width: 1152px) 540px, (min-width: 768px) 46vw, 100vw"
+                    width={img.width}
+                    height={img.height}
+                    alt={alt}
+                    className="w-full h-full object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <figcaption className="mt-3 font-sans text-sm text-muted-foreground text-center">{label}</figcaption>
+              </figure>
+            ))}
           </div>
         </section>
       )}
 
-      {/* ── Markdown body ────────────────────────────────────────── */}
-      {contentHtml && contentHtml.replace(/<[^>]*>/g, '').trim() && (
-        <article className="max-w-2xl mx-auto px-6 py-16">
-          <div
-            className="article-content"
-            dangerouslySetInnerHTML={{ __html: contentHtml }}
-          />
-        </article>
+      {/* ── The write-up, with a sticky sidebar ──────────────────── */}
+      {html.replace(/<[^>]*>/g, '').trim() && (
+        <ProseLayout
+          html={html}
+          aside={
+            <>
+              <OnThisPage headings={headings} />
+              <AsideCard>
+                <h2 className={`${LABEL} mb-3`}>Built with</h2>
+                <ul className="flex flex-wrap gap-2" aria-label="Tags">
+                  {project.tags.map(tag => (
+                    <li key={tag} className="text-xs font-sans font-medium text-primary bg-maroon-50 px-2.5 py-1 rounded-full border border-maroon-200">{tag}</li>
+                  ))}
+                </ul>
+                {services.length > 0 && (
+                  <p className="mt-4 font-sans text-sm text-muted-foreground">
+                    Want something similar? Read about my{' '}
+                    {services.map((s, i) => (
+                      <span key={s.slug}>
+                        {i > 0 && (i === services.length - 1 ? ' and ' : ', ')}
+                        <Link prefetch={false} href={`/${s.slug}/`} className="font-medium text-primary underline underline-offset-2 hover:text-maroon-700">
+                          {s.name}
+                        </Link>
+                      </span>
+                    ))}
+                    {' '}work.
+                  </p>
+                )}
+              </AsideCard>
+            </>
+          }
+        />
       )}
 
       {/* ── Footer CTA ───────────────────────────────────────────── */}
-      <div className="max-w-5xl mx-auto px-6 pb-16 pt-8 border-t border-maroon-100 flex items-center justify-between flex-wrap gap-4">
+      <div className="max-w-6xl mx-auto px-6 pb-16 pt-8 border-t border-maroon-100 flex items-center justify-between flex-wrap gap-4">
         <Link
+          prefetch={false}
           href="/work/"
-          className="inline-flex items-center gap-2 font-sans text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 group"
+          className="inline-flex items-center gap-2 py-2 font-sans text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 group"
         >
-          <span className="group-hover:-translate-x-0.5 transition-transform duration-200">←</span>
+          <span aria-hidden className="group-hover:-translate-x-0.5 transition-transform duration-200">←</span>
           All projects
         </Link>
         {project.liveUrl && (
@@ -266,53 +264,25 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-sans text-sm font-semibold bg-foreground text-background px-5 py-2.5 rounded-full hover:opacity-80 transition-opacity"
           >
-            View Live Site
-            <span>↗</span>
+            View live site
+            <span aria-hidden>↗</span>
+            <span className="sr-only">(opens in a new tab)</span>
           </a>
         )}
       </div>
 
       {/* ── More Work ────────────────────────────────────────────── */}
       {otherProjects.length > 0 && (
-        <section className="bg-maroon-50 border-t border-maroon-100 py-16">
-          <div className="max-w-5xl mx-auto px-6">
-            <p className="font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground/60 mb-8">More Work</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-              {otherProjects.map((p: Project) => (
-                <Link
-                  key={p.slug}
-                  href={`/work/${p.slug}/`}
-                  className="group block rounded-xl overflow-hidden border border-maroon-100 bg-white hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
-                >
-                  <div className="aspect-video overflow-hidden bg-maroon-50">
-                    {p.thumbnail && (
-                      <img
-                        src={p.thumbnail}
-                        alt={p.title}
-                        className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
-                      />
-                    )}
-                  </div>
-                  <div className="p-4">
-                    {p.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-2">
-                        {p.tags.slice(0, 2).map(tag => (
-                          <span key={tag} className="text-[10px] font-sans font-medium text-primary bg-maroon-50 px-2 py-0.5 rounded-full border border-maroon-200">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <h3 className="font-heading font-bold text-base text-foreground mb-1 group-hover:text-primary transition-colors duration-200">
-                      {p.title}
-                    </h3>
-                    <p className="font-sans text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                      {p.summary}
-                    </p>
-                  </div>
-                </Link>
+        <section className="bg-maroon-50 border-t border-maroon-100 py-20" aria-labelledby="more-work-heading">
+          <div className="max-w-6xl mx-auto px-6">
+            <h2 id="more-work-heading" className="font-heading font-bold text-3xl text-foreground mb-10">More work</h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {otherProjects.map(p => (
+                <li key={p.slug}>
+                  <ProjectCard project={{ slug: p.slug, title: p.title, summary: p.summary, tags: p.tags, badge: p.badge, thumb: p.images.thumb }} />
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
       )}

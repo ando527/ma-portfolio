@@ -1,16 +1,27 @@
-# Cache headers for mitchellanderson.com.au
-# Netlify / Cloudflare Pages apply this automatically from public/_headers.
-# For DigitalOcean App Platform, configure matching rules via .do/app.yaml
-# or the DO App Platform dashboard → Settings → Response Headers.
+# Response headers for mitchellanderson.com.au
+#
+# Applied automatically by Cloudflare Pages and Netlify. DigitalOcean App
+# Platform ignores this file for static sites (see .do/app.yaml).
+# Test locally with:  npm run build && npm run serve
+#
+# Cache-Control is only set on specific paths: hosts join the values of
+# overlapping rules, so a catch-all Cache-Control would clash with these.
 
-# Next.js static assets — hashed filenames, safe to cache for 1 year
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com https://*.tile.openstreetmap.org https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://www.youtube-nocookie.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+
+# Next.js build output: file names change whenever content changes.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Images — not hashed, cache for 30 days
+# Images keep their names between builds, so cache for 30 days.
 /images/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
-# HTML pages and all other routes — always revalidate
-/*
-  Cache-Control: public, max-age=0, must-revalidate
+/icons/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400

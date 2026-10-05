@@ -1,0 +1,649 @@
+[
+  {
+    "id": "AdelaideAutumn2023",
+    "name": "Adelaide Autumn 2023",
+    "city": "Adelaide, South Australia",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -35.003482,
+      "longitude": 138.519406
+    }
+  },
+  {
+    "id": "AustralianNationals2023",
+    "name": "Australian Nationals 2023",
+    "city": "Moreton Bay, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.11675,
+      "longitude": 152.949315
+    }
+  },
+  {
+    "id": "AustralianNationals2024",
+    "name": "Australian Nationals 2024",
+    "city": "Adelaide, South Australia",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -34.928594,
+      "longitude": 138.641871
+    }
+  },
+  {
+    "id": "AustralianNationals2025",
+    "name": "Australian Nationals 2025",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.559825,
+      "longitude": 153.065106
+    }
+  },
+  {
+    "id": "AustralianNationalsFMC2023",
+    "name": "Australian Nationals FMC 2023",
+    "city": "Multiple cities",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.820452,
+      "longitude": 144.940497
+    }
+  },
+  {
+    "id": "AustralianNationalsFMC2024",
+    "name": "Australian Nationals FMC 2024",
+    "city": "Multiple cities",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -26.115985,
+      "longitude": 132.714843
+    }
+  },
+  {
+    "id": "BigCubeTimeBrisbane2026",
+    "name": "Big Cube Time Brisbane 2026",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.535602,
+      "longitude": 153.094233
+    }
+  },
+  {
+    "id": "BrilliantBallarat2022",
+    "name": "Brilliant Ballarat 2022",
+    "city": "Ballarat, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.562458,
+      "longitude": 143.852714
+    }
+  },
+  {
+    "id": "BrisbaneAt6sand7s2024",
+    "name": "Brisbane: At 6's and 7's 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393707,
+      "longitude": 152.991083
+    }
+  },
+  {
+    "id": "BrisbaneAutumn2022",
+    "name": "Brisbane Autumn 2022",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.48139,
+      "longitude": 153.017178
+    }
+  },
+  {
+    "id": "BrisbaneBignBlind2023",
+    "name": "Brisbane Big n Blind 2023",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393115,
+      "longitude": 152.99043
+    }
+  },
+  {
+    "id": "BrisbaneMegaBlind2024",
+    "name": "Brisbane Mega Blind 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393422,
+      "longitude": 152.990476
+    }
+  },
+  {
+    "id": "BrisbaneSummer2023",
+    "name": "Brisbane Summer 2023",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.116949,
+      "longitude": 152.94937
+    }
+  },
+  {
+    "id": "BrisbaneSummer2024",
+    "name": "Brisbane Summer 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.116949,
+      "longitude": 152.94937
+    }
+  },
+  {
+    "id": "BrisbaneSummer2025",
+    "name": "Brisbane Summer 2025",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.116967,
+      "longitude": 152.949959
+    }
+  },
+  {
+    "id": "BroomeOpen2023",
+    "name": "Broome Open 2023",
+    "city": "Broome, Western Australia",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -17.953198,
+      "longitude": 122.221873
+    }
+  },
+  {
+    "id": "BroomeOpen2024",
+    "name": "Broome Open 2024",
+    "city": "Broome, Western Australia",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -17.953089,
+      "longitude": 122.221035
+    }
+  },
+  {
+    "id": "CACBrisbane2026",
+    "name": "Cube Against Cancer Brisbane 2026",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.558428,
+      "longitude": 153.063761
+    }
+  },
+  {
+    "id": "ChillinginCanberra2023",
+    "name": "Chilling in Canberra 2023",
+    "city": "Canberra, Australian Capital Territory",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -35.312262,
+      "longitude": 149.111375
+    }
+  },
+  {
+    "id": "CubingatTramshedsSunday2023",
+    "name": "Cubing at Tramsheds Sunday 2023",
+    "city": "Sydney, New South Wales",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -33.876105,
+      "longitude": 151.178373
+    }
+  },
+  {
+    "id": "CubinginCorindaSaturday2024",
+    "name": "Cubing in Corinda Saturday 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.544492,
+      "longitude": 152.986476
+    }
+  },
+  {
+    "id": "DontDNFDublin2024",
+    "name": "Don't DNF Dublin 2024",
+    "city": "Dublin",
+    "country": "IE",
+    "coordinates": {
+      "latitude": 53.608793,
+      "longitude": -6.182776
+    }
+  },
+  {
+    "id": "EastsideSideEvents2024",
+    "name": "Eastside Side Events 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.585948,
+      "longitude": 153.293544
+    }
+  },
+  {
+    "id": "Euro2024",
+    "name": "Rubik's WCA European Championship 2024",
+    "city": "Pamplona, Navarra",
+    "country": "ES",
+    "coordinates": {
+      "latitude": 42.796001,
+      "longitude": -1.635228
+    }
+  },
+  {
+    "id": "FMC2024",
+    "name": "FMC 2024",
+    "city": "Multiple Cities",
+    "country": "XW",
+    "coordinates": null
+  },
+  {
+    "id": "FMCEastMelbourne2024",
+    "name": "FMC East Melbourne 2024",
+    "city": "Melbourne, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -38.118358,
+      "longitude": 145.307562
+    }
+  },
+  {
+    "id": "FMCWestMelbourne2024",
+    "name": "FMC West Melbourne 2024",
+    "city": "Melbourne, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.789468,
+      "longitude": 144.928629
+    }
+  },
+  {
+    "id": "GeelongWinter2023",
+    "name": "Geelong Winter 2023",
+    "city": "Geelong, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -38.140957,
+      "longitude": 144.347483
+    }
+  },
+  {
+    "id": "HalfTurnsinHallettCove2024",
+    "name": "Half Turns in Hallett Cove 2024",
+    "city": "Adelaide, South Australia",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -35.077032,
+      "longitude": 138.518508
+    }
+  },
+  {
+    "id": "LauncestonAutumn2023",
+    "name": "Launceston Autumn 2023",
+    "city": "Launceston, Tasmania",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -41.444736,
+      "longitude": 147.156533
+    }
+  },
+  {
+    "id": "MarrickvilleManyMayOpen2023",
+    "name": "Marrickville Many May Open 2023",
+    "city": "Sydney, New South Wales",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -33.909383,
+      "longitude": 151.154281
+    }
+  },
+  {
+    "id": "MarsdeNxN2024",
+    "name": "MarsdeNxN 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.6869,
+      "longitude": 153.111163
+    }
+  },
+  {
+    "id": "MaxSpeedMilford2024",
+    "name": "Max Speed Milford 2024",
+    "city": "Auckland",
+    "country": "NZ",
+    "coordinates": {
+      "latitude": -36.775622,
+      "longitude": 174.761586
+    }
+  },
+  {
+    "id": "MelbourneSummer2024",
+    "name": "Melbourne Summer 2024",
+    "city": "Melbourne, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.673511,
+      "longitude": 145.166269
+    }
+  },
+  {
+    "id": "MelbourneSummer2026",
+    "name": "Melbourne Summer 2026",
+    "city": "Melbourne, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.673554,
+      "longitude": 145.165963
+    }
+  },
+  {
+    "id": "MountGambierOpen2024",
+    "name": "Mount Gambier Open 2024",
+    "city": "Mount Gambier, South Australia",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.829897,
+      "longitude": 140.780691
+    }
+  },
+  {
+    "id": "NewcastleOpen2023",
+    "name": "Newcastle Open 2023",
+    "city": "Newcastle, New South Wales",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -32.892912,
+      "longitude": 151.699387
+    }
+  },
+  {
+    "id": "NewZealandNationals2023",
+    "name": "New Zealand Nationals 2023",
+    "city": "Wellington",
+    "country": "NZ",
+    "coordinates": {
+      "latitude": -41.179423,
+      "longitude": 174.958986
+    }
+  },
+  {
+    "id": "NorthsideDuologyPart22022",
+    "name": "Northside Duology Part 2 2022",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.394174,
+      "longitude": 152.992966
+    }
+  },
+  {
+    "id": "NorthsideSpringSaturday2022",
+    "name": "Northside Spring Saturday 2022",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393115,
+      "longitude": 152.99043
+    }
+  },
+  {
+    "id": "NorwichSummer2023",
+    "name": "Norwich Summer 2023",
+    "city": "Norwich, Norfolk",
+    "country": "GB",
+    "coordinates": {
+      "latitude": 52.631146,
+      "longitude": 1.296056
+    }
+  },
+  {
+    "id": "NTChampionship2025",
+    "name": "Northern Territory Championship 2025",
+    "city": "Darwin, Northern Territory",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -12.367148,
+      "longitude": 130.884938
+    }
+  },
+  {
+    "id": "NZSouthIslandChampionship2023",
+    "name": "NZ South Island Championship 2023",
+    "city": "Christchurch",
+    "country": "NZ",
+    "coordinates": {
+      "latitude": -43.56547,
+      "longitude": 172.624308
+    }
+  },
+  {
+    "id": "OC2022",
+    "name": "Rubik's WCA Oceanic Championship 2022",
+    "city": "Melbourne, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.785385,
+      "longitude": 144.947776
+    }
+  },
+  {
+    "id": "OCFMC2024",
+    "name": "Rubik's WCA Oceanic Championship FMC 2024",
+    "city": "Multiple cities",
+    "country": "XO",
+    "coordinates": {
+      "latitude": -26.115985,
+      "longitude": 132.714843
+    }
+  },
+  {
+    "id": "PleaseBeQuietBrisbane2023",
+    "name": "Please Be Quiet Brisbane 2023",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393115,
+      "longitude": 152.99043
+    }
+  },
+  {
+    "id": "PleaseBeQuietBrisbane2024",
+    "name": "Please Be Quiet Brisbane 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393115,
+      "longitude": 152.99043
+    }
+  },
+  {
+    "id": "QLDQuietStateChamps2025",
+    "name": "QLD Quiet State Championship 2025",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.393115,
+      "longitude": 152.99043
+    }
+  },
+  {
+    "id": "QLDStateChampionship2025",
+    "name": "QLD State Championship 2025",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.481176,
+      "longitude": 153.017202
+    }
+  },
+  {
+    "id": "QueenslandOpen2022",
+    "name": "Queensland Open 2022",
+    "city": "Moreton Bay, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.116734,
+      "longitude": 152.950381
+    }
+  },
+  {
+    "id": "QueenslandOpen2024",
+    "name": "Queensland Open 2024",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.481611,
+      "longitude": 153.017207
+    }
+  },
+  {
+    "id": "QUTQubeChallengeSunday2023",
+    "name": "QUT Qube Challenge Sunday 2023",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.451889,
+      "longitude": 153.017293
+    }
+  },
+  {
+    "id": "RubiksWCAAsianChampionship2024",
+    "name": "Rubik's WCA Asian Championship 2024",
+    "city": "Putrajaya",
+    "country": "MY",
+    "coordinates": {
+      "latitude": 2.970102,
+      "longitude": 101.71617
+    }
+  },
+  {
+    "id": "RunawayBayMaySunday2023",
+    "name": "Runaway Bay May Sunday 2023",
+    "city": "Gold Coast, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.910888,
+      "longitude": 153.399932
+    }
+  },
+  {
+    "id": "RunawayBaySaturdayChallenge2022",
+    "name": " Runaway Bay Saturday Challenge 2022",
+    "city": "Gold Coast, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.910983,
+      "longitude": 153.39991
+    }
+  },
+  {
+    "id": "SparkMelbourneSunday2024",
+    "name": "Spark Melbourne Spring Sunday 2024",
+    "city": "Melbourne, Victoria",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -37.844121,
+      "longitude": 145.044791
+    }
+  },
+  {
+    "id": "SpeedySouthport2024",
+    "name": "Speedy Southport 2024",
+    "city": "Gold Coast, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.971008,
+      "longitude": 153.414158
+    }
+  },
+  {
+    "id": "TassieWinter2023",
+    "name": "Tassie Winter 2023",
+    "city": "Sorell, Tasmania",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -42.782072,
+      "longitude": 147.565513
+    }
+  },
+  {
+    "id": "TurninginTownsville2023",
+    "name": "Turning in Townsville 2023",
+    "city": "Townsville, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -19.288051,
+      "longitude": 146.752791
+    }
+  },
+  {
+    "id": "TurninginTownsville2024",
+    "name": "Turning in Townsville 2024",
+    "city": "Townsville, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -19.288041,
+      "longitude": 146.752763
+    }
+  },
+  {
+    "id": "UCubeatUQSaturday2023",
+    "name": "U Cube at UQ Saturday 2023",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.499549,
+      "longitude": 153.014997
+    }
+  },
+  {
+    "id": "WaggaAutumn2026",
+    "name": "Wagga Autumn 2026",
+    "city": "Wagga Wagga, New South Wales",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -35.107968,
+      "longitude": 147.371852
+    }
+  },
+  {
+    "id": "WC2023",
+    "name": "Rubik's WCA World Championship 2023",
+    "city": "인천광역시 (Incheon)",
+    "country": "KR",
+    "coordinates": {
+      "latitude": 37.388986,
+      "longitude": 126.645696
+    }
+  },
+  {
+    "id": "WC2025",
+    "name": "Rubik's WCA World Championship 2025",
+    "city": "Seattle, Washington",
+    "country": "US",
+    "coordinates": {
+      "latitude": 47.611387,
+      "longitude": -122.332554
+    }
+  },
+  {
+    "id": "WideBayCubing2024",
+    "name": "Wide Bay Cubing 2024",
+    "city": "Hervey Bay, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -25.285802,
+      "longitude": 152.841471
+    }
+  }
+]

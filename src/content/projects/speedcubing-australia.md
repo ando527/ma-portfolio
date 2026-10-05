@@ -6,6 +6,12 @@ thumbnail: "/images/case-studies/sca-2026-hero.webp"
 heroImage: "/images/case-studies/sca-2026-hero.jpg"
 beforeImage: "/images/case-studies/sca-hero.png"
 summary: "I built Speedcubing Australia's website in 2023. Three years later I redesigned it on a refreshed brand, with live WCA competition data, rebuilt records pages and a full accessibility and SEO pass before launch."
+seoTitle: "Speedcubing Australia 2026 Website Redesign"
+seoDescription: "Redesigning Speedcubing Australia's Webflow site: live WCA competition data, 25 national record pages, a self-solving cube 404 page and a full SEO pass."
+heroAlt: "The 2026 Speedcubing Australia homepage: two young competitors at a table, a green and yellow sticker pattern, and the headline “Speedcubing competitions, right across Australia”"
+beforeAlt: "The 2023 Speedcubing Australia homepage: a competitor solving a cube beside a stackmat timer reading 10.744"
+# How much of myself went into it (0–100), for the Work page's "Most involved" sort. Not shown.
+effort: 95
 featured: true
 liveUrl: "https://www.speedcubing.org.au"
 favicon: "/images/favicons/speedcubing.png"
@@ -49,7 +55,7 @@ The goals came straight from three years of watching how people used the site:
 
 ## A Refreshed Brand
 
-The redesign is built on a brand refresh by Brisbane designer [Julienne Pancho](https://juliennepancho.com/). My job was turning it into a design system that would hold together across every page in Webflow.
+The redesign is built on a brand refresh by Hong Kong based designer [Julienne Pancho](https://juliennepancho.com/). My job was turning it into a design system that would hold together across every page in Webflow.
 
 The palette still comes from the cube itself: green and yellow as the primary colours, with blue, orange, purple and red in support. Everything is set in Open Sauce Sans. Cards are drawn like stickers on a cube, with a thick dark border, generous rounded corners and a hard offset shadow, and that one treatment is reused for competition cards, record cards, buttons and filter chips so the whole site feels like one object. Colours, type sizes and spacing are Webflow variables, so future changes happen in one place.
 
@@ -61,7 +67,7 @@ The "What is Speedcubing?" section was added during beta testing, after a tester
 
 ## Competitions, Live From the WCA
 
-Tthe competitions page reads directly from the World Cube Association's public API, so a competition appears on the site the moment it's announced and disappears once it's over. Nobody has to touch Webflow.
+The competitions page reads directly from the World Cube Association's public API, so a competition appears on the site the moment it's announced and disappears once it's over. Nobody has to touch Webflow.
 
 <div style="display:grid;gap:1.25rem;margin:2rem 0">
 <figure style="margin:0"><img src="/images/case-studies/sca-1.webp" alt="The 2023 competitions list: alternating green and yellow rows of competition names, dates and cities" width="1920" height="914" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">Before · 2023</figcaption></figure>

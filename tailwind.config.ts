@@ -12,7 +12,6 @@ const config: Config = {
         // Portfolio palette — deep maroon + warm off-white
         primary: '#7C1D2E',
         secondary: '#9B2335',
-        accent: '#1E3A5F',
         background: '#FDF7F7',
         foreground: '#1C0A0E',
         card: '#FFFFFF',

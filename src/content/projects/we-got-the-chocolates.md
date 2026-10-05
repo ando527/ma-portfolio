@@ -6,6 +6,12 @@ thumbnail: "/images/case-studies/wgtc-hero.jpg"
 heroImage: "/images/case-studies/wgtc-hero.jpg"
 beforeImage: "/images/case-studies/wgtc-before.jpg"
 summary: "A custom Shopify build for one of Australia's fastest-growing comedy podcasts — dark, bold, and packed with surprises."
+seoTitle: "We Got The Chocolates: Custom Shopify Store"
+seoDescription: "A custom Shopify theme for comedy podcast We Got The Chocolates, with animated product cards, marquee banners and a hidden five-icon easter egg."
+heroAlt: "The We Got The Chocolates homepage: two hosts laughing in a studio full of trophies, under the line “Arrive by accident, stay for a laugh”"
+beforeAlt: "The old We Got The Chocolates site: a plain white page with the cartoon mouth logo and a short welcome paragraph"
+# How much of myself went into it (0–100), for the Work page's "Most involved" sort. Not shown.
+effort: 70
 featured: true
 liveUrl: "https://www.wegotthechocolates.com.au"
 favicon: "/images/favicons/wegotthechocolates.png"
@@ -44,7 +50,7 @@ Building a Shopify site that feels genuinely *made* — not modified — require
 
 The secondary challenge was balance. This site needed to function as a real e-commerce store *and* as a home for a podcast community — two goals that can pull in different directions. The merch had to be front and centre without the editorial and community content feeling like an afterthought.
 
-![We Got The Chocolates — site overview](/images/case-studies/wgtc-1.jpg)
+![Two products on the purple We Got The Chocolates store: the Chocs Ringer T-Shirt and the Chocs Chocolate T-Shirt](/images/case-studies/wgtc-1.jpg)
 
 ## Design Direction
 

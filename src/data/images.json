@@ -1,0 +1,998 @@
+{
+  "/images/articles/designing-in-webflow": {
+    "src": "/images/articles/designing-in-webflow.webp",
+    "width": 1920,
+    "height": 1052,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/articles/designing-in-webflow-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/articles/designing-in-webflow-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/articles/designing-in-webflow-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/articles/designing-in-webflow.webp"
+      }
+    ]
+  },
+  "/images/articles/slate-website-in-webflow": {
+    "src": "/images/articles/slate-website-in-webflow.webp",
+    "width": 1920,
+    "height": 1052,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/articles/slate-website-in-webflow-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/articles/slate-website-in-webflow-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/articles/slate-website-in-webflow-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/articles/slate-website-in-webflow.webp"
+      }
+    ]
+  },
+  "/images/articles/wordpress-to-webflow": {
+    "src": "/images/articles/wordpress-to-webflow.webp",
+    "width": 1920,
+    "height": 1052,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/articles/wordpress-to-webflow-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/articles/wordpress-to-webflow-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/articles/wordpress-to-webflow-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/articles/wordpress-to-webflow.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-1": {
+    "src": "/images/case-studies/sca-1.webp",
+    "width": 1920,
+    "height": 914,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-1-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-1-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-1-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-1.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2": {
+    "src": "/images/case-studies/sca-2.webp",
+    "width": 1920,
+    "height": 924,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-1": {
+    "src": "/images/case-studies/sca-2026-1.webp",
+    "width": 1920,
+    "height": 914,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-1-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-1-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-1-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-1.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-2": {
+    "src": "/images/case-studies/sca-2026-2.webp",
+    "width": 1920,
+    "height": 924,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-2-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-2-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-2-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-2.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-3": {
+    "src": "/images/case-studies/sca-2026-3.webp",
+    "width": 1920,
+    "height": 887,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-3-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-3-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-3-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-3.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-4": {
+    "src": "/images/case-studies/sca-2026-4.webp",
+    "width": 1920,
+    "height": 707,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-4-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-4-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-4-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-4.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-404": {
+    "src": "/images/case-studies/sca-2026-404.webp",
+    "width": 1920,
+    "height": 914,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-404-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-404-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-404-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-404.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-hero": {
+    "src": "/images/case-studies/sca-2026-hero.webp",
+    "width": 1731,
+    "height": 939,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-hero-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-hero-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-hero-1600w.webp"
+      },
+      {
+        "w": 1731,
+        "src": "/images/case-studies/sca-2026-hero.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-map": {
+    "src": "/images/case-studies/sca-2026-map.webp",
+    "width": 1920,
+    "height": 914,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-map-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-map-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-map-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-map.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-2026-mobile": {
+    "src": "/images/case-studies/sca-2026-mobile.webp",
+    "width": 1920,
+    "height": 914,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-2026-mobile-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-2026-mobile-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-2026-mobile-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-2026-mobile.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-3": {
+    "src": "/images/case-studies/sca-3.webp",
+    "width": 1920,
+    "height": 887,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-3-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-3-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-3-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/sca-3.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-4": {
+    "src": "/images/case-studies/sca-4.webp",
+    "width": 1162,
+    "height": 428,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-4-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-4-960w.webp"
+      },
+      {
+        "w": 1162,
+        "src": "/images/case-studies/sca-4.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sca-hero": {
+    "src": "/images/case-studies/sca-hero.webp",
+    "width": 1731,
+    "height": 939,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sca-hero-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sca-hero-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/sca-hero-1600w.webp"
+      },
+      {
+        "w": 1731,
+        "src": "/images/case-studies/sca-hero.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sippy-tom-after": {
+    "src": "/images/case-studies/sippy-tom-after.webp",
+    "width": 1440,
+    "height": 900,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sippy-tom-after-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sippy-tom-after-960w.webp"
+      },
+      {
+        "w": 1440,
+        "src": "/images/case-studies/sippy-tom-after.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sippy-tom-before": {
+    "src": "/images/case-studies/sippy-tom-before.webp",
+    "width": 1440,
+    "height": 832,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sippy-tom-before-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/sippy-tom-before-960w.webp"
+      },
+      {
+        "w": 1440,
+        "src": "/images/case-studies/sippy-tom-before.webp"
+      }
+    ]
+  },
+  "/images/case-studies/sippy-tom-logos": {
+    "src": "/images/case-studies/sippy-tom-logos.webp",
+    "width": 769,
+    "height": 108,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/sippy-tom-logos-480w.webp"
+      },
+      {
+        "w": 769,
+        "src": "/images/case-studies/sippy-tom-logos.webp"
+      }
+    ]
+  },
+  "/images/case-studies/speedcubing-before": {
+    "src": "/images/case-studies/speedcubing-before.webp",
+    "width": 1727,
+    "height": 939,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/speedcubing-before-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/speedcubing-before-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/speedcubing-before-1600w.webp"
+      },
+      {
+        "w": 1727,
+        "src": "/images/case-studies/speedcubing-before.webp"
+      }
+    ]
+  },
+  "/images/case-studies/venncap-1": {
+    "src": "/images/case-studies/venncap-1.webp",
+    "width": 1726,
+    "height": 934,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/venncap-1-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/venncap-1-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/venncap-1-1600w.webp"
+      },
+      {
+        "w": 1726,
+        "src": "/images/case-studies/venncap-1.webp"
+      }
+    ]
+  },
+  "/images/case-studies/venncap-after": {
+    "src": "/images/case-studies/venncap-after.webp",
+    "width": 1440,
+    "height": 900,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/venncap-after-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/venncap-after-960w.webp"
+      },
+      {
+        "w": 1440,
+        "src": "/images/case-studies/venncap-after.webp"
+      }
+    ]
+  },
+  "/images/case-studies/venncap-before": {
+    "src": "/images/case-studies/venncap-before.webp",
+    "width": 1440,
+    "height": 828,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/venncap-before-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/venncap-before-960w.webp"
+      },
+      {
+        "w": 1440,
+        "src": "/images/case-studies/venncap-before.webp"
+      }
+    ]
+  },
+  "/images/case-studies/vitalis-before-2": {
+    "src": "/images/case-studies/vitalis-before-2.webp",
+    "width": 1748,
+    "height": 1087,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/vitalis-before-2-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/vitalis-before-2-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/vitalis-before-2-1600w.webp"
+      },
+      {
+        "w": 1748,
+        "src": "/images/case-studies/vitalis-before-2.webp"
+      }
+    ]
+  },
+  "/images/case-studies/vitalis-before": {
+    "src": "/images/case-studies/vitalis-before.webp",
+    "width": 1890,
+    "height": 1171,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/vitalis-before-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/vitalis-before-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/vitalis-before-1600w.webp"
+      },
+      {
+        "w": 1890,
+        "src": "/images/case-studies/vitalis-before.webp"
+      }
+    ]
+  },
+  "/images/case-studies/vitalis-bento": {
+    "src": "/images/case-studies/vitalis-bento.webp",
+    "width": 1920,
+    "height": 1316,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/vitalis-bento-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/vitalis-bento-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/vitalis-bento-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/vitalis-bento.webp"
+      }
+    ]
+  },
+  "/images/case-studies/vitalis-hero": {
+    "src": "/images/case-studies/vitalis-hero.webp",
+    "width": 1920,
+    "height": 1080,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/vitalis-hero-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/vitalis-hero-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/vitalis-hero-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/vitalis-hero.webp"
+      }
+    ]
+  },
+  "/images/case-studies/vitalis-mobile": {
+    "src": "/images/case-studies/vitalis-mobile.webp",
+    "width": 1920,
+    "height": 914,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/vitalis-mobile-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/vitalis-mobile-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/vitalis-mobile-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/vitalis-mobile.webp"
+      }
+    ]
+  },
+  "/images/case-studies/vitalis-offerings": {
+    "src": "/images/case-studies/vitalis-offerings.webp",
+    "width": 1920,
+    "height": 612,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/vitalis-offerings-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/vitalis-offerings-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/vitalis-offerings-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/vitalis-offerings.webp"
+      }
+    ]
+  },
+  "/images/case-studies/wgtc-1": {
+    "src": "/images/case-studies/wgtc-1.webp",
+    "width": 1800,
+    "height": 937,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/wgtc-1-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/wgtc-1-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/wgtc-1-1600w.webp"
+      },
+      {
+        "w": 1800,
+        "src": "/images/case-studies/wgtc-1.webp"
+      }
+    ]
+  },
+  "/images/case-studies/wgtc-before": {
+    "src": "/images/case-studies/wgtc-before.webp",
+    "width": 1800,
+    "height": 939,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/wgtc-before-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/wgtc-before-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/wgtc-before-1600w.webp"
+      },
+      {
+        "w": 1800,
+        "src": "/images/case-studies/wgtc-before.webp"
+      }
+    ]
+  },
+  "/images/case-studies/wgtc-hero": {
+    "src": "/images/case-studies/wgtc-hero.webp",
+    "width": 1800,
+    "height": 920,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/case-studies/wgtc-hero-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/wgtc-hero-960w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/wgtc-hero-1600w.webp"
+      },
+      {
+        "w": 1800,
+        "src": "/images/case-studies/wgtc-hero.webp"
+      }
+    ]
+  },
+  "/images/collage/1220653": {
+    "src": "/images/collage/1220653.webp",
+    "width": 960,
+    "height": 721,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/1220653-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/1220653.webp"
+      }
+    ]
+  },
+  "/images/collage/20210709-094156-2": {
+    "src": "/images/collage/20210709-094156-2.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20210709-094156-2-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20210709-094156-2.webp"
+      }
+    ]
+  },
+  "/images/collage/20240721-172346": {
+    "src": "/images/collage/20240721-172346.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20240721-172346-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20240721-172346.webp"
+      }
+    ]
+  },
+  "/images/collage/20250421-140417": {
+    "src": "/images/collage/20250421-140417.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20250421-140417-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20250421-140417.webp"
+      }
+    ]
+  },
+  "/images/collage/20250426-093700": {
+    "src": "/images/collage/20250426-093700.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20250426-093700-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20250426-093700.webp"
+      }
+    ]
+  },
+  "/images/collage/20250429-201449": {
+    "src": "/images/collage/20250429-201449.webp",
+    "width": 960,
+    "height": 720,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20250429-201449-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20250429-201449.webp"
+      }
+    ]
+  },
+  "/images/collage/20250703-120644": {
+    "src": "/images/collage/20250703-120644.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20250703-120644-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20250703-120644.webp"
+      }
+    ]
+  },
+  "/images/collage/20250706-171004": {
+    "src": "/images/collage/20250706-171004.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/20250706-171004-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/20250706-171004.webp"
+      }
+    ]
+  },
+  "/images/collage/2o9a8186": {
+    "src": "/images/collage/2o9a8186.webp",
+    "width": 960,
+    "height": 640,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/2o9a8186-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/2o9a8186.webp"
+      }
+    ]
+  },
+  "/images/collage/cubing-award": {
+    "src": "/images/collage/cubing-award.webp",
+    "width": 960,
+    "height": 720,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/cubing-award-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/cubing-award.webp"
+      }
+    ]
+  },
+  "/images/collage/cubing-delegate": {
+    "src": "/images/collage/cubing-delegate.webp",
+    "width": 960,
+    "height": 640,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/cubing-delegate-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/cubing-delegate.webp"
+      }
+    ]
+  },
+  "/images/collage/fb-img-1606954443619": {
+    "src": "/images/collage/fb-img-1606954443619.webp",
+    "width": 960,
+    "height": 641,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/fb-img-1606954443619-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/fb-img-1606954443619.webp"
+      }
+    ]
+  },
+  "/images/collage/fb-img-1756647380485": {
+    "src": "/images/collage/fb-img-1756647380485.webp",
+    "width": 960,
+    "height": 640,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/fb-img-1756647380485-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/fb-img-1756647380485.webp"
+      }
+    ]
+  },
+  "/images/collage/google-park": {
+    "src": "/images/collage/google-park.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/google-park-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/google-park.webp"
+      }
+    ]
+  },
+  "/images/collage/wsop": {
+    "src": "/images/collage/wsop.webp",
+    "width": 960,
+    "height": 1280,
+    "quality": 86,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/collage/wsop-480w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/collage/wsop.webp"
+      }
+    ]
+  },
+  "/images/hero": {
+    "src": "/images/hero.webp",
+    "width": 800,
+    "height": 800,
+    "quality": 92,
+    "variants": [
+      {
+        "w": 480,
+        "src": "/images/hero-480w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/hero.webp"
+      }
+    ]
+  }
+}

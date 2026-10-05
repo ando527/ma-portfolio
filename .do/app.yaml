@@ -1,21 +1,51 @@
+# DigitalOcean App Platform spec for mitchellanderson.com.au.
+#
+# This file is a reference copy. App Platform does NOT read it on deploy: the
+# live spec lives in the DO console (your app → Settings → App Spec → Edit).
+# Paste the parts you need there, or apply it with:
+#   doctl apps update <app-id> --spec .do/app.yaml
+#
+# What it does:
+#   · www.mitchellanderson.com.au → 301 → mitchellanderson.com.au (same path)
+#   · serves the static export in out/ with out/404.html for unknown pages
+#
+# What App Platform can't do for a static site: custom response headers
+# (Cache-Control, HSTS, security headers). It sends max-age=10 for everything.
+# public/_headers holds the headers the site should send; it's applied
+# automatically on Cloudflare Pages or Netlify. See the audit report.
+
 name: ma-portfolio
+
+domains:
+  - domain: mitchellanderson.com.au
+    type: PRIMARY
+  - domain: www.mitchellanderson.com.au
+    type: ALIAS
+
+ingress:
+  rules:
+    # Permanent redirect from www to the main domain, keeping the path.
+    - match:
+        authority:
+          exact: www.mitchellanderson.com.au
+        path:
+          prefix: /
+      redirect:
+        authority: mitchellanderson.com.au
+        redirect_code: 301
+    # Everything else is the site.
+    - match:
+        path:
+          prefix: /
+      component:
+        name: portfolio
+
 static_sites:
-- name: portfolio
-  github:
-    repo: ando527/ma-portfolio
-    branch: main
-    deploy_on_push: true
-  build_command: npm run build
-  output_dir: out
-  routes:
-  - path: /
-  headers:
-  - path: /_next/static/*
-    name: Cache-Control
-    value: public, max-age=31536000, immutable
-  - path: /images/*
-    name: Cache-Control
-    value: public, max-age=2592000, stale-while-revalidate=86400
-  - path: /*
-    name: Cache-Control
-    value: public, max-age=0, must-revalidate
+  - name: portfolio
+    github:
+      repo: ando527/ma-portfolio
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    output_dir: out
+    error_document: 404.html
