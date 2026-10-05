@@ -49,7 +49,7 @@ The goals came straight from three years of watching how people used the site:
 
 ## A Refreshed Brand
 
-The redesign is built on a brand refresh by Brisbane designer [Julienne Pancho](https://juliennepancho.com/). My job was turning it into a design system that would hold together across every page in Webflow.
+The redesign is built on a brand refresh by Hong Kong based designer [Julienne Pancho](https://juliennepancho.com/). My job was turning it into a design system that would hold together across every page in Webflow.
 
 The palette still comes from the cube itself: green and yellow as the primary colours, with blue, orange, purple and red in support. Everything is set in Open Sauce Sans. Cards are drawn like stickers on a cube, with a thick dark border, generous rounded corners and a hard offset shadow, and that one treatment is reused for competition cards, record cards, buttons and filter chips so the whole site feels like one object. Colours, type sizes and spacing are Webflow variables, so future changes happen in one place.
 
