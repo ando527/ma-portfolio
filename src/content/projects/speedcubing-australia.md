@@ -1,84 +1,151 @@
 ---
-title: "Speedcubing Australia"
-date: "2023-06"
-tags: ["Webflow", "UI Design", "CMS", "Interactive"]
-thumbnail: "/images/case-studies/sca-hero.png"
-heroImage: "/images/case-studies/sca-hero.png"
-beforeImage: "/images/case-studies/speedcubing-before.jpg"
-summary: "A full Webflow rebuild for Australia's national speedcubing organisation — interactive competition map, live records database, and community-driven CMS."
+title: "Speedcubing Australia 2026"
+date: "2026-10"
+tags: ["Webflow", "UI Design", "API Integration", "Accessibility"]
+thumbnail: "/images/case-studies/sca-2026-hero.webp"
+heroImage: "/images/case-studies/sca-2026-hero.jpg"
+beforeImage: "/images/case-studies/sca-hero.png"
+summary: "I built Speedcubing Australia's website in 2023. Three years later I redesigned it on a refreshed brand, with live WCA competition data, rebuilt records pages and a full accessibility and SEO pass before launch."
 featured: true
 liveUrl: "https://www.speedcubing.org.au"
 favicon: "/images/favicons/speedcubing.png"
 badge: "Pro-bono"
 client: "Speedcubing Australia (Not-for-profit)"
-role: "Webflow Developer & UI Designer"
-year: "2023"
+role: "Website Coordinator · Design & Webflow Development"
+year: "2026"
 deliverables:
-  - "Full Webflow site rebuild"
-  - "Rubik's cube-inspired design system"
-  - "Interactive Google Maps competition finder"
-  - "List/Map toggle for upcoming events"
-  - "CMS national records database"
-  - "Photo & video integration per record"
-  - "Competitor quotes & reconstructions"
-  - "Responsive mobile-first layout"
+  - "Full redesign and Webflow rebuild on a refreshed brand"
+  - "Competition finder powered live by the WCA API"
+  - "List and map views with date, state and event filters"
+  - "Registration-aware featured competitions on the homepage"
+  - "Results tables and 25 national record pages"
+  - "Tabbed contact forms with deep links"
+  - "A 3D Rubik's cube 404 page that solves itself"
+  - "Structured data, accessibility and SEO audit"
 stats:
-  - label: "Records tracked with media"
-    value: "50+"
-  - label: "Competitions mapped"
-    value: "100+"
-  - label: "Years of archive data"
-    value: "10+"
+  - label: "Competitions typed in by hand"
+    value: "0"
+  - label: "National record pages"
+    value: "25"
+  - label: "Google AU rank for “speedcubing australia”"
+    value: "#1"
   - label: "Platform"
     value: "Webflow"
 ---
 
-## The Organisation
+## Three Years On
 
-Speedcubing Australia is the not-for-profit, volunteer-run governing body for competitive Rubik's cube solving in Australia. They coordinate dozens of WCA-sanctioned competitions each year across every state, maintain a database of national and oceanic records, and support a community of thousands of competitors aged 5 to 85.
+In 2023 I rebuilt Speedcubing Australia's website from a grey page of links into a proper Webflow site, with a competition map, a records database and a CMS the volunteer committee could run themselves. You can read about that build in the [2023 case study](/work/speedcubing-australia-2023/).
 
-Their old site was a plain grey page with a basic list of links and a spinning Rubik's cube GIF. It had no records database, no map, no personality, and no way to dynamically update content without editing raw HTML.
+By 2026 the site had done its job, but it was showing its age. SCA also had a refreshed brand on the way. So, as SCA's Website Coordinator, I redesigned and rebuilt it.
 
-## Design Direction
+## The Brief
 
-The rebrand drew directly from the Rubik's cube itself: a bold, multi-colour system using green, yellow, and orange — the face colours of a standard cube. Typography is heavy and confident, with orange pill-shaped CTAs and green/yellow alternating table rows that make data instantly scannable.
+The goals came straight from three years of watching how people used the site:
 
-The design deliberately feels energetic and approachable — this is a community sport, not a corporate organisation. Every page needed to reflect that.
+- **Help newcomers.** A big share of visitors have never been to a competition. Parents, schools and venues land on the site from Google wanting to know what speedcubing even is.
+- **Make records feel like news.** National records are the most exciting thing in Australian cubing, and the site should treat them that way.
+- **Look like the new brand,** without losing what people liked about the old site.
 
-## The Build
+## A Refreshed Brand
 
-The site was built in Webflow with a heavy focus on CMS architecture and interactive features.
+The redesign is built on a brand refresh by Brisbane designer [Julienne Pancho](https://juliennepancho.com/). My job was turning it into a design system that would hold together across every page in Webflow.
 
-### Competition Finder
+The palette still comes from the cube itself: green and yellow as the primary colours, with blue, orange, purple and red in support. Everything is set in Open Sauce Sans. Cards are drawn like stickers on a cube, with a thick dark border, generous rounded corners and a hard offset shadow, and that one treatment is reused for competition cards, record cards, buttons and filter chips so the whole site feels like one object. Colours, type sizes and spacing are Webflow variables, so future changes happen in one place.
 
-The Competitions page features a **List/Map toggle**: switch between a colour-coded tabular list of all upcoming events, or an interactive Google Maps embed with pin markers for each competition location. Competitors can quickly find events in their state and click through to the WCA registration page.
+## The Homepage
 
-![Competitions](/images/case-studies/sca-1.png)
+The 2023 homepage opened on a full-width photo slider. The new one opens with a single clear statement — "Speedcubing competitions, right across Australia" — and two actions: find a competition, or read the guide for first-timers. Below that it runs in the order a newcomer needs: what's on, what speedcubing is, recent records, common questions, who SCA is, and how to help.
 
-### National Records Database
+The "What is Speedcubing?" section was added during beta testing, after a tester pointed out that venues SCA contacts, and people who find the site on Google, often don't know what speedcubing is.
 
-The Records page is the centrepiece of the rebuild. Each Australian National Record (ANR) and Oceanic Record (OcR) has its own CMS entry containing:
+## Competitions, Live From the WCA
 
-- The record holder's photo
-- The time/result
-- The competition where it was set
-- An embedded video of the solve (where available)
-- A quote from the competitor
+Tthe competitions page reads directly from the World Cube Association's public API, so a competition appears on the site the moment it's announced and disappears once it's over. Nobody has to touch Webflow.
 
-A featured slider on the homepage cycles through recent record-breaking moments, giving the community a reason to return to the site regularly.
+<div style="display:grid;gap:1.25rem;margin:2rem 0">
+<figure style="margin:0"><img src="/images/case-studies/sca-1.webp" alt="The 2023 competitions list: alternating green and yellow rows of competition names, dates and cities" width="1920" height="914" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">Before · 2023</figcaption></figure>
+<figure style="margin:0"><img src="/images/case-studies/sca-2026-1.webp" alt="The 2026 competitions list: List and Map toggle, a filter panel for dates, state and events, and blue competition cards" width="1920" height="914" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">After · 2026</figcaption></figure>
+</div>
 
-![Record](/images/case-studies/sca-2.png)
+The whole finder is a single self-contained Webflow embed with no jQuery or framework behind it. It gives visitors:
 
-![Records](/images/case-studies/sca-3.png)
+- **List and map views.** The list is the default. The map uses Leaflet and OpenStreetMap in place of the old Google Maps embed, and it's framed to fit all of Australia. When the state dropdown changes, the map also dynamically zooms in to just show that state.
+- **Filters** for date range, state and event. Each event chip shows how many upcoming competitions include it ("Clock (11)"), and the event filter starts collapsed so the list is the first thing you see.
+- **A live count** ("28 competitions") that updates as filters change.
 
-### Content Management
+<figure style="margin:2rem 0"><img src="/images/case-studies/sca-2026-map.webp" alt="Map view of upcoming competitions: green pins across every state, including two in Tasmania" width="1920" height="914" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">Map view · 2026</figcaption></figure>
 
-Because the organisation is entirely volunteer-run, the CMS was architected so that non-technical committee members can update all content — adding new competitions, updating records, and managing team members — without any developer involvement.
+### Featured competitions that know when they're full
 
-![CMS](/images/case-studies/sca-4.png)
+The homepage shows three upcoming competitions. Picking the next three by date sounds simple, but competitions in Australia often fill within hours, and promoting a full one sends people to a dead end.
+
+So the homepage script checks registrations. It walks forward through upcoming competitions, picks the first three that still have spots, and falls back to full competitions only if there aren't enough open ones. The link text changes to suit: "Registration Open →", or something more honest when a competition is full or registration hasn't opened yet. The "See all competitions" button shows the live total.
+
+It does this without asking the WCA about every competition. It requests registrations in small batches, only as many as it still needs, and skips competitions where registration can't be open. A typical homepage visit makes only a handful of API calls.
+
+<div style="display:grid;gap:1.25rem;margin:2rem 0">
+<figure style="margin:0"><img src="/images/case-studies/sca-4.webp" alt="The 2023 workflow: the Webflow CMS editor, where committee members entered content by hand" width="1162" height="428" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">User friendly Webflow CMS backend</figcaption></figure>
+<figure style="margin:0"><img src="/images/case-studies/sca-2026-4.webp" alt="The 2026 homepage What's On section: three competition cards with dates, cities, event counts and registration links, plus a See all 28 competitions button" width="1920" height="707" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">2026: Competitions pulled live, with registration status</figcaption></figure>
+</div>
+
+## Records and Results
+
+The records database was the centrepiece of the 2023 build, and it stays central. The Results page now leads with a carousel of the latest records, followed by every current Australian record, split into singles and averages, with oceanic and world record badges where they apply.
+
+<div style="display:grid;gap:1.25rem;margin:2rem 0">
+<figure style="margin:0"><img src="/images/case-studies/sca-3.webp" alt="The 2023 Results page: a large heading with an arrow icon above a slider of green record cards" width="1920" height="887" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">Before · 2023</figcaption></figure>
+<figure style="margin:0"><img src="/images/case-studies/sca-2026-3.webp" alt="The 2026 Results page: a record carousel above tables of Australian national records, singles and averages" width="1920" height="887" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">After · 2026</figcaption></figure>
+</div>
+
+Each record has its own page: the event, the result, the holder, the competition and date, the video of the solve, and the competitor's own words about it. Underneath, "Check out these other records" links to more, so a visitor who arrives from a search for one record keeps browsing.
+
+<div style="display:grid;gap:1.25rem;margin:2rem 0">
+<figure style="margin:0"><img src="/images/case-studies/sca-2.webp" alt="A 2023 record page: Charlie Eggins' 3x3 blindfolded average, with a quote and solve reconstructions" width="1920" height="924" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">Before · 2023</figcaption></figure>
+<figure style="margin:0"><img src="/images/case-studies/sca-2026-2.webp" alt="A 2026 record page: Charlie Eggins' 3x3 blindfolded mean world record, with an embedded video and his quote" width="1920" height="924" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">After · 2026</figcaption></figure>
+</div>
+
+Every record page also carries structured data describing the holder and the record. That helps searches like a competitor's name surface the right page.
+
+## Contact, FAQs and First-Timers
+
+The contact page is split into five tabs, one for each real reason people get in touch: a missed registration, a general enquiry, wanting to know more, organising a competition, or deleting a registration. Each tab has its own form and fields, so the committee gets the information they need the first time.
+
+Each tab can also be linked to directly. A link to `/contact#organise` in an outreach email opens the organiser form straight away, without the visitor having to find it.
+
+The FAQ page answers the questions every first-timer has: how fast do I need to be, how old do I need to be, do I bring my own puzzles. On the homepage, four of those questions are shown in cards that slowly scramble from one question into another, in the style of a cube being turned. The effect favours letters over symbols so it reads as words mid-turn rather than noise. It only runs while it's on screen, and it switches off entirely for visitors who've asked their device for reduced motion.
+
+## The Page I'm Proudest Of
+
+Every site needs a 404 page. This one says "This page got scrambled", and it has a real Rubik's cube on it.
+
+<figure style="margin:2rem 0"><img src="/images/case-studies/sca-2026-404.webp" alt="The 404 page: the heading This page got scrambled above a scrambled 3D Rubik's cube, a scramble in cube notation, and a Solve it and take me home button" width="1920" height="914" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">The 404 page</figcaption></figure>
+
+The cube is built in plain CSS 3D, with no WebGL or library: 26 pieces and 54 stickers in the brand colours. Each visit generates a fresh random 13-move scramble in official notation and prints it under the cube. When you press "Solve it and take me home", the cube plays the exact reverse of that scramble move by move, ends up solved, and then takes you to the homepage. You can also drag it around to look at it from any side, on desktop or phone.
+
+The joke underneath is aimed squarely at cubers: "DNF. We won't even give you the +2."
+
+## Built for Phones
+
+Most visitors arrive on a phone, usually standing in a competition venue or scrolling a message from a friend. Every page was designed and tested from 320px up. The navigation stays put while you scroll, the record carousel resizes to fit taller mobile cards, and the competition filters stack into a single column.
+
+<figure style="margin:2rem 0"><img src="/images/case-studies/sca-2026-mobile.webp" alt="Three phone screens: the homepage hero, the competitions list with filters, and a national record page" width="1920" height="914" loading="lazy" style="margin:0"><figcaption style="font-size:0.8rem;margin-top:0.5rem;opacity:0.7">Homepage, competitions and a record page on mobile</figcaption></figure>
+
+## Under the Hood
+
+A not-for-profit site has to keep working with nobody watching it, so a lot of this project was work you can't see:
+
+- **Structured data on every page.** SCA is described once as a sports organisation and not-for-profit, with its ABN, its WCA membership and its social profiles, and every page links back to it. Competitions, records and the FAQ each get the schema that fits them.
+- **Accessibility.** Filter chips work with a keyboard and announce their state. Every map pin has a proper name ("Cairns Open 2026, 3–4 Oct 2026, Cairns, Queensland"). Form fields have real labels, every control shows a focus ring, and animation respects reduced-motion settings.
+- **Performance.** Committee and record portraits are compressed AVIFs of around 20 KB each. The FAQ page no longer jumps around while it loads: its layout shift dropped from 0.39 to under 0.1.
+- **Search.** Every page has a written title and description, and the sitemap and robots rules were checked before launch.
+
+## Launch
+
+Before going live, the site went out to a group of beta testers from the community. Their feedback, plus a full audit, became a 36-item checklist of fixes ranked by what a visitor would notice first. A final audit then went over every page again at phone, tablet and desktop widths, checking for broken pages, script errors, layout overflow, broken schema and missing alt text, and confirmed none were left.
+
+The site launched on 3 October 2026. On launch day it already held the top spot on Google Australia for "speedcubing australia", "speedcubing", "rubik's cube competition australia" and "australian rubik's cube records", ranking the 2023 site's pages. Part of the brief was making sure the rebuild kept those rankings, so the main page addresses stayed the same and every page got a proper title and description.
 
 ## Outcome
 
-The rebuild transformed Speedcubing Australia's digital presence from a static afterthought into a genuine community hub. The records database in particular has become a key feature that the community engages with — tracking records, watching solves, and following Australian competitors at the world stage.
-
-The site is also significantly faster and more accessible than its predecessor, with a mobile-first layout that works for competitors checking competition details on-site.
+For new users, the site is clearer about what speedcubing is, quicker to get you to your nearest competition, and a better home for the records the community cares about. And if you ever hit a broken link, at least you get to watch a cube solve itself.

@@ -142,7 +142,7 @@ function MiniCaseStudy({ project }: { project: Project }) {
               <div key={heading}>
                 <h4 className="font-heading font-semibold text-sm text-foreground uppercase tracking-widest mb-2">{heading}</h4>
                 <p className="font-sans text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {(body || '—').replace(/!\[.*?\]\(.*?\)/g, '').replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/\n{3,}/g, '\n\n').trim() || '—'}
+                  {(body || '—').replace(/!\[.*?\]\(.*?\)/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/<[^>]+>/g, '').replace(/`([^`]+)`/g, '$1').replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/\n{3,}/g, '\n\n').trim() || '—'}
                 </p>
               </div>
             ))}
