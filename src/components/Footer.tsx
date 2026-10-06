@@ -75,6 +75,11 @@ export default function Footer() {
                   <Link prefetch={false} href={`/articles/${a.slug}/`} className={linkClass}>{a.title}</Link>
                 </li>
               ))}
+              <li>
+                <Link prefetch={false} href="/articles/" className="inline-flex py-1.5 font-sans text-sm font-medium text-maroon-200 hover:text-white transition-colors duration-200">
+                  All articles
+                </Link>
+              </li>
             </Column>
           )}
 

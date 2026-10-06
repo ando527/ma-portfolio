@@ -7,6 +7,17 @@ intro: "I build custom Shopify themes for brands that have outgrown a stock temp
 relatedTags: ["Shopify"]
 relatedArticles: []
 order: 2
+faqs:
+  - question: "Do you build custom Shopify themes or modify existing ones?"
+    answer: "I build custom themes with hand-written Liquid sections for the homepage, collections and product pages, so the layout follows your brand instead of a stock template's."
+  - question: "Can I edit my store after it launches?"
+    answer: "Yes. Every section is built so your team can add, rearrange and edit it in Shopify's theme editor, and products and collections are managed in Shopify's admin as usual."
+  - question: "Will my store work well on phones?"
+    answer: "Yes. Most shoppers arrive on a phone, so every section is designed at phone width first, then tested on phones, tablets and desktops with checkout working end to end."
+  - question: "Can a Shopify store do more than sell products?"
+    answer: "Yes. On We Got The Chocolates the store also handles membership applications, podcast players and video, so it works as a home for the community as well as a shop."
+  - question: "How do we get started?"
+    answer: "Send me a message on LinkedIn with a little about what you sell and what your store needs to do. We'll start with a discovery chat about your products and customers."
 ---
 
 ## What I build in Shopify

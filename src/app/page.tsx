@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getAllProjects, getPreviewSections, formatMonth } from '@/lib/projects'
-import { getAllArticles, formatDate } from '@/lib/articles'
+import { getAllArticles, toArticleCard } from '@/lib/articles'
 import { getImage } from '@/lib/images'
 import { pageMetadata } from '@/lib/site'
 import { graph, webPageNode, refs } from '@/lib/schema'
@@ -69,17 +69,7 @@ export default function Home() {
       sections: getPreviewSections(p.content),
     }))
 
-  const articles: ArticleCardData[] = getAllArticles().map(a => ({
-    slug: a.slug,
-    title: a.title,
-    summary: a.summary,
-    date: a.date,
-    dateLabel: formatDate(a.date),
-    publication: a.publication,
-    coverText: a.coverText,
-    image: a.image,
-    imageAlt: a.heroAlt,
-  }))
+  const articles: ArticleCardData[] = getAllArticles().map(toArticleCard)
 
   return (
     <>

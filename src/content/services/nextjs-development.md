@@ -7,6 +7,17 @@ intro: "When a project needs more than a visual builder allows, I build it in co
 relatedTags: ["API Integration"]
 relatedArticles: []
 order: 3
+faqs:
+  - question: "Should my site be built in Next.js or Webflow?"
+    answer: "Webflow and Shopify cover most business websites well, and I'll say so when one of them fits. Next.js makes sense when a site needs custom logic, data from other systems, or full control over performance and hosting."
+  - question: "Can my team edit content on a Next.js site?"
+    answer: "On a code-based site, content lives in files, so changes usually go through a developer. If your team needs to update content often, we'll talk about whether Webflow or a CMS is the better fit."
+  - question: "How fast is a Next.js site?"
+    answer: "Very fast when it's built well. Pages can be rendered ahead of time, images are served at the right size for each screen, and scripts only run while they're needed, so pages paint before JavaScript finishes loading."
+  - question: "Can you connect my site to data from other systems?"
+    answer: "Yes. This site's About page pulls my speedcubing results from the World Cube Association's data, and Speedcubing Australia's competition finder reads the WCA API directly, so nobody types competitions in by hand."
+  - question: "Where is a Next.js site hosted?"
+    answer: "Next.js runs on most modern hosting platforms, including Vercel, Netlify, Cloudflare, DigitalOcean and AWS. The right choice depends on what the site needs, from simple pre-rendered pages to server-side features, and on budget. I'll recommend a host that fits, with deploys running automatically from the code repository and HTTPS set up on your domain."
 ---
 
 ## What I build in code

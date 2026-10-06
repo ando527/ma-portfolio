@@ -5,8 +5,14 @@ import matter from 'gray-matter'
 /**
  * Service pages live in src/content/services/<slug>.md and publish at
  * /<slug>/ (e.g. /webflow-development/). Each one links to the case studies
- * that share one of its relatedTags and to its related articles.
+ * that share one of its relatedTags and to its related articles. Questions in
+ * the faqs list render as an FAQ section with FAQPage structured data.
  */
+export interface Faq {
+  question: string
+  answer: string
+}
+
 export interface Service {
   slug: string
   /** Page heading */
@@ -18,6 +24,7 @@ export interface Service {
   intro: string
   relatedTags: string[]
   relatedArticles: string[]
+  faqs: Faq[]
   order: number
   content: string
 }
@@ -35,6 +42,7 @@ function parse(slug: string, raw: string): Service {
     intro: data.intro || '',
     relatedTags: data.relatedTags || [],
     relatedArticles: data.relatedArticles || [],
+    faqs: data.faqs || [],
     order: data.order ?? 99,
     content,
   }

@@ -3,10 +3,11 @@ import path from 'path'
 import matter from 'gray-matter'
 import { maybeImage, type ImageData } from '@/lib/images'
 import { hasBody } from '@/lib/markdown'
+import type { ArticleCardData } from '@/lib/types'
 
 /**
  * Articles live in src/content/articles/<slug>.md and publish at
- * /articles/<slug>/. An article with no body yet still gets a page, which
+ * /articles/<slug>/, listed at /articles/. An article with no body yet still gets a page, which
  * shows the summary and links to where it was first published; that page is
  * kept out of search results and the sitemap until the full text is added.
  */
@@ -75,6 +76,21 @@ export function getAllArticles(): Article[] {
 export function getArticleBySlug(slug: string): Article | null {
   const file = path.join(dir, `${slug}.md`)
   return fs.existsSync(file) ? parse(slug, fs.readFileSync(file, 'utf8')) : null
+}
+
+/** The fields an article card needs (homepage slider, /articles/). */
+export function toArticleCard(a: Article): ArticleCardData {
+  return {
+    slug: a.slug,
+    title: a.title,
+    summary: a.summary,
+    date: a.date,
+    dateLabel: formatDate(a.date),
+    publication: a.publication,
+    coverText: a.coverText,
+    image: a.image,
+    imageAlt: a.heroAlt,
+  }
 }
 
 /** "2025-04" → "April 2025"; "2025-04-07" → "7 April 2025" (en-AU). */

@@ -6,7 +6,6 @@ import { btnPrimary, btnSecondary } from '@/components/ui/button'
 export const metadata: Metadata = {
   title: 'Page not found',
   description: "This page doesn't exist. Head back to the homepage, recent work or the About page.",
-  robots: { index: false, follow: true },
 }
 
 export default function NotFound() {

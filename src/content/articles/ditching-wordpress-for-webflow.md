@@ -7,10 +7,10 @@ seoDescription: "Why businesses are leaving WordPress for Webflow: no plugin mai
 publication: "SLATE Media newsletter"
 issue: 4
 originalUrl: "https://www.slatemedia.com.au/newsletters/why-more-and-more-companies-are-ditching-wordpress-for-webflow"
-# This is my own first-person rewrite of the SLATE newsletter piece, so it's
-# canonical to this site. Set to true for a word-for-word republish, which
-# points the canonical tag at originalUrl and keeps it out of the sitemap.
-canonicalToOriginal: false
+# Most of the text matches the SLATE newsletter piece, so the canonical tag
+# points at originalUrl and the page stays out of the sitemap. Set to false
+# once this is rewritten into an original piece.
+canonicalToOriginal: true
 tags: ["Webflow", "WordPress", "Migration"]
 coverText: "WordPress to Webflow"
 # Add the article image to assets/images/articles/ and run `npm run images`,

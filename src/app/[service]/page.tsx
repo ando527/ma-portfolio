@@ -76,6 +76,17 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
       { name: 'Home', path: '/' },
       { name: service.name, path: `/${slug}/` },
     ]),
+    ...(service.faqs.length > 0
+      ? [{
+          '@type': 'FAQPage',
+          '@id': `${url}#faq`,
+          mainEntity: service.faqs.map(f => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: { '@type': 'Answer', text: f.answer },
+          })),
+        }]
+      : []),
   )
 
   const stack = projects.filter(p => p.images.hero).map(p => ({ image: p.images.hero!, url: hostOf(p.liveUrl) }))
@@ -167,6 +178,39 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+      )}
+
+      {/* ── FAQs ─────────────────────────────────────────────────── */}
+      {service.faqs.length > 0 && (
+        <section id="faq" className="scroll-mt-24 bg-background border-t border-maroon-100 py-20" aria-labelledby="faq-heading">
+          <div className="max-w-6xl mx-auto px-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
+            <AnimateIn>
+              <p className="font-sans font-semibold text-sm tracking-widest uppercase text-primary mb-2">FAQs</p>
+              <h2 id="faq-heading" className="font-heading font-bold text-3xl md:text-4xl text-foreground">
+                Common questions
+              </h2>
+            </AnimateIn>
+            <AnimateIn className="border-t border-maroon-100">
+              {service.faqs.map(f => (
+                <details key={f.question} className="group border-b border-maroon-100">
+                  <summary className="flex items-start justify-between gap-6 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                    <h3 className="font-heading font-bold text-lg text-foreground group-hover:text-primary transition-colors duration-200">
+                      {f.question}
+                    </h3>
+                    <span aria-hidden className="mt-1 w-5 h-5 shrink-0 flex items-center justify-center text-primary transition-transform duration-200 group-open:rotate-45">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p className="pb-6 pr-11 font-sans text-base text-muted-foreground leading-relaxed max-w-[68ch]">
+                    {f.answer}
+                  </p>
+                </details>
+              ))}
+            </AnimateIn>
           </div>
         </section>
       )}

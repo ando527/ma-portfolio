@@ -67,6 +67,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     },
     breadcrumbNode(`/articles/${slug}/`, [
       { name: 'Home', path: '/' },
+      { name: 'Articles', path: '/articles/' },
       { name: article.title, path: `/articles/${slug}/` },
     ]),
   )
@@ -77,7 +78,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       <article>
         <PageHero
-          crumbs={[{ name: 'Home', href: '/' }, { name: article.title }]}
+          crumbs={[{ name: 'Home', href: '/' }, { name: 'Articles', href: '/articles/' }, { name: article.title }]}
           eyebrow="Article"
           title={article.title}
           intro={article.summary}

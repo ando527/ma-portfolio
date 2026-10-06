@@ -18,7 +18,8 @@ const toDate = (d: string) => {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projects = getAllProjects()
-  const articles = getAllArticles().filter(a => a.hasBody && !a.canonicalToOriginal)
+  const allArticles = getAllArticles()
+  const articles = allArticles.filter(a => a.hasBody && !a.canonicalToOriginal)
   const services = getAllServices()
 
   const newestProject = projects.find(p => p.date)?.date
@@ -33,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...(p.date && { lastModified: toDate(p.date) }),
     })),
     ...services.map(s => ({ url: absoluteUrl(`/${s.slug}/`), lastModified: siteUpdated })),
+    ...(allArticles.length > 0 ? [{ url: absoluteUrl('/articles/'), lastModified: toDate(allArticles[0].date) }] : []),
     ...articles.map(a => ({ url: absoluteUrl(`/articles/${a.slug}/`), lastModified: toDate(a.date) })),
   ]
 }

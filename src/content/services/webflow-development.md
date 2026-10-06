@@ -7,6 +7,17 @@ intro: "I design and build Webflow websites for businesses, not-for-profits and 
 relatedTags: ["Webflow"]
 relatedArticles: ["ditching-wordpress-for-webflow"]
 order: 1
+faqs:
+  - question: "How long does a Webflow website take to build?"
+    answer: "It depends on the number of pages, the CMS structure and any integrations. Small sites can move quickly: Sippy Tom's brand refresh and website were delivered in two days. Larger builds with CMS collections and live data take longer, and you'll get a timeline once discovery is done."
+  - question: "Can my team update the website after launch?"
+    answer: "Yes. Content is set up in Webflow's CMS so your team can edit it in the Editor without touching the design. Sippy Tom's staff update their seasonal menus themselves, and Speedcubing Australia's volunteers manage competitions, records and team members without a developer."
+  - question: "Can you move my website from WordPress to Webflow?"
+    answer: "Yes. I rebuild the site in Webflow, move the content across and set up redirects from the old URLs, with titles, descriptions and structured data checked before launch so the new site keeps the rankings the old one earned."
+  - question: "Do you offer maintenance after launch?"
+    answer: "Yes. If you'd rather not manage the site yourself, I offer ongoing upkeep and maintenance to keep it running smoothly and up to date."
+  - question: "Is a Webflow site good for SEO?"
+    answer: "Webflow produces clean code and fast pages, but rankings still come down to how the site is set up. Every site I build gets written titles and descriptions, structured data, a checked sitemap and accessible markup before it goes live."
 ---
 
 ## What I build in Webflow
@@ -23,7 +34,7 @@ order: 1
 3. **Build.** CMS structure first, then responsive layouts and interactions, tested from phone width up.
 4. **Launch.** Titles, descriptions, redirects and structured data checked, so a rebuild keeps the rankings the old site earned.
 5. **Handover.** Your team edits content in Webflow's Editor without touching the design.
-6. **Maintainence.** Not every client of mine wants to get their hands dirty after launch - I offer upkeep and maintainence services to keep your site running smooth and staying up to date after launch.
+6. **Maintenance.** Not every client of mine wants to get their hands dirty after launch - I offer upkeep and maintenance services to keep your site running smooth and staying up to date after launch.
 
 ## Moving from WordPress
 

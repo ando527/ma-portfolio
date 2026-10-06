@@ -33,7 +33,9 @@ function ReadLink({ article }: { article: ArticleCardData }) {
   )
 }
 
-function FeatureCard({ article }: { article: ArticleCardData }) {
+/** A wide card for one article. Also used for each row on /articles/, where
+ *  the title is an h2 rather than sitting under a section's h2. */
+export function FeatureCard({ article, headingAs: Heading = 'h3' }: { article: ArticleCardData; headingAs?: 'h2' | 'h3' }) {
   return (
     <article className="group relative grid md:grid-cols-[1.15fr_1fr] rounded-2xl overflow-hidden border border-maroon-100 bg-card transition-shadow duration-300 hover:shadow-xl">
       <div className="aspect-[16/10] md:aspect-auto md:min-h-[340px]">
@@ -41,9 +43,9 @@ function FeatureCard({ article }: { article: ArticleCardData }) {
       </div>
       <div className="flex flex-col gap-4 p-7 sm:p-10">
         <Meta article={article} />
-        <h3 className="font-heading font-bold text-2xl md:text-3xl text-foreground leading-tight tracking-tight">
+        <Heading className="font-heading font-bold text-2xl md:text-3xl text-foreground leading-tight tracking-tight">
           <span className="group-hover:text-primary transition-colors duration-200">{article.title}</span>
-        </h3>
+        </Heading>
         <p className="font-sans text-base text-muted-foreground leading-relaxed max-w-prose">{article.summary}</p>
         <ReadLink article={article} />
       </div>
