@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import YouTubeLite from '@/components/YouTubeLite'
+import SectionHeading from '@/components/SectionHeading'
+import { btnSecondary, btnArrow } from '@/components/ui/button'
 import { WCA_BASE, WCA_ID, WCA_PROFILE, toStats, type CubingStats, type Competition } from '@/lib/wca'
 
 const CompetitionMap = dynamic(() => import('./CompetitionMap'), { ssr: false })
@@ -27,30 +29,32 @@ const fmt = (n: number) => new Intl.NumberFormat('en-AU').format(n)
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
+const CARD = 'rounded-2xl border border-maroon-100 bg-card p-6 shadow-[0_1px_2px_rgba(28,10,14,0.04)]'
+
 function StatBox({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="bg-maroon-50 ring-1 ring-maroon-100 rounded-xl p-5">
-      <p className="font-sans text-xs font-semibold text-primary uppercase tracking-widest mb-2">{label}</p>
-      <p className="font-heading font-bold text-2xl text-foreground tabular-nums">{value}</p>
-      {sub && <p className="font-sans text-xs text-muted-foreground mt-1">{sub}</p>}
+    <div className={CARD}>
+      <p className="eyebrow text-primary mb-3">{label}</p>
+      <p className="display text-3xl text-foreground tabular-nums">{value}</p>
+      {sub && <p className="font-sans text-sm text-muted-foreground mt-2">{sub}</p>}
     </div>
   )
 }
 
 function MedalRow({ gold, silver, bronze }: { gold: number; silver: number; bronze: number }) {
   return (
-    <div className="bg-maroon-50 ring-1 ring-maroon-100 rounded-xl p-5">
-      <p className="font-sans text-xs font-semibold text-primary uppercase tracking-widest mb-3">Medals</p>
-      <ul className="flex flex-wrap gap-5">
+    <div className={CARD}>
+      <p className="eyebrow text-primary mb-4">Medals</p>
+      <ul className="flex flex-wrap gap-x-8 gap-y-3">
         {([
           { label: 'Gold',   count: gold,   color: '#B8860B' },
           { label: 'Silver', count: silver, color: '#71717A' },
           { label: 'Bronze', count: bronze, color: '#92400E' },
         ] as const).map(m => (
-          <li key={m.label} className="flex items-center gap-2">
-            <span aria-hidden className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: m.color }} />
-            <span className="font-heading font-bold text-xl text-foreground tabular-nums">{m.count}</span>
-            <span className="font-sans text-xs text-muted-foreground">{m.label}</span>
+          <li key={m.label} className="flex items-center gap-2.5">
+            <span aria-hidden className="w-3.5 h-3.5 rounded-full flex-shrink-0 ring-2 ring-white shadow-[0_0_0_1px_rgba(28,10,14,0.12)]" style={{ backgroundColor: m.color }} />
+            <span className="display text-2xl text-foreground tabular-nums">{m.count}</span>
+            <span className="font-sans text-sm text-muted-foreground">{m.label}</span>
           </li>
         ))}
       </ul>
@@ -152,23 +156,23 @@ export default function CubingSection({
     <div>
 
       {/* ── Section header ──────────────────────────────────────── */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-heading font-bold text-2xl text-foreground">Speedcubing</h2>
-        <a
-          href={WCA_PROFILE}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 py-2 text-muted-foreground hover:text-primary transition-colors duration-200 group"
-        >
-          <WCALogo className="w-5 h-5" />
-          <span className="font-sans text-xs font-medium tracking-wide">WCA Profile</span>
-          <span aria-hidden className="font-sans text-xs opacity-70 group-hover:opacity-100 transition-opacity duration-200">↗</span>
-          <span className="sr-only">(opens in a new tab)</span>
-        </a>
-      </div>
+      <SectionHeading
+        index="04"
+        eyebrow="Off the clock"
+        title="Speedcubing"
+        className="mb-10 md:mb-12"
+        action={
+          <a href={WCA_PROFILE} target="_blank" rel="noopener noreferrer" className={btnSecondary}>
+            <WCALogo className="w-4 h-4 text-primary" />
+            WCA profile
+            <span aria-hidden className={`text-primary ${btnArrow}`}>↗</span>
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        }
+      />
 
       {!stats ? (
-        <p className="font-sans text-sm text-muted-foreground">
+        <p className="font-sans text-base text-muted-foreground">
           Results are on my <a href={WCA_PROFILE} className="text-primary underline underline-offset-2">WCA profile</a>.
         </p>
       ) : (
@@ -176,22 +180,27 @@ export default function CubingSection({
 
           {/* ── PR Hero ─────────────────────────────────────────── */}
           {single && (
-            <div className="bg-maroon-50 ring-1 ring-maroon-100 rounded-2xl overflow-hidden">
-              <div className={`grid grid-cols-1 ${showVideo ? 'sm:grid-cols-[1fr_1.6fr]' : ''}`}>
+            <div className="on-dark relative bg-ink rounded-[1.75rem] overflow-hidden shadow-[0_40px_80px_-40px_rgba(16,4,8,0.6)]">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{ background: 'radial-gradient(70% 90% at 0% 0%, rgba(155, 35, 53, 0.45), transparent 65%)' }}
+              />
+              <div className={`relative grid grid-cols-1 ${showVideo ? 'md:grid-cols-[1fr_1.45fr]' : ''}`}>
 
                 {/* Stat side */}
-                <div className="p-6 flex flex-col justify-center">
-                  <p className="font-sans text-xs font-semibold text-primary uppercase tracking-widest mb-3">
+                <div className="p-7 md:p-10 flex flex-col justify-center">
+                  <p className="eyebrow text-maroon-200 mb-4">
                     3×3 Personal Record — Single
                   </p>
-                  <p className="font-heading font-bold text-[5rem] leading-none text-foreground mb-2 tabular-nums">
+                  <p className="display text-[5.5rem] md:text-[7rem] leading-[0.85] text-white mb-5 tabular-nums">
                     {formatTime(single.best)}
                   </p>
-                  <p className="font-sans text-sm text-muted-foreground">
+                  <p className="font-sans text-base text-white/75">
                     #{fmt(single.rank.country)} in Australia &nbsp;·&nbsp; #{fmt(single.rank.world)} World
                   </p>
                   {average && (
-                    <p className="font-sans text-xs text-muted-foreground mt-1">
+                    <p className="font-sans text-sm text-white/65 mt-1.5">
                       Average: {formatTime(average.best)} &nbsp;(#{fmt(average.rank.country)} AU)
                     </p>
                   )}
@@ -199,7 +208,7 @@ export default function CubingSection({
 
                 {/* Video side — only if PR still matches */}
                 {showVideo && (
-                  <div className="bg-black aspect-video">
+                  <div className="bg-black aspect-video md:aspect-auto md:min-h-[320px]">
                     <YouTubeLite id={PR_VIDEO_ID} title="8.87 official solve — Mitchell Anderson" />
                   </div>
                 )}
@@ -208,7 +217,7 @@ export default function CubingSection({
           )}
 
           {/* ── Stats grid ──────────────────────────────────────── */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 gap-4">
             <StatBox
               label="Competitions"
               value={String(stats.numberOfCompetitions)}
@@ -232,13 +241,13 @@ export default function CubingSection({
           {/* ── Competition map ──────────────────────────────────── */}
           {competitions.length > 0 && (
             <div>
-              <p className="font-sans text-xs font-semibold text-primary uppercase tracking-widest mb-3">
+              <p className="eyebrow text-primary mt-10 mb-4">
                 Competition Locations
               </p>
               <WhenNear
                 placeholder={
-                  <div className="h-[380px] bg-maroon-50 ring-1 ring-maroon-100 rounded-xl flex items-center justify-center">
-                    <p className="font-sans text-xs text-muted-foreground">Loading map…</p>
+                  <div className="h-[380px] bg-maroon-50 ring-1 ring-maroon-100 rounded-[1.25rem] flex items-center justify-center">
+                    <p className="font-sans text-sm text-muted-foreground">Loading map…</p>
                   </div>
                 }
               >

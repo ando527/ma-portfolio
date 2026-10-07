@@ -61,10 +61,6 @@ function useClock(active: boolean) {
   return time
 }
 
-function usePrefersReducedMotion() {
-  return useMediaQuery('(prefers-reduced-motion: reduce)') === true
-}
-
 // ── New Tab page ──────────────────────────────────────────────────────────────
 const FUN_FACTS = [
   '🎲 Represented Australia at the WCA World Championships — twice.',
@@ -81,27 +77,16 @@ const SHORTCUTS = [
 ]
 
 function NewTabPage({ compact = false }: { compact?: boolean }) {
-  const ref                           = useRef<HTMLDivElement>(null)
-  const active                        = useActive(ref)
-  const reduceMotion                  = usePrefersReducedMotion()
-  const time                          = useClock(active)
-  const [factIdx, setFactIdx]         = useState(0)
-  const [factVisible, setFactVisible] = useState(true)
+  const ref                   = useRef<HTMLDivElement>(null)
+  const active                = useActive(ref)
+  const time                  = useClock(active)
+  const [factIdx, setFactIdx] = useState(0)
 
+  // A random fact per new tab; "Another fact" steps through the rest. (They
+  // change on request rather than on a timer, so nothing updates by itself.)
   useEffect(() => {
     setFactIdx(Math.floor(Math.random() * FUN_FACTS.length))
   }, [])
-
-  // Cycle facts while on screen; hold still for reduced motion.
-  useEffect(() => {
-    if (!active || reduceMotion) return
-    let swap: ReturnType<typeof setTimeout>
-    const cycle = setInterval(() => {
-      setFactVisible(false)
-      swap = setTimeout(() => { setFactIdx(i => (i + 1) % FUN_FACTS.length); setFactVisible(true) }, 400)
-    }, 4000)
-    return () => { clearInterval(cycle); clearTimeout(swap) }
-  }, [active, reduceMotion])
 
   const h        = time ? time.getHours() : 12
   const greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
@@ -134,18 +119,25 @@ function NewTabPage({ compact = false }: { compact?: boolean }) {
         ))}
       </div>
 
-      {/* Fun fact — fixed height prevents layout shift during text swap */}
-      <div
-        className={`text-center ${compact ? 'max-w-[230px]' : 'max-w-sm'}`}
-        style={{
-          opacity: factVisible ? 1 : 0,
-          transition: 'opacity 0.4s ease',
-          minHeight: compact ? '3rem' : '2.5rem',
-        }}
-      >
-        <p className="font-sans text-xs text-muted-foreground leading-relaxed">
+      {/* Fun fact — fixed height prevents layout shift when it changes */}
+      <div className={`text-center flex flex-col items-center ${compact ? 'max-w-[230px]' : 'max-w-sm'}`}>
+        <p
+          aria-live="polite"
+          className="font-sans text-xs text-muted-foreground leading-relaxed"
+          style={{ minHeight: compact ? '3rem' : '2.5rem' }}
+        >
           {FUN_FACTS[factIdx]}
         </p>
+        <button
+          type="button"
+          onClick={() => setFactIdx(i => (i + 1) % FUN_FACTS.length)}
+          className="mt-1 inline-flex items-center gap-1.5 min-h-[32px] px-3 rounded-full font-sans text-xs font-semibold text-primary hover:bg-maroon-50 transition-colors duration-200"
+        >
+          Another fact
+          <svg aria-hidden className="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3" />
+          </svg>
+        </button>
       </div>
     </div>
   )
@@ -262,7 +254,7 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
   const panelId = 'browser-panel'
 
   return (
-    <div className="rounded-2xl overflow-hidden shadow-[0_32px_80px_-12px_rgba(0,0,0,0.25)] border border-black/10">
+    <div className="rounded-[1.25rem] overflow-hidden shadow-[0_50px_100px_-30px_rgba(60,10,20,0.45),0_20px_40px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/10">
       <div className="bg-[#1e1e1e] h-11 flex items-center px-4 gap-3 select-none">
         <div className="flex items-center gap-[6px]" aria-hidden>
           {(['#FF5F57','#FFBD2E','#28C840'] as const).map((col, i) => (

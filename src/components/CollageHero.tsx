@@ -35,11 +35,11 @@ const MOBILE_SLOTS = [
   { top: 11, left: 27, w: 24, rot:  2, dur: 11, delay: 1.5, aspect: '4/3', depth: 0.7 },
   { top: 13, left: 53, w: 23, rot: -2, dur:  8, delay: 0.8, aspect: '3/4', depth: 0.8 },
   { top: 10, left: 74, w: 24, rot:  3, dur: 10, delay: 2.0, aspect: '4/3', depth: 0.9 },
-  // Row 2 — lower band
-  { top: 44, left:  3, w: 24, rot:  3, dur: 10, delay: 2.5, aspect: '4/3', depth: 0.7 },
-  { top: 42, left: 29, w: 24, rot: -3, dur:  9, delay: 3.5, aspect: '3/4', depth: 0.8 },
-  { top: 45, left: 55, w: 23, rot:  2, dur: 11, delay: 1.0, aspect: '4/3', depth: 0.6 },
-  { top: 43, left: 75, w: 23, rot: -2, dur:  8, delay: 2.8, aspect: '3/4', depth: 0.9 },
+  // Row 2 — lower band, kept above the heading
+  { top: 31, left:  3, w: 24, rot:  3, dur: 10, delay: 2.5, aspect: '4/3', depth: 0.7 },
+  { top: 29, left: 29, w: 24, rot: -3, dur:  9, delay: 3.5, aspect: '3/4', depth: 0.8 },
+  { top: 32, left: 55, w: 23, rot:  2, dur: 11, delay: 1.0, aspect: '4/3', depth: 0.6 },
+  { top: 30, left: 75, w: 23, rot: -2, dur:  8, delay: 2.8, aspect: '3/4', depth: 0.9 },
 ] as const
 
 const SWAP_INTERVAL = 2800
@@ -56,6 +56,8 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
 
   const [assigned, setAssigned] = useState<ImageData[]>(initialAssign)
   const [fading,   setFading]   = useState<Set<number>>(new Set())
+  // The visitor can stop the floating and swapping (WCAG 2.2.2).
+  const [paused,   setPaused]   = useState(false)
 
   const rootRef     = useRef<HTMLDivElement>(null)
   const swapQueue   = useRef<number[]>([])
@@ -65,10 +67,10 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
   useEffect(() => { assignedRef.current = assigned }, [assigned])
 
   // ── Image swap loop: only while on screen, the tab is visible, and the
-  //    visitor hasn't asked for reduced motion ────────────────────────────────
+  //    visitor hasn't paused it or asked for reduced motion ──────────────────
   useEffect(() => {
     const root = rootRef.current
-    if (!root || images.length <= SLOTS.length / 2) return
+    if (!root || paused || images.length <= SLOTS.length / 2) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     let timer: ReturnType<typeof setInterval> | undefined
@@ -124,8 +126,10 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
       reduce.removeEventListener('change', sync)
       if (timer) clearInterval(timer)
       timeouts.forEach(clearTimeout)
+      // A swap cut short mid-fade shouldn't leave its slot blank.
+      setFading(new Set())
     }
-  }, [images])
+  }, [images, paused])
 
   // ── Mouse parallax: runs only while the photos are catching up to the
   //    cursor, and not at all on touch screens or with reduced motion ────────
@@ -173,7 +177,8 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
   if (images.length === 0) return null
 
   return (
-    <div ref={rootRef} className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
+    <>
+    <div ref={rootRef} className={`absolute inset-0 overflow-hidden pointer-events-none select-none ${paused ? 'collage-paused' : ''}`} aria-hidden>
 
       {/* Gradient: protects the bottom-left text area */}
       <div
@@ -244,5 +249,21 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
         )
       })}
     </div>
+
+    {/* Pause / play for the floating photos. Hidden when the visitor's
+        device asks for reduced motion, since nothing moves then anyway. */}
+    <button
+      type="button"
+      onClick={() => setPaused(p => !p)}
+      className="absolute z-30 bottom-5 right-5 md:bottom-8 md:right-8 inline-flex items-center gap-2 h-10 pl-3 pr-4 rounded-full bg-white/90 backdrop-blur border border-maroon-200 font-sans text-[13px] font-semibold text-foreground shadow-sm hover:bg-white hover:border-primary/50 transition-colors duration-200 motion-reduce:hidden"
+    >
+      {paused ? (
+        <svg aria-hidden className="w-4 h-4 text-primary" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.5v9l7.5-4.5z" /></svg>
+      ) : (
+        <svg aria-hidden className="w-4 h-4 text-primary" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 3h2.5v10H4.5zM9 3h2.5v10H9z" /></svg>
+      )}
+      {paused ? 'Play photos' : 'Pause photos'}
+    </button>
+    </>
   )
 }

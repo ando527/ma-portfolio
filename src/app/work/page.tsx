@@ -72,23 +72,23 @@ export default function WorkPage() {
         intro="Client work and personal projects, spanning Webflow, Shopify, Next.js and front-end development."
         visual={stack.length > 0 ? <FrameStack items={stack} /> : undefined}
       >
-        <dl className="flex flex-wrap gap-x-10 gap-y-4">
-          <div>
-            <dt className="font-sans text-xs font-semibold tracking-widest uppercase text-white/50 mb-1">Case studies</dt>
-            <dd className="font-heading font-bold text-3xl text-white tabular-nums">{projects.length}</dd>
+        <dl className="flex flex-wrap gap-x-8 gap-y-5 pt-7 border-t border-white/10">
+          <div className="flex flex-col-reverse gap-1.5">
+            <dt className="eyebrow text-white/60">Case studies</dt>
+            <dd className="display text-3xl md:text-4xl text-white tabular-nums">{projects.length}</dd>
           </div>
           {years.length > 0 && (
-            <div>
-              <dt className="font-sans text-xs font-semibold tracking-widest uppercase text-white/50 mb-1">Years</dt>
-              <dd className="font-heading font-bold text-3xl text-white tabular-nums">
+            <div className="flex flex-col-reverse gap-1.5">
+              <dt className="eyebrow text-white/60">Years</dt>
+              <dd className="display text-3xl md:text-4xl text-white tabular-nums">
                 {Math.min(...years)}–{Math.max(...years)}
               </dd>
             </div>
           )}
           {platforms.length > 0 && (
-            <div>
-              <dt className="font-sans text-xs font-semibold tracking-widest uppercase text-white/50 mb-1">Platforms</dt>
-              <dd className="font-heading font-bold text-3xl text-white">{platforms.join(' & ')}</dd>
+            <div className="flex flex-col-reverse gap-1.5">
+              <dt className="eyebrow text-white/60">Platforms</dt>
+              <dd className="display text-3xl md:text-4xl text-white">{platforms.join(' & ')}</dd>
             </div>
           )}
         </dl>

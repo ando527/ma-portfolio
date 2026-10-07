@@ -8,10 +8,13 @@ import JsonLd from '@/components/JsonLd'
 import { SITE } from '@/lib/site'
 import { graph, personNode, websiteNode } from '@/lib/schema'
 
+// The width axis lets display headings run slightly expanded (.display in
+// globals.css) without loading a second family.
 const archivo = Archivo({
   subsets: ['latin'],
   variable: '--font-archivo',
   display: 'swap',
+  axes: ['wdth'],
 })
 
 const spaceGrotesk = Space_Grotesk({

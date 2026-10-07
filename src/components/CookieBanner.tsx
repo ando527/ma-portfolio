@@ -28,23 +28,29 @@ export default function CookieBanner({ onConsent }: Props) {
   if (!visible) return null
 
   return (
-    <div role="region" aria-label="Cookie consent" className="fixed bottom-0 left-0 right-0 z-[9999] bg-foreground border-t border-maroon-700 px-5 py-3 flex items-center justify-between flex-wrap gap-3">
-      <p className="text-[13px] text-background/80 leading-relaxed m-0 max-w-xl">
+    <div
+      role="region"
+      aria-label="Cookie consent"
+      className="on-dark fixed z-[9999] bottom-3 inset-x-3 sm:bottom-5 sm:left-5 sm:right-auto sm:w-[22rem] rounded-2xl border border-white/10 bg-ink/95 backdrop-blur-md p-5 shadow-[0_24px_60px_-12px_rgba(16,4,8,0.6)]"
+    >
+      <p className="font-sans text-sm text-white/80 leading-relaxed m-0">
         This site uses cookies to understand traffic via Google Analytics.{' '}
-        <Link prefetch={false} href="/privacy/" className="text-background/50 underline underline-offset-2 hover:text-background/80 transition-colors">
+        <Link prefetch={false} href="/privacy/" className="text-maroon-200 underline underline-offset-2 hover:text-white transition-colors">
           Privacy Policy
         </Link>
       </p>
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="mt-4 flex items-center gap-2">
         <button
+          type="button"
           onClick={() => handleChoice(false)}
-          className="text-[13px] px-4 py-1.5 rounded border border-maroon-700 text-background/50 hover:text-background/80 hover:border-maroon-500 transition-colors cursor-pointer bg-transparent"
+          className="flex-1 h-10 rounded-full border border-white/25 bg-transparent font-sans text-sm font-semibold text-white/90 hover:bg-white/10 hover:border-white/40 transition-colors cursor-pointer"
         >
           Decline
         </button>
         <button
+          type="button"
           onClick={() => handleChoice(true)}
-          className="text-[13px] px-4 py-1.5 rounded bg-background text-foreground font-semibold hover:bg-background/90 transition-colors cursor-pointer"
+          className="flex-1 h-10 rounded-full bg-white font-sans text-sm font-semibold text-ink hover:bg-maroon-100 transition-colors cursor-pointer"
         >
           Accept
         </button>

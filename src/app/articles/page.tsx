@@ -4,7 +4,6 @@ import { graph, webPageNode, breadcrumbNode, refs } from '@/lib/schema'
 import JsonLd from '@/components/JsonLd'
 import PageHero from '@/components/PageHero'
 import { FeatureCard } from '@/components/ArticleSlider'
-import ContactStrip from '@/components/ContactStrip'
 
 // Not in the header nav yet; reached from the footer's Writing column, the
 // article breadcrumbs, and by trimming an article URL back to /articles/.
@@ -65,7 +64,6 @@ export default function ArticlesPage() {
         </ul>
       </section>
 
-      <ContactStrip />
     </div>
   )
 }

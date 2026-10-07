@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return meta
 }
 
-const LABEL = 'font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground'
+const LABEL = 'eyebrow text-primary'
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -75,6 +75,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   return (
     <div className="bg-background">
       <JsonLd data={schema} />
+      {article.hasBody && <div aria-hidden className="scroll-progress" />}
 
       <article>
         <PageHero
@@ -93,13 +94,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 alt={article.heroAlt}
                 fetchPriority="high"
                 decoding="async"
-                className="block w-full h-auto rounded-2xl ring-1 ring-white/10 shadow-[0_40px_100px_-24px_rgba(0,0,0,0.65)]"
+                className="block w-full h-auto rounded-[1.75rem] ring-1 ring-white/10 shadow-[0_40px_100px_-24px_rgba(0,0,0,0.65)]"
               />
             )
           }
         >
-          <p className="font-sans text-sm text-white/60 flex flex-col gap-1">
-            <time dateTime={article.date} className="font-medium text-white">{formatDate(article.date)}</time>
+          <p className="font-sans text-sm text-white/65 flex flex-col gap-1.5 pt-7 border-t border-white/10">
+            <time dateTime={article.date} className="eyebrow text-white">{formatDate(article.date)}</time>
             {article.publication && (
               <span>
                 {article.canonicalToOriginal ? 'First published in the' : 'Adapted from my piece in the'} {article.publication}

@@ -12,8 +12,8 @@ import type { ArticleCardData } from '@/lib/types'
 function Meta({ article }: { article: ArticleCardData }) {
   return (
     <p className="font-sans text-sm text-muted-foreground">
-      <time dateTime={article.date}>{article.dateLabel}</time>
-      {article.publication && <span className="block">First published in the {article.publication}</span>}
+      <time dateTime={article.date} className="eyebrow text-primary">{article.dateLabel}</time>
+      {article.publication && <span className="block mt-1.5">First published in the {article.publication}</span>}
     </p>
   )
 }
@@ -25,25 +25,32 @@ function ReadLink({ article }: { article: ArticleCardData }) {
     <Link
       prefetch={false}
       href={`/articles/${article.slug}/`}
-      className="mt-auto inline-flex items-center gap-1.5 self-start font-sans text-sm font-semibold text-primary hover:text-maroon-700 after:absolute after:inset-0 after:content-[''] after:rounded-2xl"
+      className="mt-auto inline-flex items-center gap-1.5 self-start pt-2 font-sans text-sm font-semibold text-primary hover:text-maroon-700 after:absolute after:inset-0 after:content-[''] after:rounded-[1.75rem]"
     >
       Read the article<span className="sr-only">: {article.title}</span>
-      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none">→</span>
     </Link>
   )
 }
+
+const CARD =
+  'group relative rounded-[1.75rem] overflow-hidden border border-maroon-100 bg-card transition-[box-shadow,border-color] duration-500 hover:border-maroon-200 hover:shadow-[0_30px_60px_-30px_rgba(124,29,46,0.4)]'
+const COVER_ZOOM =
+  'h-full overflow-hidden [&>*]:transition-transform [&>*]:duration-700 [&>*]:ease-out-expo group-hover:[&>*]:scale-[1.03] motion-reduce:[&>*]:transition-none motion-reduce:group-hover:[&>*]:scale-100'
 
 /** A wide card for one article. Also used for each row on /articles/, where
  *  the title is an h2 rather than sitting under a section's h2. */
 export function FeatureCard({ article, headingAs: Heading = 'h3' }: { article: ArticleCardData; headingAs?: 'h2' | 'h3' }) {
   return (
-    <article className="group relative grid md:grid-cols-[1.15fr_1fr] rounded-2xl overflow-hidden border border-maroon-100 bg-card transition-shadow duration-300 hover:shadow-xl">
-      <div className="aspect-[16/10] md:aspect-auto md:min-h-[340px]">
-        <ArticleCover article={article} sizes="(min-width: 1152px) 560px, (min-width: 768px) 53vw, 100vw" />
+    <article className={`${CARD} grid md:grid-cols-[1.15fr_1fr]`}>
+      <div className="aspect-[16/10] md:aspect-auto md:min-h-[360px]">
+        <div className={COVER_ZOOM}>
+          <ArticleCover article={article} sizes="(min-width: 1152px) 560px, (min-width: 768px) 53vw, 100vw" />
+        </div>
       </div>
-      <div className="flex flex-col gap-4 p-7 sm:p-10">
+      <div className="flex flex-col gap-4 p-7 sm:p-10 lg:p-12">
         <Meta article={article} />
-        <Heading className="font-heading font-bold text-2xl md:text-3xl text-foreground leading-tight tracking-tight">
+        <Heading className="font-heading font-bold text-2xl md:text-[2rem] text-foreground leading-[1.1] tracking-tight [font-stretch:106%]">
           <span className="group-hover:text-primary transition-colors duration-200">{article.title}</span>
         </Heading>
         <p className="font-sans text-base text-muted-foreground leading-relaxed max-w-prose">{article.summary}</p>
@@ -55,9 +62,11 @@ export function FeatureCard({ article, headingAs: Heading = 'h3' }: { article: A
 
 function SlideCard({ article }: { article: ArticleCardData }) {
   return (
-    <article className="group relative flex flex-col h-full rounded-2xl overflow-hidden border border-maroon-100 bg-card transition-shadow duration-300 hover:shadow-xl">
+    <article className={`${CARD} flex flex-col h-full`}>
       <div className="aspect-[16/10]">
-        <ArticleCover article={article} sizes="(min-width: 640px) 440px, 85vw" />
+        <div className={COVER_ZOOM}>
+          <ArticleCover article={article} sizes="(min-width: 640px) 440px, 85vw" />
+        </div>
       </div>
       <div className="flex flex-col gap-3 p-6 flex-1">
         <Meta article={article} />

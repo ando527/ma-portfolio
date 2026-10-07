@@ -1,4 +1,6 @@
-import { pageMetadata } from '@/lib/site'
+import { pageMetadata, SITE } from '@/lib/site'
+import PageHero from '@/components/PageHero'
+import '@/app/prose.css'
 
 export const metadata = pageMetadata({
   title: 'Privacy Policy',
@@ -9,85 +11,74 @@ export const metadata = pageMetadata({
 
 export default function PrivacyPolicy() {
   return (
-    <div className="max-w-2xl mx-auto px-6 pt-32 pb-20">
-      <h1 className="font-heading text-4xl font-bold mb-2">Privacy Policy</h1>
-      <p className="text-muted-foreground text-sm mb-12">Last updated: October 2026</p>
+    <div className="bg-background">
+      <PageHero
+        crumbs={[{ name: 'Home', href: '/' }, { name: 'Privacy Policy' }]}
+        eyebrow="Legal"
+        title="Privacy Policy"
+        intro="Last updated: October 2026"
+      />
 
-      <div className="prose prose-sm max-w-none space-y-8">
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">Who I am</h2>
-          <p>
-            This is the personal portfolio of <strong>Mitchell Anderson</strong>, a web developer based in Brisbane, QLD.
-            You can reach me via{' '}
-            <a href="https://www.linkedin.com/in/mitchell-anderson-527au/" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
-              LinkedIn
-            </a>.
-          </p>
-        </section>
+      <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+        <div className="max-w-[680px]">
+          <div className="article-content">
+            <h2>Who I am</h2>
+            <p>
+              This is the personal portfolio of <strong>Mitchell Anderson</strong>, a web developer based in Brisbane, QLD.
+              You can reach me via{' '}
+              <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>.
+            </p>
 
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">What data is collected</h2>
-          <p>
-            If you accept cookies, this site uses Google Analytics 4 to collect anonymised usage
-            data — pages visited, time on site, device type, and approximate location (country/city
-            level). No personally identifiable information is collected.
-          </p>
-        </section>
+            <h2>What data is collected</h2>
+            <p>
+              If you accept cookies, this site uses Google Analytics 4 to collect anonymised usage
+              data — pages visited, time on site, device type, and approximate location (country/city
+              level). No personally identifiable information is collected.
+            </p>
 
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">Why it&apos;s collected</h2>
-          <p>
-            To understand how visitors find and use this portfolio, so I can improve it.
-          </p>
-        </section>
+            <h2>Why it&apos;s collected</h2>
+            <p>
+              To understand how visitors find and use this portfolio, so I can improve it.
+            </p>
 
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">Cookie consent</h2>
-          <p>
-            Analytics cookies are only set after you explicitly accept via the banner on your first
-            visit. If you decline, no scripts are loaded and no data is sent to Google — the site
-            functions identically either way.
-          </p>
-        </section>
+            <h2>Cookie consent</h2>
+            <p>
+              Analytics cookies are only set after you explicitly accept via the banner on your first
+              visit. If you decline, no scripts are loaded and no data is sent to Google — the site
+              functions identically either way.
+            </p>
 
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">Third parties</h2>
-          <p>
-            Data is processed by Google under their{' '}
-            <a
-              href="https://policies.google.com/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary underline underline-offset-2"
-            >
-              Privacy Policy
-            </a>
-            .
-          </p>
-          <p>
-            Some pages load content from other services whether or not you accept cookies. The
-            About page fetches speedcubing results from GitHub and map tiles from OpenStreetMap,
-            which see your IP address like any website you visit. The YouTube video on that page
-            only loads, from YouTube&apos;s privacy-enhanced domain, if you press play.
-          </p>
-        </section>
+            <h2>Third parties</h2>
+            <p>
+              Data is processed by Google under their{' '}
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </a>
+              .
+            </p>
+            <p>
+              Some pages load content from other services whether or not you accept cookies. The
+              About page fetches speedcubing results from GitHub and map tiles from OpenStreetMap,
+              which see your IP address like any website you visit. The YouTube video on that page
+              only loads, from YouTube&apos;s privacy-enhanced domain, if you press play.
+            </p>
 
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">Data retention</h2>
-          <p>
-            Google Analytics retains data for 14 months by default. No data is stored on this
-            site&apos;s servers.
-          </p>
-        </section>
+            <h2>Data retention</h2>
+            <p>
+              Google Analytics retains data for 14 months by default. No data is stored on this
+              site&apos;s servers.
+            </p>
 
-        <section>
-          <h2 className="font-heading text-xl font-semibold mb-2">Your rights</h2>
-          <p>
-            You can withdraw consent at any time by clearing local storage or cookies for this
-            site in your browser settings. If you are in the EU or UK, you have the right to
-            access, correct, or request deletion of your data — contact me via LinkedIn.
-          </p>
-        </section>
+            <h2>Your rights</h2>
+            <p>
+              You can withdraw consent at any time by clearing local storage or cookies for this
+              site in your browser settings. If you are in the EU or UK, you have the right to
+              access, correct, or request deletion of your data — contact me via LinkedIn.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )

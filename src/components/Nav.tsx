@@ -9,13 +9,14 @@ const links = [
   { href: '/about/', label: 'About' },
 ]
 
-// ── Liquid-glass surface ──────────────────────────────────────────────────────
+// ── Glass surface ─────────────────────────────────────────────────────────────
 //
 // Gradient runs top → bottom (not diagonal) so every horizontal position
 // stays consistently dark — logo on the left is always readable.
 //
-// WCAG: the lightest stop is rgba(110,18,32,0.82). Composited over pure white
-// that yields ≈ #4e1a21, a 12:1 contrast ratio with white text (AAA ✓).
+// Dense enough to stay a deep wine over the light pages too, rather than
+// washing out to mauve. WCAG: the lightest stop, rgba(72,16,28,0.88) over
+// pure white, composites to ≈ #5e2d37 — about 11:1 with white text (AAA ✓).
 //
 // Layers:
 //   1. Top-to-bottom gradient: deep wine top → near-black base
@@ -27,8 +28,8 @@ const links = [
 const glassStyle: React.CSSProperties = {
   background: `linear-gradient(
     180deg,
-    rgba(110, 18, 32, 0.62) 0%,
-    rgba(16,  4,  8, 0.72) 100%
+    rgba(72, 16, 28, 0.88) 0%,
+    rgba(16,  4,  8, 0.9) 100%
   )`,
   backdropFilter:       'blur(24px) saturate(180%)',
   WebkitBackdropFilter: 'blur(24px) saturate(180%)',
@@ -100,7 +101,7 @@ export default function Nav() {
             </Link>
 
             {/* Links — each is a 44px-tall target; the visible label stays the same size */}
-            <ul className="flex items-center gap-5 sm:gap-7">
+            <ul className="flex items-center gap-4 min-[360px]:gap-5 sm:gap-7">
               {links.map(({ href, label }) => {
                 const path      = pathname.endsWith('/') ? pathname : `${pathname}/`
                 const isCurrent = path === href
@@ -133,8 +134,17 @@ export default function Nav() {
               })}
             </ul>
 
-            {/* Balance spacer */}
-            <div className="w-11 flex-shrink-0" aria-hidden />
+            {/* Contact: jumps to the "Let's talk" panel at the top of the
+                footer, which is on every page. Icon-only below 360px. */}
+            <a
+              href="#contact"
+              className="flex-shrink-0 inline-flex items-center justify-center gap-2 h-10 min-w-10 px-2.5 min-[360px]:px-4 rounded-full bg-white text-ink font-sans text-[13px] font-semibold tracking-wide hover:bg-maroon-100 transition-colors duration-200"
+            >
+              <svg aria-hidden className="w-4 h-4 min-[360px]:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+              <span className="sr-only min-[360px]:not-sr-only">Contact</span>
+            </a>
 
           </nav>
         </header>

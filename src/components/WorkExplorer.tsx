@@ -73,7 +73,7 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-4">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-4">
         <div role="group" aria-label="Show projects" className="flex flex-wrap gap-2">
           {filters.map(f => {
             const pressed = f.id === active.id
@@ -83,27 +83,27 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
                 type="button"
                 aria-pressed={pressed}
                 onClick={() => update(f.id, sort)}
-                className={`inline-flex items-center gap-2 h-10 px-4 rounded-full border font-sans text-sm font-medium transition-colors duration-200 ${
+                className={`inline-flex items-center gap-2 h-11 pl-4 pr-2 rounded-full border font-sans text-sm font-medium transition-colors duration-200 ${
                   pressed
-                    ? 'bg-foreground border-foreground text-background'
+                    ? 'bg-foreground border-foreground text-white'
                     : 'bg-white border-maroon-200 text-foreground hover:border-primary hover:text-primary'
                 }`}
               >
                 {f.label}
-                <span className={`tabular-nums text-xs ${pressed ? 'text-background/70' : 'text-muted-foreground'}`}>{f.count}</span>
+                <span className={`min-w-7 h-7 px-1.5 inline-flex items-center justify-center rounded-full tabular-nums text-xs font-semibold ${pressed ? 'bg-white/15 text-white' : 'bg-maroon-50 text-muted-foreground'}`}>{f.count}</span>
               </button>
             )
           })}
         </div>
 
-        <label className="flex items-center gap-3 font-sans text-sm text-muted-foreground" htmlFor="work-sort">
+        <label className="shrink-0 whitespace-nowrap flex items-center gap-3 font-sans text-sm text-muted-foreground" htmlFor="work-sort">
           Sort by
           <span className="relative">
             <select
               id="work-sort"
               value={sort}
               onChange={e => update(show, e.target.value as Sort)}
-              className="appearance-none h-10 pl-4 pr-10 rounded-full border border-maroon-200 bg-white font-medium text-foreground cursor-pointer hover:border-primary transition-colors duration-200"
+              className="appearance-none h-11 pl-4 pr-10 rounded-full border border-maroon-200 bg-white font-medium text-foreground cursor-pointer hover:border-primary transition-colors duration-200"
             >
               {SORTS.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
             </select>
@@ -114,7 +114,7 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
         </label>
       </div>
 
-      <p aria-live="polite" className="font-sans text-sm text-muted-foreground mb-8">
+      <p aria-live="polite" className="font-sans text-sm text-muted-foreground pb-6 mb-10 border-b border-maroon-100">
         {visible.length === projects.length
           ? `${projects.length} projects`
           : `${visible.length} of ${projects.length} projects`}
@@ -122,10 +122,10 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
       </p>
 
       {visible.length > 0 ? (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-10 gap-y-14 md:gap-y-16">
           {visible.map(p => (
             <li key={p.slug}>
-              <ProjectCard project={p} headingLevel={2} />
+              <ProjectCard project={p} headingLevel={2} size="lg" />
             </li>
           ))}
         </ul>

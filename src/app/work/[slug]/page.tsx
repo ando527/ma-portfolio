@@ -11,17 +11,18 @@ import BrowserFrame from '@/components/BrowserFrame'
 import ProjectCard from '@/components/ProjectCard'
 import ProseLayout, { OnThisPage, AsideCard } from '@/components/ProseLayout'
 import ReducedMotionVideos from '@/components/ReducedMotionVideos'
+import BeforeAfter from '@/components/BeforeAfter'
 import { AnimateIn } from '@/components/ui/animate-in'
-import { btnOnDark } from '@/components/ui/button'
+import { btnOnDark, btnLight, btnSecondary, btnInk, btnArrow } from '@/components/ui/button'
 import '@/app/prose.css'
 
 const BADGE_STYLES: Record<string, string> = {
   SLATE:      'bg-primary text-white',
-  Freelance:  'bg-foreground text-background',
+  Freelance:  'bg-white text-foreground',
   'Pro-bono': 'bg-emerald-700 text-white',
 }
 
-const LABEL = 'font-sans text-xs font-semibold tracking-widest uppercase text-muted-foreground'
+const LABEL = 'eyebrow text-primary'
 
 export const dynamicParams = false
 
@@ -57,7 +58,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!project) notFound()
 
   const { html, headings } = await renderMarkdown(project.content)
-  const otherProjects = getAllProjects().filter(p => p.slug !== slug).slice(0, 3)
+  // "Next case study" is the next one down the Work page's newest-first
+  // list, wrapping round; "More work" shows three others besides that one.
+  const all = getAllProjects()
+  const index = all.findIndex(p => p.slug === slug)
+  const next = all.length > 1 ? all[(index + 1) % all.length] : undefined
+  const otherProjects = all.filter(p => p.slug !== slug && p.slug !== next?.slug).slice(0, 3)
   const services = relatedServices(project)
   const { hero, before } = project.images
   const url = absoluteUrl(`/work/${slug}/`)
@@ -103,6 +109,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <div className="bg-background">
       <JsonLd data={schema} />
       <ReducedMotionVideos />
+      <div aria-hidden className="scroll-progress" />
 
       {/* ── Header: dark fold, screenshot straddling the edge ───────── */}
       <PageHero
@@ -131,19 +138,19 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           )
         }
       >
-        <div className="flex flex-wrap items-end gap-x-10 gap-y-5">
+        <div className="flex flex-wrap items-end gap-x-10 gap-y-6 pt-7 border-t border-white/10">
           <dl className="flex flex-wrap gap-x-10 gap-y-4">
             {meta.map(m => (
               <div key={m.label}>
-                <dt className="font-sans text-xs font-semibold tracking-widest uppercase text-white/50 mb-1">{m.label}</dt>
-                <dd className="font-sans text-sm font-medium text-white">{m.value}</dd>
+                <dt className="eyebrow text-white/60 mb-1.5">{m.label}</dt>
+                <dd className="font-sans text-[15px] font-medium text-white">{m.value}</dd>
               </div>
             ))}
           </dl>
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={btnOnDark}>
               Visit live site
-              <span aria-hidden>↗</span>
+              <span aria-hidden className={btnArrow}>↗</span>
               <span className="sr-only">(opens in a new tab)</span>
             </a>
           )}
@@ -152,14 +159,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {/* ── Deliverables + Stats ─────────────────────────────────── */}
       {(project.deliverables?.length || project.stats?.length) ? (
-        <section className="max-w-6xl mx-auto px-6 pt-16 md:pt-24 pb-16 grid md:grid-cols-2 gap-12 md:gap-20 border-b border-maroon-100">
+        <section className="max-w-6xl mx-auto px-6 pt-20 md:pt-28 pb-16 md:pb-20 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-14 lg:gap-20">
           {project.deliverables && project.deliverables.length > 0 && (
             <AnimateIn>
-              <h2 className={`${LABEL} mb-5`}>What I Built</h2>
-              <ul className="space-y-2.5">
+              <h2 className={`${LABEL} mb-6`}>What I Built</h2>
+              <ul className="border-t border-maroon-100">
                 {project.deliverables.map((d, i) => (
-                  <li key={i} className="flex items-start gap-3 font-sans text-base text-foreground">
-                    <span aria-hidden className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                  <li key={i} className="flex items-start gap-4 py-3.5 border-b border-maroon-100 font-sans text-base md:text-[17px] text-foreground">
+                    <span aria-hidden className="mt-[0.55em] w-2 h-2 rounded-[2px] bg-primary rotate-45 flex-shrink-0" />
                     {d}
                   </li>
                 ))}
@@ -169,12 +176,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
           {project.stats && project.stats.length > 0 && (
             <AnimateIn delay={0.08}>
-              <h2 className={`${LABEL} mb-5`}>Key Outcomes</h2>
-              <dl className="grid grid-cols-2 gap-x-6 gap-y-8">
+              <h2 className={`${LABEL} mb-6`}>Key Outcomes</h2>
+              {/* Rows of label and value on phones; a 2×2 grid of tiles from md */}
+              <dl className="grid md:grid-cols-2 md:gap-4 border-t border-maroon-100 md:border-0">
                 {project.stats.map((s, i) => (
-                  <div key={i} className="flex flex-col-reverse">
+                  <div
+                    key={i}
+                    className="flex items-baseline justify-between gap-6 py-4 border-b border-maroon-100 md:flex-col-reverse md:items-start md:justify-end md:gap-2 md:p-6 md:rounded-2xl md:border md:border-maroon-100 md:bg-card"
+                  >
                     <dt className="font-sans text-sm text-muted-foreground">{s.label}</dt>
-                    <dd className="font-heading font-bold text-4xl text-foreground leading-none mb-2">{s.value}</dd>
+                    <dd className="display shrink-0 text-2xl md:text-[2.5rem] text-foreground">{s.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -185,31 +196,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {/* ── Before / After ───────────────────────────────────────── */}
       {before && hero && (
-        <section className="max-w-6xl mx-auto px-6 py-16 border-b border-maroon-100">
-          <h2 className={`${LABEL} mb-8`}>Before &amp; After</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              { img: before, alt: project.beforeAlt, label: 'Before' },
-              { img: hero, alt: project.heroAlt, label: 'After' },
-            ].map(({ img, alt, label }) => (
-              <figure key={label}>
-                <div className="rounded-xl overflow-hidden border border-maroon-100 aspect-video bg-maroon-50">
-                  <img
-                    src={img.src}
-                    srcSet={img.srcSet}
-                    sizes="(min-width: 1152px) 540px, (min-width: 768px) 46vw, 100vw"
-                    width={img.width}
-                    height={img.height}
-                    alt={alt}
-                    className="w-full h-full object-cover object-top"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <figcaption className="mt-3 font-sans text-sm text-muted-foreground text-center">{label}</figcaption>
-              </figure>
-            ))}
-          </div>
+        <section className="max-w-6xl mx-auto px-6 pt-4 pb-16 md:pb-24" aria-labelledby="before-after-heading">
+          <AnimateIn>
+            <h2 id="before-after-heading" className={`${LABEL} mb-6`}>Before &amp; After</h2>
+            <BeforeAfter before={before} after={hero} beforeAlt={project.beforeAlt} afterAlt={project.heroAlt} />
+          </AnimateIn>
         </section>
       )}
 
@@ -224,7 +215,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <h2 className={`${LABEL} mb-3`}>Built with</h2>
                 <ul className="flex flex-wrap gap-2" aria-label="Tags">
                   {project.tags.map(tag => (
-                    <li key={tag} className="text-xs font-sans font-medium text-primary bg-maroon-50 px-2.5 py-1 rounded-full border border-maroon-200">{tag}</li>
+                    <li key={tag} className="text-xs font-sans font-medium text-primary bg-maroon-50 px-3 py-1.5 rounded-full border border-maroon-200">{tag}</li>
                   ))}
                 </ul>
                 {services.length > 0 && (
@@ -248,41 +239,82 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* ── Footer CTA ───────────────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-6 pb-16 pt-8 border-t border-maroon-100 flex items-center justify-between flex-wrap gap-4">
-        <Link
-          prefetch={false}
-          href="/work/"
-          className="inline-flex items-center gap-2 py-2 font-sans text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 group"
-        >
-          <span aria-hidden className="group-hover:-translate-x-0.5 transition-transform duration-200">←</span>
-          All projects
-        </Link>
-        {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-sans text-sm font-semibold bg-foreground text-background px-5 py-2.5 rounded-full hover:opacity-80 transition-opacity"
-          >
-            View live site
-            <span aria-hidden>↗</span>
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-        )}
+      <div className="max-w-6xl mx-auto px-6 pb-20 pt-8">
+        <div className="pt-8 border-t border-maroon-100 flex items-center justify-between flex-wrap gap-4">
+          <Link prefetch={false} href="/work/" className={btnSecondary}>
+            <span aria-hidden className="text-primary transition-transform duration-200 ease-out-expo group-hover/btn:-translate-x-0.5 motion-reduce:transition-none">←</span>
+            All projects
+          </Link>
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={btnInk}>
+              View live site
+              <span aria-hidden className={btnArrow}>↗</span>
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          )}
+        </div>
       </div>
 
       {/* ── More Work ────────────────────────────────────────────── */}
       {otherProjects.length > 0 && (
-        <section className="bg-maroon-50 border-t border-maroon-100 py-20" aria-labelledby="more-work-heading">
+        <section className="bg-maroon-50 border-t border-maroon-100 py-20 md:py-24" aria-labelledby="more-work-heading">
           <div className="max-w-6xl mx-auto px-6">
-            <h2 id="more-work-heading" className="font-heading font-bold text-3xl text-foreground mb-10">More work</h2>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <h2 id="more-work-heading" className="display text-4xl md:text-5xl text-foreground mb-12">More work</h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {otherProjects.map(p => (
                 <li key={p.slug}>
                   <ProjectCard project={{ slug: p.slug, title: p.title, summary: p.summary, tags: p.tags, badge: p.badge, thumb: p.images.thumb }} />
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+      )}
+
+      {/* ── Next case study ──────────────────────────────────────── */}
+      {next && (
+        <section className="on-dark relative overflow-hidden bg-ink" aria-labelledby="next-project-heading">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{ background: 'radial-gradient(55% 75% at 12% 40%, rgba(124, 29, 46, 0.38), transparent 70%)' }}
+          />
+          <div className="group relative max-w-6xl mx-auto px-6 pt-20 md:pt-28 grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-10 md:gap-14 items-center">
+            <div>
+              <p className="eyebrow flex items-center gap-3 text-maroon-200">
+                <span aria-hidden className="h-px w-8 bg-maroon-200/60" />
+                Next case study
+              </p>
+              <h2 id="next-project-heading" className="display mt-5 text-[clamp(2.25rem,12.5vw,2.75rem)] sm:text-6xl lg:text-7xl text-white">
+                <Link
+                  prefetch={false}
+                  href={`/work/${next.slug}/`}
+                  className="transition-colors duration-200 group-hover:text-maroon-200 focus-visible:outline-none after:absolute after:inset-0 after:content-[''] focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:rounded-2xl focus-visible:after:outline-maroon-200"
+                >
+                  {next.title}
+                </Link>
+              </h2>
+              <p className="mt-5 max-w-md font-sans text-lg text-white/70 leading-relaxed line-clamp-3">{next.summary}</p>
+              <span aria-hidden className={`mt-8 ${btnLight}`}>
+                Read the case study
+                <span className={btnArrow}>→</span>
+              </span>
+            </div>
+            {next.images.thumb && (
+              <div className="rounded-[1.5rem] overflow-hidden ring-1 ring-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)] aspect-[16/10] bg-maroon-900">
+                <img
+                  src={next.images.thumb.src}
+                  srcSet={next.images.thumb.srcSet}
+                  sizes="(min-width: 1152px) 580px, (min-width: 768px) 52vw, calc(100vw - 48px)"
+                  width={next.images.thumb.width}
+                  height={next.images.thumb.height}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                />
+              </div>
+            )}
           </div>
         </section>
       )}

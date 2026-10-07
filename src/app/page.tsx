@@ -10,8 +10,9 @@ import HeroBackground from '@/components/HeroBackground'
 import BrowserWindow from '@/components/BrowserWindow'
 import HeroContent from '@/components/HeroContent'
 import ArticleSlider from '@/components/ArticleSlider'
-import ContactStrip from '@/components/ContactStrip'
+import SectionHeading from '@/components/SectionHeading'
 import { AnimateIn, StaggerIn, FadeItem } from '@/components/ui/animate-in'
+import { btnSecondary, btnArrow } from '@/components/ui/button'
 
 const DESCRIPTION =
   'Mitchell Anderson is a web developer in Brisbane building fast, accessible websites in Webflow, Shopify and Next.js, from UX and wireframes through to launch.'
@@ -86,7 +87,7 @@ export default function Home() {
       />
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section className="on-dark sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#100408]">
+      <section className="on-dark sticky top-0 z-0 h-screen w-full overflow-hidden bg-ink">
 
         <HeroBackground />
 
@@ -115,58 +116,63 @@ export default function Home() {
         />
 
         {/* Text — bottom-aligned, left column */}
-        <div className="relative z-30 h-full flex flex-col justify-end pb-24 px-10 md:px-16 lg:px-24">
+        <div className="relative z-30 h-full flex flex-col justify-end pb-24 md:pb-28 px-6 sm:px-10 md:px-16 lg:px-24">
           <HeroContent />
         </div>
 
         {/* Scroll nudge */}
-        <div aria-hidden className="absolute bottom-8 left-6 lg:left-10 z-30 flex items-center gap-3 opacity-40">
-          <div className="w-8 h-px bg-white" />
-          <span className="font-sans text-xs text-white tracking-widest uppercase">Scroll</span>
+        <div aria-hidden className="absolute bottom-10 left-6 sm:left-10 md:left-16 lg:left-24 z-30 hidden sm:flex items-center gap-3 text-white/50">
+          <span className="w-8 h-px bg-current" />
+          <span className="eyebrow">Scroll</span>
         </div>
 
       </section>
 
-      {/* ── Featured Work ─────────────────────────────────────────── */}
+      {/* ── Featured Work ─────────────────────────────────────────────
+          A light sheet with rounded top corners that slides up over the
+          sticky hero as the page scrolls. */}
       {featured.length > 0 && (
-        <section className="relative z-10 py-24 bg-card border-t border-maroon-100" aria-labelledby="featured-heading">
+        <section
+          className="relative z-10 pt-20 md:pt-28 pb-24 bg-card rounded-t-[2rem] md:rounded-t-[2.75rem] shadow-[0_-24px_60px_-24px_rgba(0,0,0,0.55)]"
+          aria-labelledby="featured-heading"
+        >
           <div className="max-w-6xl mx-auto px-6">
-            <AnimateIn className="flex items-end justify-between mb-10">
-              <div>
-                <p className="font-sans font-semibold text-sm tracking-widest uppercase text-primary mb-2">
-                  Selected Work
-                </p>
-                <h2 id="featured-heading" className="font-heading font-bold text-4xl md:text-5xl text-foreground">
-                  Featured Projects
-                </h2>
-              </div>
-              <Link
-                prefetch={false}
-                href="/work/"
-                className="hidden sm:inline-flex font-sans font-medium text-primary hover:text-maroon-700 transition-colors duration-200 text-sm"
-              >
-                View all →
-              </Link>
+            <AnimateIn className="mb-12 md:mb-14">
+              <SectionHeading
+                id="featured-heading"
+                index="01"
+                eyebrow="Selected work"
+                title="Featured Projects"
+                intro="Recent client builds. Flick between them, then open the full case study."
+                action={
+                  <Link prefetch={false} href="/work/" className={`hidden sm:inline-flex ${btnSecondary}`}>
+                    View all work
+                    <span aria-hidden className={`text-primary ${btnArrow}`}>→</span>
+                  </Link>
+                }
+              />
             </AnimateIn>
             <AnimateIn delay={0.1}>
               <BrowserWindow projects={featured} />
             </AnimateIn>
             {/* The mockup switches projects with tabs; these are plain links
-                to each case study for keyboard, screen reader and crawler use. */}
-            <nav aria-label="Featured case studies" className="sr-only">
-              <ul>
+                to each case study for keyboard, screen reader and crawler use.
+                Hidden until a keyboard user tabs into them, so focus is never invisible. */}
+            <nav aria-label="Featured case studies" className="sr-only focus-within:not-sr-only focus-within:block focus-within:mt-8">
+              <ul className="flex flex-wrap gap-x-6 gap-y-2">
                 {featured.map(p => (
-                  <li key={p.slug}><Link prefetch={false} href={`/work/${p.slug}/`}>{p.title} case study</Link></li>
+                  <li key={p.slug}>
+                    <Link prefetch={false} href={`/work/${p.slug}/`} className="inline-flex py-1 font-sans text-sm font-semibold text-primary underline underline-offset-[3px]">
+                      {p.title} case study
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </nav>
             <div className="mt-8 sm:hidden">
-              <Link
-                prefetch={false}
-                href="/work/"
-                className="inline-flex py-2 font-sans font-medium text-primary hover:text-maroon-700 transition-colors duration-200 text-sm"
-              >
-                View all work →
+              <Link prefetch={false} href="/work/" className={btnSecondary}>
+                View all work
+                <span aria-hidden className={`text-primary ${btnArrow}`}>→</span>
               </Link>
             </div>
           </div>
@@ -175,15 +181,22 @@ export default function Home() {
 
       {/* ── Articles ──────────────────────────────────────────────── */}
       {articles.length > 0 && (
-        <section className="relative z-10 py-24 bg-background border-t border-maroon-100" aria-labelledby="articles-heading">
+        <section className="relative z-10 py-24 md:py-28 bg-background border-t border-maroon-100" aria-labelledby="articles-heading">
           <div className="max-w-6xl mx-auto px-6">
-            <AnimateIn className="mb-10">
-              <p className="font-sans font-semibold text-sm tracking-widest uppercase text-primary mb-2">
-                Writing
-              </p>
-              <h2 id="articles-heading" className="font-heading font-bold text-4xl md:text-5xl text-foreground">
-                Articles
-              </h2>
+            <AnimateIn className="mb-12 md:mb-14">
+              <SectionHeading
+                id="articles-heading"
+                index="02"
+                eyebrow="Writing"
+                title="Articles"
+                intro="Notes on Webflow, Shopify and front-end development, from building sites for clients."
+                action={
+                  <Link prefetch={false} href="/articles/" className={btnSecondary}>
+                    All articles
+                    <span aria-hidden className={`text-primary ${btnArrow}`}>→</span>
+                  </Link>
+                }
+              />
             </AnimateIn>
             <AnimateIn delay={0.1}>
               <ArticleSlider articles={articles} />
@@ -193,47 +206,64 @@ export default function Home() {
       )}
 
       {/* ── Expertise ─────────────────────────────────────────────── */}
-      <section className="on-dark relative z-10 py-24 bg-[#100408]" aria-labelledby="expertise-heading">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] gap-16 items-start">
+      <section className="on-dark relative z-10 py-24 md:py-32 bg-ink overflow-hidden" aria-labelledby="expertise-heading">
+        {/* Soft wine glow behind the grid */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(60% 70% at 85% 30%, rgba(124, 29, 46, 0.28), transparent 70%)' }}
+        />
+        <div className="relative max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr] gap-14 lg:gap-16 items-start">
 
             {/* Left — heading block */}
             <AnimateIn className="lg:sticky lg:top-32">
-              <p className="font-sans font-semibold text-xs tracking-widest uppercase text-maroon-200 mb-4">
-                Expertise
-              </p>
-              <h2 id="expertise-heading" className="font-heading font-bold text-4xl md:text-5xl text-white leading-tight tracking-tight mb-5">
-                Building digital{' '}<br />experiences.
-              </h2>
-              <p className="font-sans text-base text-white/50 leading-relaxed max-w-xs">
-                End-to-end across design, development and strategy — from the first wireframe through to launch.
-              </p>
+              <SectionHeading
+                id="expertise-heading"
+                index="03"
+                eyebrow="Expertise"
+                tone="dark"
+                size="md"
+                title={<>Building digital{' '}<br />experiences.</>}
+                intro="End-to-end across design, development and strategy — from the first wireframe through to launch."
+              />
             </AnimateIn>
 
             {/* Right — 2×2 service grid. Only cards with a page react to hover. */}
             <StaggerIn
-              className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.06] rounded-2xl overflow-hidden"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.08] rounded-3xl overflow-hidden ring-1 ring-white/[0.08]"
               stagger={0.1}
               delayChildren={0.05}
             >
-              {EXPERTISE.map(item => (
+              {EXPERTISE.map((item, i) => (
                 <FadeItem
                   key={item.title}
-                  className={`relative flex flex-col bg-[#100408] p-8 ${'href' in item ? 'hover:bg-white/[0.04] transition-colors duration-200 group' : ''}`}
+                  className={`relative flex flex-col bg-ink p-8 md:p-9 min-h-[16rem] ${'href' in item ? 'group hover:bg-[#1a070c] transition-colors duration-300' : ''}`}
                 >
-                  <svg aria-hidden className="w-6 h-6 text-maroon-200 mb-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                  </svg>
-                  <h3 className="font-heading font-bold text-lg text-white mb-2">{item.title}</h3>
-                  <p className="font-sans text-sm text-white/50 leading-relaxed">{item.body}</p>
+                  {/* Accent line that draws across the top on hover */}
+                  {'href' in item && (
+                    <span aria-hidden className="absolute top-0 left-0 h-px w-0 bg-maroon-200 transition-[width] duration-500 ease-out-expo group-hover:w-full motion-reduce:transition-none" />
+                  )}
+                  <div className="flex items-start justify-between mb-8">
+                    <span aria-hidden className="w-12 h-12 rounded-2xl bg-white/[0.05] ring-1 ring-white/10 flex items-center justify-center text-maroon-200 transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                      </svg>
+                    </span>
+                    <span aria-hidden className="font-heading font-semibold text-sm text-white/55 tabular-nums">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h3 className="font-heading font-bold text-xl text-white mb-2.5">{item.title}</h3>
+                  <p className="font-sans text-[15px] text-white/65 leading-relaxed">{item.body}</p>
                   {'href' in item && (
                     <Link
                       prefetch={false}
                       href={item.href}
-                      className="mt-5 inline-flex items-center gap-1.5 self-start font-sans text-sm font-medium text-maroon-200 after:absolute after:inset-0 after:content-[''] group-hover:text-white transition-colors duration-200"
+                      className="mt-auto pt-6 inline-flex items-center gap-1.5 self-start font-sans text-sm font-semibold text-maroon-200 after:absolute after:inset-0 after:content-[''] group-hover:text-white transition-colors duration-200"
                     >
                       {item.linkLabel}
-                      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none">→</span>
                     </Link>
                   )}
                 </FadeItem>
@@ -243,7 +273,6 @@ export default function Home() {
         </div>
       </section>
 
-      <ContactStrip />
     </>
   )
 }

@@ -190,15 +190,15 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
 
   return (
     <div>
-      <div className="relative">
+      <div className="relative rounded-[1.25rem] ring-1 ring-maroon-100">
         <div
           ref={containerRef}
           role="region"
           aria-label={`Map of ${located.length} competitions attended`}
-          style={{ height: '380px', width: '100%', borderRadius: '0.75rem' }}
+          style={{ height: '380px', width: '100%', borderRadius: '1.25rem' }}
         />
         {/* Arrows to competitions off the edge of the map */}
-        <div className="pointer-events-none absolute inset-0 z-[450] overflow-hidden rounded-xl">
+        <div className="pointer-events-none absolute inset-0 z-[450] overflow-hidden rounded-[1.25rem]">
           {indicators.map(ind => {
             const label = `${ind.count} ${ind.count === 1 ? 'competition' : 'competitions'} to the ${compassName(ind.angle)}${ind.worlds ? ', including a World Championship' : ''}. Show on map`
             return (
@@ -238,7 +238,7 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
       </div>
 
       {/* Legend */}
-      <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2 font-sans text-xs text-muted-foreground">
+      <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-sans text-sm text-muted-foreground">
         <li className="flex items-center gap-2">
           <span aria-hidden className="w-3 h-3 rounded-full" style={{ background: COLOURS.competition }} />
           Competition ({located.length - worldsCount})
