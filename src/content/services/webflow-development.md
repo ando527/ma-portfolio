@@ -5,7 +5,7 @@ seoTitle: "Webflow Developer in Brisbane"
 seoDescription: "Webflow websites from Brisbane developer Mitchell Anderson: custom designs, a CMS your team can edit, structured data and SEO checked before launch."
 intro: "I design and build Webflow websites for businesses, not-for-profits and personal brands. At SLATE Media I lead client web projects end to end, and much of that work is built in Webflow."
 relatedTags: ["Webflow"]
-relatedArticles: ["ditching-wordpress-for-webflow"]
+relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist", "ditching-wordpress-for-webflow"]
 order: 1
 faqs:
   - question: "How long does a Webflow website take to build?"

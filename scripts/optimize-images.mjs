@@ -137,7 +137,7 @@ for (const dir of CONTENT) {
   if (!existsSync(dir)) continue
   for (const f of (await readdir(dir)).filter(f => f.endsWith('.md'))) {
     const { data } = matter(await readFile(join(dir, f), 'utf8'))
-    const hero = data.ogImage || data.heroImage
+    const hero = data.ogImage || data.heroImage || data.coverImage
     if (!hero) continue
     const source = findSource(hero)
     if (!source) { console.warn(`  ! ${f}: no original found for ${hero}`); continue }

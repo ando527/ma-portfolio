@@ -53,6 +53,7 @@ function useActive(ref: RefObject<HTMLElement | null>) {
 function useClock(active: boolean) {
   const [time, setTime] = useState<Date | null>(null)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the time must not be baked into the static HTML
     setTime(new Date())
     if (!active) return
     const t = setInterval(() => setTime(new Date()), 1000)
@@ -85,6 +86,7 @@ function NewTabPage({ compact = false }: { compact?: boolean }) {
   // A random fact per new tab; "Another fact" steps through the rest. (They
   // change on request rather than on a timer, so nothing updates by itself.)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- random per visit, so picked after hydration
     setFactIdx(Math.floor(Math.random() * FUN_FACTS.length))
   }, [])
 

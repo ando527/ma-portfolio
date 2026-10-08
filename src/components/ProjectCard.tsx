@@ -51,7 +51,7 @@ export default function ProjectCard({
         )}
 
         {project.badge && (
-          <span className={`absolute top-4 left-4 z-10 text-xs font-sans font-bold tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm ${BADGE_STYLES[project.badge] ?? 'bg-foreground text-white'}`}>
+          <span className={`pointer-events-none absolute top-4 left-4 z-10 text-xs font-sans font-bold tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm ${BADGE_STYLES[project.badge] ?? 'bg-foreground text-white'}`}>
             {project.badge}
           </span>
         )}
@@ -59,7 +59,7 @@ export default function ProjectCard({
         {/* Arrow that rises into the corner on hover */}
         <span
           aria-hidden
-          className="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-white text-ink shadow-lg flex items-center justify-center opacity-0 translate-y-1.5 transition-[opacity,transform] duration-300 ease-out-expo group-hover:opacity-100 group-hover:translate-y-0 motion-reduce:transition-none"
+          className="pointer-events-none absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-white text-ink shadow-lg flex items-center justify-center opacity-0 translate-y-1.5 transition-[opacity,transform] duration-300 ease-out-expo group-hover:opacity-100 group-hover:translate-y-0 motion-reduce:transition-none"
         >
           <svg className="w-4 h-4 -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

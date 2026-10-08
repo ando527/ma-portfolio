@@ -5,7 +5,7 @@ seoTitle: "Shopify Developer in Brisbane"
 seoDescription: "Custom Shopify themes from Brisbane developer Mitchell Anderson: hand-built Liquid sections, product pages people enjoy browsing, and mobile-first layouts."
 intro: "I build custom Shopify themes for brands that have outgrown a stock template, so the store feels made for its audience rather than modified from someone else's."
 relatedTags: ["Shopify"]
-relatedArticles: []
+relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist"]
 order: 2
 faqs:
   - question: "Do you build custom Shopify themes or modify existing ones?"

@@ -41,3 +41,10 @@ next-env.d.ts
 
 # internal specs (not for repo)
 spec-*.md
+assets/linkedin/banner.html
+assets/linkedin/linkedin-banner-guide.png
+assets/linkedin/linkedin-banner.png
+assets/linkedin/linkedin-banner@2x.png
+assets/linkedin/fonts/archivo-latin.woff2
+assets/linkedin/fonts/space-grotesk-latin.woff2
+scripts/make-linkedin-banner.mjs

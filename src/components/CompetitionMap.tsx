@@ -82,7 +82,11 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
   const compsRef     = useRef(competitions)
   const [indicators, setIndicators] = useState<Indicator[]>([])
 
-  compsRef.current = competitions
+  // Keep the latest list for the map callbacks. Declared before the effects
+  // that draw markers, so it's current by the time they run.
+  useEffect(() => {
+    compsRef.current = competitions
+  }, [competitions])
 
   const refreshIndicators = useCallback(() => {
     if (frameRef.current) return

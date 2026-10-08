@@ -13,6 +13,11 @@ originalUrl: "https://www.slatemedia.com.au/newsletters/why-more-and-more-compan
 canonicalToOriginal: true
 tags: ["Webflow", "WordPress", "Migration"]
 coverText: "WordPress to Webflow"
+# The same image as heroImage, shown behind the cover text and gradient on
+# article cards so they match the other articles. heroImage still heads the
+# article page and makes its share image.
+coverImage: "/images/articles/wordpress-to-webflow.jpg"
+coverPosition: "right center"
 # Add the article image to assets/images/articles/ and run `npm run images`,
 # then set heroImage to "/images/articles/<filename>" and describe it in heroAlt.
 heroImage: "/images/articles/wordpress-to-webflow.jpg"

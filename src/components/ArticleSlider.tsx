@@ -1,13 +1,14 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react'
 import Link from 'next/link'
 import ArticleCover from '@/components/ArticleCover'
 import type { ArticleCardData } from '@/lib/types'
 
 // Homepage articles. One article gets a wide feature card; two or more become
 // a scroll-snap row with previous/next buttons. The row scrolls natively
-// (touch, trackpad, keyboard), and the buttons only appear when it overflows.
+// (touch, trackpad, keyboard), can be dragged with a mouse, and the buttons
+// only appear when it overflows.
 
 function Meta({ article }: { article: ArticleCardData }) {
   return (
@@ -60,7 +61,8 @@ export function FeatureCard({ article, headingAs: Heading = 'h3' }: { article: A
   )
 }
 
-function SlideCard({ article }: { article: ArticleCardData }) {
+/** A tall card for the slider, also used in case studies' article lists. */
+export function ArticleCard({ article }: { article: ArticleCardData }) {
   return (
     <article className={`${CARD} flex flex-col h-full`}>
       <div className="aspect-[16/10]">
@@ -118,13 +120,62 @@ export default function ArticleSlider({ articles }: { articles: ArticleCardData[
     }
   }, [update])
 
+  const behavior = (): ScrollBehavior =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+
   const scroll = (dir: 1 | -1) => {
     const el = trackRef.current
     if (!el) return
     const card = el.querySelector('li')
     const step = card ? card.getBoundingClientRect().width + 24 : el.clientWidth * 0.8
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    el.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' })
+    el.scrollBy({ left: dir * step, behavior: behavior() })
+  }
+
+  // Mouse dragging. Touch and trackpads already scroll natively, so only a
+  // mouse is handled here. Snapping is off while dragging, and on release the
+  // row settles on the nearest card, nudged one card in the direction of a
+  // decent drag so a short flick still moves on.
+  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null)
+  const suppressClick = useRef(false)
+  const [dragging, setDragging] = useState(false)
+
+  const onPointerDown = (e: PointerEvent<HTMLUListElement>) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return
+    drag.current = { x: e.clientX, left: e.currentTarget.scrollLeft, moved: false }
+  }
+
+  const onPointerMove = (e: PointerEvent<HTMLUListElement>) => {
+    const d = drag.current
+    if (!d) return
+    const dx = e.clientX - d.x
+    if (!d.moved) {
+      if (Math.abs(dx) < 6) return
+      d.moved = true
+      setDragging(true)
+      e.currentTarget.setPointerCapture(e.pointerId)
+    }
+    e.currentTarget.scrollLeft = d.left - dx
+  }
+
+  const endDrag = (e: PointerEvent<HTMLUListElement>) => {
+    const d = drag.current
+    drag.current = null
+    if (!d?.moved) return
+    const el = e.currentTarget
+    suppressClick.current = true
+    setTimeout(() => { suppressClick.current = false }, 0)
+
+    const edge = el.getBoundingClientRect().left + 24
+    const stops = Array.from(el.querySelectorAll('li'), li => el.scrollLeft + li.getBoundingClientRect().left - edge)
+    const dx = d.left - el.scrollLeft
+    let i = stops.reduce((best, s, n) => (Math.abs(s - el.scrollLeft) < Math.abs(stops[best] - el.scrollLeft) ? n : best), 0)
+    if (Math.abs(dx) > 40) {
+      const startIndex = stops.reduce((best, s, n) => (Math.abs(s - d.left) < Math.abs(stops[best] - d.left) ? n : best), 0)
+      if (i === startIndex) i = Math.min(Math.max(i + (dx < 0 ? -1 : 1), 0), stops.length - 1)
+    }
+    const max = el.scrollWidth - el.clientWidth
+    el.scrollTo({ left: Math.min(Math.max(stops[i], 0), max), behavior: behavior() })
+    setDragging(false)
   }
 
   if (articles.length === 0) return null
@@ -140,14 +191,30 @@ export default function ArticleSlider({ articles }: { articles: ArticleCardData[
           <ArrowButton dir="next" disabled={edges.end} onClick={() => scroll(1)} />
         </div>
       )}
+      {/* The track has to clip horizontally to scroll, which clips vertically
+          too, so the bottom padding leaves room for the cards' hover shadow
+          and the negative margin takes that space back out of the layout. */}
       <ul
         ref={trackRef}
-        className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2 -mx-6 px-6 scroll-px-6"
+        className={`flex gap-6 overflow-x-auto scrollbar-none pb-16 -mb-14 -mx-6 px-6 scroll-px-6 ${
+          dragging ? 'snap-none select-none cursor-grabbing [&_*]:cursor-grabbing' : 'snap-x snap-mandatory'
+        } ${overflowing && !dragging ? 'cursor-grab' : ''}`}
         aria-label="Articles"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onDragStart={e => e.preventDefault()}
+        onClickCapture={e => {
+          if (suppressClick.current) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }}
       >
         {articles.map(article => (
           <li key={article.slug} className="snap-start shrink-0 w-[85%] sm:w-[440px]">
-            <SlideCard article={article} />
+            <ArticleCard article={article} />
           </li>
         ))}
       </ul>

@@ -31,6 +31,11 @@ export interface Article {
   heroImage?: string
   heroAlt: string
   image?: ImageData
+  /** A photo shown behind coverText and its gradient on article cards.
+   *  Unlike heroImage it never shows on its own, so the cards keep the same
+   *  type-led look. coverPosition sets which part of it stays in frame. */
+  coverImage?: ImageData
+  coverPosition?: string
   ogImage?: string
   relatedServices: string[]
   content: string
@@ -58,6 +63,8 @@ function parse(slug: string, raw: string): Article {
     heroImage: data.heroImage || undefined,
     heroAlt: data.heroAlt || '',
     image: maybeImage(data.heroImage),
+    coverImage: maybeImage(data.coverImage),
+    coverPosition: data.coverPosition || undefined,
     ogImage: fs.existsSync(ogFile) ? `/images/og/${slug}.jpg` : undefined,
     relatedServices: data.relatedServices || [],
     content,
@@ -78,6 +85,14 @@ export function getArticleBySlug(slug: string): Article | null {
   return fs.existsSync(file) ? parse(slug, fs.readFileSync(file, 'utf8')) : null
 }
 
+/** Published articles whose text links to a page, e.g. "/work/sippy-tom/",
+ *  newest first. Matches the path with or without its trailing slash. */
+export function getArticlesLinkingTo(pagePath: string): Article[] {
+  const bare = pagePath.replace(/\/$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const link = new RegExp(`${bare}(?=[/)#?"'\\s])`)
+  return getAllArticles().filter(a => a.hasBody && link.test(a.content))
+}
+
 /** The fields an article card needs (homepage slider, /articles/). */
 export function toArticleCard(a: Article): ArticleCardData {
   return {
@@ -90,6 +105,8 @@ export function toArticleCard(a: Article): ArticleCardData {
     coverText: a.coverText,
     image: a.image,
     imageAlt: a.heroAlt,
+    coverImage: a.coverImage,
+    coverPosition: a.coverPosition,
   }
 }
 

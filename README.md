@@ -11,6 +11,8 @@ Next.js site exported as static files (`output: 'export'`) and served by Digital
 | `npm run serve` | Serves `out/` at http://localhost:4173 the way a static host would, applying `public/_headers` |
 | `npm run images` | Turns originals in `assets/images/` into the WebP files and sizes the site serves |
 | `npm run wca` | Refreshes the speedcubing cache on its own |
+| `npm run covers` | Rebuilds the composite article cover photos from their screenshots |
+| `npm run screenshot:home` | Screenshots the homepage (from `npm run serve`) for the platform article's cover |
 
 ## Adding an image
 
@@ -28,6 +30,12 @@ Create `src/content/projects/<slug>.md` (copy an existing one for the front matt
 ## Adding an article
 
 Create `src/content/articles/<slug>.md` with the front matter from the existing article. It publishes at `/articles/<slug>/` and joins the homepage slider. While the body is empty the page shows the summary and links to `originalUrl`, and stays out of search results and the sitemap.
+
+### Article covers
+
+Article cards show `coverText` on a dark panel. Add `coverImage` (and optionally `coverPosition`, default `right center`) to put a photo behind the text and its gradient. The gradient is solid on the left, so the subject should sit on the right. `heroImage` is different: it replaces the cover with a plain photo and no text.
+
+Two covers are composites of screenshots, built by `scripts/make-article-covers.mjs`: the launch checklist's phones (from the Speedcubing Australia mobile screenshot) and the platform article's browser windows (this site, We Got The Chocolates and Sippy Tom). If one of those screenshots changes, run `npm run covers` then `npm run images`. This site's screenshot lives in `assets/covers/home.png`, outside `assets/images/` so it isn't published; refresh it with `npm run screenshot:home` while `npm run serve` is running.
 
 ## Service pages
 

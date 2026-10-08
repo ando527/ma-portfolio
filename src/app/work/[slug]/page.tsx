@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getAllProjects, getProjectBySlug, type Project } from '@/lib/projects'
 import { getAllServices } from '@/lib/services'
+import { getArticlesLinkingTo, toArticleCard } from '@/lib/articles'
 import { renderMarkdown } from '@/lib/markdown'
 import { pageMetadata, absoluteUrl } from '@/lib/site'
 import { graph, breadcrumbNode, refs } from '@/lib/schema'
@@ -9,6 +10,7 @@ import JsonLd from '@/components/JsonLd'
 import PageHero from '@/components/PageHero'
 import BrowserFrame from '@/components/BrowserFrame'
 import ProjectCard from '@/components/ProjectCard'
+import { ArticleCard } from '@/components/ArticleSlider'
 import ProseLayout, { OnThisPage, AsideCard } from '@/components/ProseLayout'
 import ReducedMotionVideos from '@/components/ReducedMotionVideos'
 import BeforeAfter from '@/components/BeforeAfter'
@@ -65,6 +67,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const next = all.length > 1 ? all[(index + 1) % all.length] : undefined
   const otherProjects = all.filter(p => p.slug !== slug && p.slug !== next?.slug).slice(0, 3)
   const services = relatedServices(project)
+  const articles = getArticlesLinkingTo(`/work/${slug}/`).map(toArticleCard)
   const { hero, before } = project.images
   const url = absoluteUrl(`/work/${slug}/`)
 
@@ -236,6 +239,24 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </>
           }
         />
+      )}
+
+      {/* ── Articles that link to this case study ───────────────── */}
+      {articles.length > 0 && (
+        <section className="max-w-6xl mx-auto px-6 pt-12 md:pt-16 pb-8" aria-labelledby="articles-heading">
+          <AnimateIn>
+            <h2 id="articles-heading" className={`${LABEL} mb-6`}>
+              {articles.length === 1 ? 'An article' : 'Articles'} featuring {project.title}
+            </h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {articles.map(a => (
+                <li key={a.slug}>
+                  <ArticleCard article={a} />
+                </li>
+              ))}
+            </ul>
+          </AnimateIn>
+        </section>
       )}
 
       {/* ── Footer CTA ───────────────────────────────────────────── */}

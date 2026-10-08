@@ -54,6 +54,9 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
     const params = new URLSearchParams(window.location.search)
     const s = params.get('show')
     const o = params.get('sort') as Sort | null
+    // The static HTML renders the default view; the URL is only known in the
+    // browser, so it's applied after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value, read after hydration
     if (s && filters.some(f => f.id === s)) setShow(s)
     if (o && SORTS.some(x => x.id === o)) setSort(o)
   }, [filters])

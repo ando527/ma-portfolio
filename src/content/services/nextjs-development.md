@@ -5,7 +5,7 @@ seoTitle: "Next.js Developer in Brisbane"
 seoDescription: "Front-end development in Next.js and React from Brisbane developer Mitchell Anderson: fast static sites, live API data, accessible interfaces and clean SEO."
 intro: "When a project needs more than a visual builder allows, I build it in code. The site you're reading is one example: a Next.js site exported as static files, with no server to keep patched."
 relatedTags: ["API Integration"]
-relatedArticles: []
+relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist"]
 order: 3
 faqs:
   - question: "Should my site be built in Next.js or Webflow?"

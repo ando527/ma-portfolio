@@ -44,4 +44,8 @@ export interface ArticleCardData {
   coverText: string
   image?: ImageData
   imageAlt: string
+  /** Photo behind the cover text and gradient, used when there's no image. */
+  coverImage?: ImageData
+  /** CSS object-position for coverImage, e.g. "right center". */
+  coverPosition?: string
 }

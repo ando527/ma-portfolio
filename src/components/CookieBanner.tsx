@@ -10,14 +10,17 @@ type Props = {
 export default function CookieBanner({ onConsent }: Props) {
   const [visible, setVisible] = useState(false)
 
+  // The stored choice only exists in the browser, so it's read after mount
+  // (the static HTML always renders without the banner), and only once.
   useEffect(() => {
     const stored = localStorage.getItem('cookie_consent')
     if (stored === null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value, read after hydration
       setVisible(true)
     } else {
       onConsent(stored === 'true')
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- run once on load
 
   const handleChoice = (granted: boolean) => {
     localStorage.setItem('cookie_consent', String(granted))
