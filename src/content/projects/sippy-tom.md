@@ -20,8 +20,6 @@ client: "Sippy Tom — Teneriffe, Brisbane"
 role: "Webflow Developer"
 year: "2025"
 deliverables:
-  - "New logo and typography system"
-  - "Branded takeaway cups, coasters & A-frames"
   - "Full Webflow website build"
   - "CMS-managed seasonal menus"
   - "Booking system embed"
