@@ -53,7 +53,7 @@ Before writing a line of code, the brand was refreshed. The old logo was a gener
 
 ![The old Sippy Tom serif wordmark beside the new chunky orange retro logo](/images/case-studies/sippy-tom-logos.png)
 
-The brand was rolled out immediately to physical touchpoints — takeaway cups, coasters, and A-frame signs — so the new look launched simultaneously across digital and physical. This brand refresh was led by the in-house graphic designer at SLATE, leaving me to run the website build from start to finish.
+The brand was rolled out immediately to physical touchpoints — takeaway cups, coasters, and A-frame signs — so the new look launched simultaneously across digital and physical. This brand refresh was led by the in-house graphic designer at SLATE, Amelie, leaving me to run the website build from start to finish. [Read more about her brand refresh here.](https://ameliebuckley.com/portfolio/sippy-tom-brand-refresh)
 
 
 
