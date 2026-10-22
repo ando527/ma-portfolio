@@ -178,12 +178,12 @@ function MiniCaseStudy({ project, imageSizes }: { project: FeaturedProject; imag
         <h3 className="font-heading font-bold text-xl text-foreground tracking-tight mb-1">{project.title}</h3>
         {project.dateLabel && <p className="font-sans text-xs text-muted-foreground mb-3">{project.dateLabel}</p>}
         <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-5">{project.summary}</p>
-        {project.sections.length > 0 && (
+        {project.preview.length > 0 && (
           <div className="space-y-4 border-t border-maroon-100 pt-5">
-            {project.sections.map(({ heading, body }) => (
+            {project.preview.map(({ heading, body }) => (
               <div key={heading}>
                 <h4 className="font-heading font-semibold text-sm text-foreground uppercase tracking-widest mb-2">{heading}</h4>
-                <p className="font-sans text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
+                <p className="font-sans text-sm text-muted-foreground leading-relaxed">{body}</p>
               </div>
             ))}
           </div>

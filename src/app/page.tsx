@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getAllProjects, getPreviewSections, formatMonth } from '@/lib/projects'
+import { getAllProjects, formatMonth } from '@/lib/projects'
 import { getAllArticles, toArticleCard } from '@/lib/articles'
 import { getImage } from '@/lib/images'
 import { pageMetadata } from '@/lib/site'
@@ -67,7 +67,7 @@ export default function Home() {
       summary: p.summary,
       favicon: p.favicon || '',
       hero: p.images.hero,
-      sections: getPreviewSections(p.content),
+      preview: p.preview,
     }))
 
   const articles: ArticleCardData[] = getAllArticles().map(toArticleCard)

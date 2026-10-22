@@ -8,6 +8,11 @@ export interface ProjectStat {
   value: string
 }
 
+export interface ProjectPreviewSection {
+  heading: string
+  body: string
+}
+
 export interface Project {
   slug: string
   title: string
@@ -16,6 +21,12 @@ export interface Project {
   thumbnail: string
   heroImage: string
   summary: string
+  /**
+   * A longer summary for the homepage project browser only, written apart
+   * from the case study so the homepage doesn't duplicate its copy. Never
+   * shown on the case study page.
+   */
+  preview: ProjectPreviewSection[]
   featured: boolean
   /** 0–100: how involved the project was. Drives the "Most involved" sort. */
   effort: number
@@ -63,6 +74,7 @@ function parseProject(slug: string, fileContents: string): Project {
     thumbnail,
     heroImage,
     summary: data.summary || '',
+    preview: data.preview || [],
     featured: data.featured || false,
     effort: Number(data.effort) || 0,
     content,
@@ -110,32 +122,6 @@ export function getProjectBySlug(slug: string): Project | null {
   const fullPath = path.join(projectsDir, `${slug}.md`)
   if (!fs.existsSync(fullPath)) return null
   return parseProject(slug, fs.readFileSync(fullPath, 'utf8'))
-}
-
-/**
- * The first few "## " sections of a case study as plain text, for the
- * homepage preview. Done at build time so the full markdown never ships to
- * the browser.
- */
-export function getPreviewSections(content: string, count = 3): { heading: string; body: string }[] {
-  const sections: { heading: string; lines: string[] }[] = []
-  for (const line of content.split('\n')) {
-    if (line.startsWith('## ')) sections.push({ heading: line.replace(/^##\s+/, ''), lines: [] })
-    else if (sections.length) sections[sections.length - 1].lines.push(line.replace(/^###\s+/, ''))
-  }
-  return sections.slice(0, count).map(({ heading, lines }) => ({
-    heading,
-    body: lines.join('\n')
-      .replace(/<[^>]+>/g, '')                    // HTML (figures, video)
-      .replace(/!\[.*?\]\(.*?\)/g, '')            // images
-      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')    // links → text
-      .replace(/`([^`]+)`/g, '$1')
-      .replace(/\*\*(.*?)\*\*/g, '$1')
-      .replace(/\*(.*?)\*/g, '$1')
-      .replace(/^>\s?/gm, '')
-      .replace(/\n{3,}/g, '\n\n')
-      .trim() || '—',
-  }))
 }
 
 /** "2026-10" → "October 2026" */

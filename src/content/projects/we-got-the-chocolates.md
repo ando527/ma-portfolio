@@ -6,6 +6,13 @@ thumbnail: "/images/case-studies/wgtc-hero.jpg"
 heroImage: "/images/case-studies/wgtc-hero.jpg"
 beforeImage: "/images/case-studies/wgtc-before.jpg"
 summary: "A custom Shopify build for one of Australia's fastest-growing comedy podcasts — dark, bold, and packed with surprises."
+# Homepage project browser only, never shown on the case study page. Written
+# fresh rather than copied from below, so the homepage doesn't duplicate it.
+preview:
+  - heading: "The Brief"
+    body: "A comedy podcast with half a million Instagram followers had a website that felt nothing like the show. They wanted a Shopify store and fan hub as loud and as Australian as the hosts."
+  - heading: "Built to Be Played With"
+    body: "I built a custom Shopify theme with tilting product cards, diagonal marquee banners and a video hero. Five chocs icons are hidden around the page, and finding all of them unlocks a discount code, which listeners shared all over Instagram."
 seoTitle: "We Got The Chocolates: Custom Shopify Store"
 seoDescription: "A custom Shopify theme for comedy podcast We Got The Chocolates, with animated product cards, marquee banners and a hidden five-icon easter egg."
 heroAlt: "The We Got The Chocolates homepage: two hosts laughing in a studio full of trophies, under the line “Arrive by accident, stay for a laugh”"

@@ -6,6 +6,13 @@ thumbnail: "/images/case-studies/vitalis-hero.webp"
 heroImage: "/images/case-studies/vitalis-hero.png"
 beforeImage: "/images/case-studies/vitalis-before.webp"
 summary: "A homepage redesign for a wellbeing and high-performance coaching company: a clean bento layout, a navy gradient and restrained hints of their brand orange, designed and built in Webflow in about two weeks."
+# Homepage project browser only, never shown on the case study page. Written
+# fresh rather than copied from below, so the homepage doesn't duplicate it.
+preview:
+  - heading: "The Brief"
+    body: "Vitalis Institute brings coaching methods from elite sport and finance to everyday professionals, and sells to executives who expect polish. The old homepage was moody and soft, and never quite said what Vitalis does."
+  - heading: "Calm, Clear and Still Theirs"
+    body: "I redesigned it as a bento layout of rounded cards, each with one job, set on a deep navy gradient that saves the bold brand orange for buttons and headings. Designed and built in Webflow in about two weeks."
 seoTitle: "Vitalis Institute: Webflow Homepage Redesign"
 seoDescription: "Redesigning the Vitalis Institute homepage in Webflow: a clean bento layout, a navy gradient and careful use of the brand orange for a professional audience."
 heroAlt: "The new Vitalis Institute homepage: an orange announcement bar above a rounded hero card showing the Story Bridge at dusk under a navy gradient, with the headline “Build greater capacity for the way you live and work”"

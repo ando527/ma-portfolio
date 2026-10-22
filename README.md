@@ -25,7 +25,7 @@ If an image is referenced but hasn't been through step 2, the build fails and sa
 
 ## Adding a case study
 
-Create `src/content/projects/<slug>.md` (copy an existing one for the front matter). It appears on `/work/`, in the footer, the sitemap and `llms.txt` automatically, and gets a 1200×630 share image the next time `npm run images` runs. `seoTitle`, `seoDescription`, `heroAlt` and `beforeAlt` are optional but worth filling in. `effort` (0–100) sets its place in the Work page's "Most involved" sort and isn't shown anywhere.
+Create `src/content/projects/<slug>.md` (copy an existing one for the front matter). It appears on `/work/`, in the footer, the sitemap and `llms.txt` automatically, and gets a 1200×630 share image the next time `npm run images` runs. `seoTitle`, `seoDescription`, `heroAlt` and `beforeAlt` are optional but worth filling in. `effort` (0–100) sets its place in the Work page's "Most involved" sort and isn't shown anywhere. `preview` (two short sections, each a `heading` and `body`) is what the homepage project browser shows for a featured project. It's never shown on the case study page, so write it fresh rather than copying from the body, to keep the homepage from duplicating the case study.
 
 ## Adding an article
 

@@ -31,7 +31,8 @@ export interface FeaturedProject {
   summary: string
   favicon: string
   hero?: ImageData
-  sections: { heading: string; body: string }[]
+  /** The `preview` frontmatter: written for the homepage, not taken from the case study. */
+  preview: { heading: string; body: string }[]
 }
 
 export interface ArticleCardData {

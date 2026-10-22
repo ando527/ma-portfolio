@@ -6,6 +6,13 @@ thumbnail: "/images/case-studies/sippy-tom-after.jpg"
 heroImage: "/images/case-studies/sippy-tom-after.jpg"
 beforeImage: "/images/case-studies/sippy-tom-before.jpg"
 summary: "A complete brand refresh and Webflow site for a boutique Brisbane cafe — delivered in two days to meet a tight budget."
+# Homepage project browser only, never shown on the case study page. Written
+# fresh rather than copied from below, so the homepage doesn't duplicate it.
+preview:
+  - heading: "The Brief"
+    body: "A Teneriffe cafe whose website felt nothing like the room: muted, dated and missing the warmth that keeps regulars coming back. They needed a new look and a working site, on a small budget."
+  - heading: "Two Days, Start to Finish"
+    body: "With SLATE's designer handling the new retro brand, I built the Webflow site around it in the same two-day window: menus the staff update themselves, ResDiary bookings and a functions page, launched alongside the new cups and signage."
 seoTitle: "Sippy Tom: Webflow Website & Brand Refresh"
 seoDescription: "How a Teneriffe cafe got a new brand, takeaway cups, signage and a CMS-driven Webflow website with ResDiary bookings, all delivered in two days."
 heroAlt: "The new Sippy Tom homepage: an orange retro wordmark, a coffee pour and a plate of food in rounded frames, and the seasonal menu below"

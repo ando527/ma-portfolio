@@ -6,6 +6,13 @@ thumbnail: "/images/case-studies/sca-2026-hero.webp"
 heroImage: "/images/case-studies/sca-2026-hero.jpg"
 beforeImage: "/images/case-studies/sca-hero.png"
 summary: "I built Speedcubing Australia's website in 2023. Three years later I redesigned it on a refreshed brand, with live WCA competition data, rebuilt records pages and a full accessibility and SEO pass before launch."
+# Homepage project browser only, never shown on the case study page. Written
+# fresh rather than copied from below, so the homepage doesn't duplicate it.
+preview:
+  - heading: "Round Two"
+    body: "Three years after my first build, Speedcubing Australia had a refreshed brand and a clearer picture of who visits: parents, schools and venues who have never seen a competition. As the organisation's Website Coordinator, I redesigned the site around them."
+  - heading: "Live Data and a Cube That Solves Itself"
+    body: "Competitions now arrive straight from the WCA's API, and the homepage only promotes events with spots left. Add 25 record pages, an accessibility and SEO audit, and a 404 page with a 3D cube that unscrambles itself. It launched at #1 on Google Australia."
 seoTitle: "Speedcubing Australia 2026 Website Redesign"
 seoDescription: "Redesigning Speedcubing Australia's Webflow site: live WCA competition data, 25 national record pages, a self-solving cube 404 page and a full SEO pass."
 heroAlt: "The 2026 Speedcubing Australia homepage: two young competitors at a table, a green and yellow sticker pattern, and the headline “Speedcubing competitions, right across Australia”"

@@ -226,9 +226,13 @@
 
 /* ── Entrance on page load (no JavaScript needed) ─────────────────────────────
    Used for above-the-fold text so it paints as soon as the HTML arrives,
-   instead of waiting for React to hydrate. Stagger with --enter-delay. */
+   instead of waiting for React to hydrate. Stagger with --enter-delay.
+   Starts at 0.01 rather than 0: Chrome skips fully transparent text when
+   timing Largest Contentful Paint, so a hero that fades in from 0 isn't
+   counted until something else repaints it (on the About page, the heading
+   font arriving seconds later). 0.01 looks the same and is counted at first paint. */
 @keyframes enter-up {
-  from { opacity: 0; transform: translateY(20px); filter: blur(6px); }
+  from { opacity: 0.01; transform: translateY(20px); filter: blur(6px); }
   to   { opacity: 1; transform: none; filter: blur(0); }
 }
 

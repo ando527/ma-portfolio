@@ -58,6 +58,22 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
   const [fading,   setFading]   = useState<Set<number>>(new Set())
   // The visitor can stop the floating and swapping (WCAG 2.2.2).
   const [paused,   setPaused]   = useState(false)
+  // The photos are decorative, so they aren't in the HTML: they start loading
+  // once the page has, instead of competing with the fonts and heading for
+  // bandwidth (they were holding mobile LCP back by seconds). Each slot fades
+  // in when its photo arrives.
+  const [started,  setStarted]  = useState(false)
+  const [loaded,   setLoaded]   = useState<Set<number>>(new Set())
+
+  useEffect(() => {
+    const start = () => setStarted(true)
+    if (document.readyState === 'complete') {
+      const t = setTimeout(start)
+      return () => clearTimeout(t)
+    }
+    window.addEventListener('load', start, { once: true })
+    return () => window.removeEventListener('load', start)
+  }, [])
 
   const rootRef     = useRef<HTMLDivElement>(null)
   const swapQueue   = useRef<number[]>([])
@@ -70,7 +86,7 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
   //    visitor hasn't paused it or asked for reduced motion ──────────────────
   useEffect(() => {
     const root = rootRef.current
-    if (!root || paused || images.length <= SLOTS.length / 2) return
+    if (!root || !started || paused || images.length <= SLOTS.length / 2) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     let timer: ReturnType<typeof setInterval> | undefined
@@ -129,7 +145,7 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
       // A swap cut short mid-fade shouldn't leave its slot blank.
       setFading(new Set())
     }
-  }, [images, paused])
+  }, [images, paused, started])
 
   // ── Mouse parallax: runs only while the photos are catching up to the
   //    cursor, and not at all on touch screens or with reduced motion ────────
@@ -225,11 +241,11 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
             <div
               className="collage-frame"
               style={{
-                opacity:      fading.has(i) ? 0 : 1,
+                opacity:      fading.has(i) || !loaded.has(i) ? 0 : 1,
                 transition:   `opacity ${FADE_DURATION}ms ease`,
               }}
             >
-              <img
+              {started && <img
                 src={img.src}
                 srcSet={img.srcSet}
                 sizes={SIZES}
@@ -242,7 +258,8 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
                 loading={m ? undefined : 'lazy'}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 draggable={false}
-              />
+                onLoad={() => setLoaded(prev => (prev.has(i) ? prev : new Set(prev).add(i)))}
+              />}
             </div>
           </div>
         </div>

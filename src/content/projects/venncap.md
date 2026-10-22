@@ -6,6 +6,13 @@ thumbnail: "/images/case-studies/venncap-after.jpg"
 heroImage: "/images/case-studies/venncap-after.jpg"
 beforeImage: "/images/case-studies/venncap-before.jpg"
 summary: "A full brand identity overhaul and Webflow rebuild for a specialist real estate investment firm managing $0.93bn in assets."
+# Homepage project browser only, never shown on the case study page. Written
+# fresh rather than copied from below, so the homepage doesn't duplicate it.
+preview:
+  - heading: "The Gap"
+    body: "VennCap manages close to a billion dollars for investors across Australia and New Zealand, but its template site and stock photos said none of that. Visitors couldn't easily find the track record, the team or what was up for lease."
+  - heading: "An Investment-Grade Rebuild"
+    body: "On a new brand with a geometric V-mark and a dark editorial palette, I built the Webflow site around its three audiences: investors, tenants and partners. Property case studies, team bios and tenancy pages all use real aerial photography."
 seoTitle: "VennCap Real Estate: Webflow Website Build"
 seoDescription: "A Webflow rebuild for VennCap Real Estate, an investment firm managing $0.93bn: property case studies, team profiles and tenancy pages on a new brand."
 heroAlt: "The new VennCap homepage: an aerial photo of Sydney's CBD and harbour under the white V-mark logo"

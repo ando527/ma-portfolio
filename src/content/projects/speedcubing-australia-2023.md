@@ -6,6 +6,13 @@ thumbnail: "/images/case-studies/sca-hero.webp"
 heroImage: "/images/case-studies/sca-hero.png"
 beforeImage: "/images/case-studies/speedcubing-before.jpg"
 summary: "The original 2023 Webflow build for Australia's national speedcubing organisation — interactive competition map, live records database, and community-driven CMS."
+# Homepage project browser only, never shown on the case study page. Written
+# fresh rather than copied from below, so the homepage doesn't duplicate it.
+preview:
+  - heading: "From a Grey Page of Links"
+    body: "Australia's speedcubing body is run entirely by volunteers, and in 2023 its website was a single plain page with a spinning cube GIF. Nothing could change without someone editing HTML."
+  - heading: "A Community Hub in Webflow"
+    body: "I designed a bright system drawn from the cube's own colours, then built a competition finder with list and map views and a records database where every national record has its solve video and the holder's own words. The committee runs it all from the CMS."
 seoTitle: "Speedcubing Australia 2023 Webflow Build"
 seoDescription: "The original 2023 Webflow build for Speedcubing Australia: a competition map, a national records database and a CMS volunteers run themselves."
 heroAlt: "The 2023 Speedcubing Australia homepage: a competitor solving a cube beside a stackmat timer reading 10.744"
