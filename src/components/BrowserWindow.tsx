@@ -238,8 +238,13 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
     requestAnimationFrame(() => tabRefs.current[nextActive]?.focus())
   }
 
-  // Arrow keys move between tabs (WAI-ARIA tabs pattern).
+  // Arrow keys move between tabs and Delete closes one (WAI-ARIA tabs pattern).
   const onTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    if (e.key === 'Delete' && tabs.length > 1) {
+      e.preventDefault()
+      closeTab(i)
+      return
+    }
     const last = tabs.length - 1
     const target =
       e.key === 'ArrowRight' ? (i === last ? 0 : i + 1) :
@@ -291,6 +296,7 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
                   id={`browser-tab-${tabKey(tab)}`}
                   aria-selected={selected}
                   aria-controls={panelId}
+                  aria-keyshortcuts={tabs.length > 1 ? 'Delete' : undefined}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => switchTab(i)}
                   onKeyDown={e => onTabKeyDown(e, i)}
@@ -306,19 +312,22 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
                   }
                   <span className="truncate flex-1 text-left">{tabTitle(tab)}</span>
                 </button>
+                {/* A tablist may only contain tabs, so the × is a pointer
+                    shortcut hidden from assistive tech; keyboard and screen
+                    reader users close a tab with Delete (aria-keyshortcuts). */}
                 {tabs.length > 1 && (
-                  <button
-                    type="button"
+                  <span
+                    aria-hidden
                     onClick={() => closeTab(i)}
-                    aria-label={`Close ${tabTitle(tab)} tab`}
-                    className={`absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-xs leading-none transition-[color,background-color,opacity] duration-150 ${
+                    title={`Close ${tabTitle(tab)} tab`}
+                    className={`absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-xs leading-none cursor-default transition-[color,background-color,opacity] duration-150 ${
                       selected
                         ? 'text-gray-500 hover:bg-gray-200 hover:text-gray-800'
-                        : 'text-gray-400 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-white/20'
+                        : 'text-gray-400 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-white/20'
                     }`}
                   >
-                    <span aria-hidden>×</span>
-                  </button>
+                    ×
+                  </span>
                 )}
               </div>
             )

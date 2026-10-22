@@ -447,6 +447,16 @@
     }
   },
   {
+    "id": "PBFBrisbane2026",
+    "name": "Please Be Finnished Brisbane 2026",
+    "city": "Brisbane, Queensland",
+    "country": "AU",
+    "coordinates": {
+      "latitude": -27.535602,
+      "longitude": 153.094233
+    }
+  },
+  {
     "id": "PleaseBeQuietBrisbane2023",
     "name": "Please Be Quiet Brisbane 2023",
     "city": "Brisbane, Queensland",

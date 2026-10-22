@@ -230,10 +230,12 @@
    Starts at 0.01 rather than 0: Chrome skips fully transparent text when
    timing Largest Contentful Paint, so a hero that fades in from 0 isn't
    counted until something else repaints it (on the About page, the heading
-   font arriving seconds later). 0.01 looks the same and is counted at first paint. */
+   font arriving seconds later). 0.01 looks the same and is counted at first paint.
+   Only opacity and transform, so it runs on the compositor: a blur would be
+   repainted on the main thread every frame, while the page is still loading. */
 @keyframes enter-up {
-  from { opacity: 0.01; transform: translateY(20px); filter: blur(6px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
+  from { opacity: 0.01; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
 }
 
 .enter {

@@ -2,8 +2,7 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { btnPrimary, btnOnDark, btnArrow } from '@/components/ui/button'
 
-// Staggered entrance for the hero copy: each line fades up with a slight blur,
-// 90 ms apart. Pure CSS (.enter in globals.css), so the headline paints with
+// Staggered entrance for the hero copy: each line fades up, 90 ms apart. Pure CSS (.enter in globals.css), so the headline paints with
 // the HTML instead of waiting for JavaScript, and reduced motion skips it.
 
 const delay = (i: number) => ({ '--enter-delay': `${0.15 + i * 0.09}s` }) as CSSProperties

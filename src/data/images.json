@@ -6,8 +6,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/articles/designing-in-webflow-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/articles/designing-in-webflow-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/articles/designing-in-webflow-720w.webp"
       },
       {
         "w": 960,
@@ -30,8 +38,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/articles/launch-checklist-phones-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/articles/launch-checklist-phones-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/articles/launch-checklist-phones-720w.webp"
       },
       {
         "w": 960,
@@ -50,8 +66,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/articles/platform-sites-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/articles/platform-sites-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/articles/platform-sites-720w.webp"
       },
       {
         "w": 960,
@@ -70,8 +94,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/articles/seattle_clk_large-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/articles/seattle_clk_large-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/articles/seattle_clk_large-720w.webp"
       },
       {
         "w": 960,
@@ -90,8 +122,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/articles/slate-website-in-webflow-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/articles/slate-website-in-webflow-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/articles/slate-website-in-webflow-720w.webp"
       },
       {
         "w": 960,
@@ -114,8 +154,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/articles/wordpress-to-webflow-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/articles/wordpress-to-webflow-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/articles/wordpress-to-webflow-720w.webp"
       },
       {
         "w": 960,
@@ -138,8 +186,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-1-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-1-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-1-720w.webp"
       },
       {
         "w": 960,
@@ -162,8 +218,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2-720w.webp"
       },
       {
         "w": 960,
@@ -186,8 +250,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-1-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-1-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-1-720w.webp"
       },
       {
         "w": 960,
@@ -210,8 +282,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-2-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-2-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-2-720w.webp"
       },
       {
         "w": 960,
@@ -234,8 +314,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-3-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-3-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-3-720w.webp"
       },
       {
         "w": 960,
@@ -258,8 +346,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-4-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-4-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-4-720w.webp"
       },
       {
         "w": 960,
@@ -282,8 +378,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-404-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-404-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-404-720w.webp"
       },
       {
         "w": 960,
@@ -306,8 +410,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-hero-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-hero-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-hero-720w.webp"
       },
       {
         "w": 960,
@@ -330,8 +442,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-map-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-map-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-map-720w.webp"
       },
       {
         "w": 960,
@@ -354,8 +474,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-2026-mobile-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-2026-mobile-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-2026-mobile-720w.webp"
       },
       {
         "w": 960,
@@ -378,8 +506,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-3-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-3-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-3-720w.webp"
       },
       {
         "w": 960,
@@ -402,8 +538,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-4-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-4-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-4-720w.webp"
       },
       {
         "w": 960,
@@ -422,8 +566,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sca-hero-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sca-hero-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sca-hero-720w.webp"
       },
       {
         "w": 960,
@@ -446,8 +598,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sippy-tom-after-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sippy-tom-after-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sippy-tom-after-720w.webp"
       },
       {
         "w": 960,
@@ -466,8 +626,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sippy-tom-before-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sippy-tom-before-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sippy-tom-before-720w.webp"
       },
       {
         "w": 960,
@@ -486,8 +654,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/sippy-tom-logos-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/sippy-tom-logos-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/sippy-tom-logos-720w.webp"
       },
       {
         "w": 769,
@@ -502,8 +678,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/speedcubing-before-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/speedcubing-before-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/speedcubing-before-720w.webp"
       },
       {
         "w": 960,
@@ -526,8 +710,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/venncap-1-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/venncap-1-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/venncap-1-720w.webp"
       },
       {
         "w": 960,
@@ -550,8 +742,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/venncap-after-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/venncap-after-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/venncap-after-720w.webp"
       },
       {
         "w": 960,
@@ -570,8 +770,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/venncap-before-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/venncap-before-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/venncap-before-720w.webp"
       },
       {
         "w": 960,
@@ -590,8 +798,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/vitalis-before-2-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/vitalis-before-2-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/vitalis-before-2-720w.webp"
       },
       {
         "w": 960,
@@ -614,8 +830,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/vitalis-before-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/vitalis-before-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/vitalis-before-720w.webp"
       },
       {
         "w": 960,
@@ -638,8 +862,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/vitalis-bento-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/vitalis-bento-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/vitalis-bento-720w.webp"
       },
       {
         "w": 960,
@@ -662,8 +894,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/vitalis-hero-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/vitalis-hero-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/vitalis-hero-720w.webp"
       },
       {
         "w": 960,
@@ -686,8 +926,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/vitalis-mobile-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/vitalis-mobile-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/vitalis-mobile-720w.webp"
       },
       {
         "w": 960,
@@ -710,8 +958,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/vitalis-offerings-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/vitalis-offerings-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/vitalis-offerings-720w.webp"
       },
       {
         "w": 960,
@@ -734,8 +990,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/wgtc-1-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/wgtc-1-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/wgtc-1-720w.webp"
       },
       {
         "w": 960,
@@ -758,8 +1022,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/wgtc-before-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/wgtc-before-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/wgtc-before-720w.webp"
       },
       {
         "w": 960,
@@ -782,8 +1054,16 @@
     "quality": 78,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/case-studies/wgtc-hero-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/case-studies/wgtc-hero-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/case-studies/wgtc-hero-720w.webp"
       },
       {
         "w": 960,
@@ -806,8 +1086,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/1220653-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/1220653-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/1220653-720w.webp"
       },
       {
         "w": 960,
@@ -822,8 +1110,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20210709-094156-2-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20210709-094156-2-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20210709-094156-2-720w.webp"
       },
       {
         "w": 960,
@@ -838,8 +1134,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20240721-172346-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20240721-172346-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20240721-172346-720w.webp"
       },
       {
         "w": 960,
@@ -854,8 +1158,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20250421-140417-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20250421-140417-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20250421-140417-720w.webp"
       },
       {
         "w": 960,
@@ -870,8 +1182,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20250426-093700-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20250426-093700-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20250426-093700-720w.webp"
       },
       {
         "w": 960,
@@ -886,8 +1206,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20250429-201449-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20250429-201449-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20250429-201449-720w.webp"
       },
       {
         "w": 960,
@@ -902,8 +1230,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20250703-120644-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20250703-120644-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20250703-120644-720w.webp"
       },
       {
         "w": 960,
@@ -918,8 +1254,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/20250706-171004-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/20250706-171004-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/20250706-171004-720w.webp"
       },
       {
         "w": 960,
@@ -934,8 +1278,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/2o9a8186-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/2o9a8186-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/2o9a8186-720w.webp"
       },
       {
         "w": 960,
@@ -950,8 +1302,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/cubing-award-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/cubing-award-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/cubing-award-720w.webp"
       },
       {
         "w": 960,
@@ -966,8 +1326,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/cubing-delegate-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/cubing-delegate-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/cubing-delegate-720w.webp"
       },
       {
         "w": 960,
@@ -982,8 +1350,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/fb-img-1606954443619-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/fb-img-1606954443619-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/fb-img-1606954443619-720w.webp"
       },
       {
         "w": 960,
@@ -998,8 +1374,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/fb-img-1756647380485-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/fb-img-1756647380485-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/fb-img-1756647380485-720w.webp"
       },
       {
         "w": 960,
@@ -1014,8 +1398,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/google-park-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/google-park-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/google-park-720w.webp"
       },
       {
         "w": 960,
@@ -1030,8 +1422,16 @@
     "quality": 86,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/collage/wsop-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/collage/wsop-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/collage/wsop-720w.webp"
       },
       {
         "w": 960,
@@ -1046,8 +1446,16 @@
     "quality": 92,
     "variants": [
       {
+        "w": 320,
+        "src": "/images/hero-320w.webp"
+      },
+      {
         "w": 480,
         "src": "/images/hero-480w.webp"
+      },
+      {
+        "w": 720,
+        "src": "/images/hero-720w.webp"
       },
       {
         "w": 800,

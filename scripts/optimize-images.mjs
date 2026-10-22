@@ -28,7 +28,9 @@ const OG_OUT = join(OUT, 'og')
 const MANIFEST = join(ROOT, 'src', 'data', 'images.json')
 const CONTENT = [join(ROOT, 'src', 'content', 'projects'), join(ROOT, 'src', 'content', 'articles')]
 
-const WIDTHS = [480, 960, 1600]
+// 320 and 720 cover the small cards on phones (2× and ~1.75× screens), which
+// would otherwise get a file one step too big.
+const WIDTHS = [320, 480, 720, 960, 1600]
 const MAX_WIDTH = 1920
 // Folders whose images never show large: cap the full-size file lower.
 const MAX_WIDTH_BY_DIR = { collage: 960 }
