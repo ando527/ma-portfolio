@@ -1,0 +1,23 @@
+// Cloudflare Workers config for mitchellanderson.com.au: serves the static
+// export in out/ as static assets, with no Worker script.
+//
+// Cloudflare's Git integration runs `npm run build`, then `npx wrangler deploy`
+// on every push to main (other branches get a preview URL). Setup steps are in
+// docs/cloudflare-setup.md.
+//
+// public/_headers is copied into out/ by the build, and Cloudflare applies it
+// to every response: cache lifetimes, HSTS and the other security headers.
+// Test locally with:  npm run build && npx wrangler dev
+{
+  // Must match the Worker's name in the Cloudflare dashboard.
+  "name": "ma-portfolio",
+  "compatibility_date": "2026-10-22",
+  "assets": {
+    "directory": "./out",
+    // Unknown paths get out/404.html with a 404 status.
+    "not_found_handling": "404-page",
+    // /about and /about/ both serve out/about/index.html; the one without the
+    // slash redirects, matching trailingSlash: true in next.config.js.
+    "html_handling": "auto-trailing-slash"
+  }
+}

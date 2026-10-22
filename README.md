@@ -47,4 +47,6 @@ Two covers are composites of screenshots, built by `scripts/make-article-covers.
 
 ## Hosting
 
-`.do/app.yaml` is a reference copy of the App Platform spec (including the www → apex redirect); App Platform only reads the copy in its console. App Platform can't set custom response headers for static sites, so the cache and security headers in `public/_headers` only apply on a host that reads that file, such as Cloudflare Pages or Netlify.
+`.do/app.yaml` is a reference copy of the App Platform spec (including the www → apex redirect); App Platform only reads the copy in its console. App Platform can't set custom response headers for static sites, so the cache and security headers in `public/_headers` only apply on a host that reads that file, such as Cloudflare or Netlify.
+
+`wrangler.jsonc` and `.node-version` set the site up for Cloudflare Workers, which applies `_headers` and deploys on every push to `main`. `docs/cloudflare-setup.md` has the steps to move over.

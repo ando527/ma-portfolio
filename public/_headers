@@ -1,6 +1,6 @@
 # Response headers for mitchellanderson.com.au
 #
-# Applied automatically by Cloudflare Pages and Netlify. DigitalOcean App
+# Applied automatically by Cloudflare (see wrangler.jsonc) and Netlify. DigitalOcean App
 # Platform ignores this file for static sites (see .do/app.yaml).
 # Test locally with:  npm run build && npm run serve
 #
