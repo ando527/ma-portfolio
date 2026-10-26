@@ -20,8 +20,8 @@ Open http://localhost:8787. Click through the main pages and check the browser c
 ## 2. Create the Worker from GitHub
 
 1. Sign up at [dash.cloudflare.com](https://dash.cloudflare.com) (free plan).
-2. Go to **Compute → Workers & Pages → Create → Import a repository**.
-3. Connect GitHub and give the Cloudflare app access to `ando527/ma-portfolio` only.
+2. Go to **Workers & Pages → Create application**, then choose **GitHub** (sometimes shown as **Import a repository**).
+3. Authorise GitHub and give the Cloudflare app access to `ando527/ma-portfolio` only.
 4. Settings:
    | Setting | Value |
    | --- | --- |
@@ -73,6 +73,7 @@ This step has a minute or two of downtime, so do it in one sitting.
 1. In **DNS → Records**, delete the two DigitalOcean `A` records and the `www` `CNAME`. (Custom domains can't be added while another record uses the name.)
 2. Open the Worker → **Settings → Domains & Routes → Add → Custom domain**. Add `mitchellanderson.com.au`, then `www.mitchellanderson.com.au`. Cloudflare creates the DNS records and certificates.
 3. **Rules → Redirect Rules → Create from template → Redirect from WWW to root**. It's a 301 that keeps the path and query string. This replaces the redirect in `.do/app.yaml`.
+4. Once the live site checks out (step 7), go to DigitalOcean → the app → **Settings → Domains** and remove both domains. DigitalOcean also serves custom domains through Cloudflare, so leaving them registered there can conflict. The app itself keeps running at its `ondigitalocean.app` address as a fallback.
 
 ## 6. Zone settings
 
@@ -95,7 +96,7 @@ The first should be `200` with the security headers. The second should be `301` 
 
 ## 8. Retire DigitalOcean
 
-After about a week with no problems, delete the app in DigitalOcean. Until then it keeps auto-deploying from GitHub too, which does no harm. Then remove `.do/` from the repo and update the Hosting section of the README.
+After about a week with no problems, delete the app in DigitalOcean. Until then it keeps auto-deploying from GitHub to its `ondigitalocean.app` address, which does no harm. To roll back in that week, delete the Worker's custom domains, put back the records from step 4 and re-add the domains in DigitalOcean. Then remove `.do/` from the repo and update the Hosting section of the README.
 
 ## Notes
 

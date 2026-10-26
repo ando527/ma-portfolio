@@ -25,3 +25,24 @@
 
 /icons/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# Cloudflare sends HTML and text files without a charset. Browsers fall back to
+# <meta charset> for pages, but llms.txt and robots.txt have none, so an AI crawler
+# can misread characters like em dashes. Pages are the only paths ending in a slash.
+/
+  Content-Type: text/html; charset=utf-8
+
+/*/
+  Content-Type: text/html; charset=utf-8
+
+/404.html
+  Content-Type: text/html; charset=utf-8
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
