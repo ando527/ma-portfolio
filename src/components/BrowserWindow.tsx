@@ -177,7 +177,8 @@ function MiniCaseStudy({ project, imageSizes }: { project: FeaturedProject; imag
         )}
         <h3 className="font-heading font-bold text-xl text-foreground tracking-tight mb-1">{project.title}</h3>
         {project.dateLabel && <p className="font-sans text-xs text-muted-foreground mb-3">{project.dateLabel}</p>}
-        <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-5">{project.summary}</p>
+        {/* The preview sections replace the summary here. The summary is the case study's intro, so repeating it on the homepage duplicates that page's text. */}
+        {project.preview.length === 0 && <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-5">{project.summary}</p>}
         {project.preview.length > 0 && (
           <div className="space-y-4 border-t border-maroon-100 pt-5">
             {project.preview.map(({ heading, body }) => (
