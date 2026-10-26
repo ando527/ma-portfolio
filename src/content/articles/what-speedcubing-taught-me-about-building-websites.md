@@ -1,6 +1,7 @@
 ---
 title: "What Speedcubing Taught Me About Building Websites"
 date: "2026-08"
+updated: "2026-10-08"
 summary: "Sixty-five Rubik's Cube competitions and two World Championships have shaped how I plan, build and launch websites more than I expected. Five lessons from the cube that I use at work."
 seoTitle: "What Speedcubing Taught Me About Building Websites"
 seoDescription: "A Brisbane web developer and WCA Delegate on five lessons from competitive Rubik's Cube solving that shape how he plans, builds and launches websites."

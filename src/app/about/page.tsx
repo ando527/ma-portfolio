@@ -29,9 +29,9 @@ const skills = [
 ]
 
 const experience = [
-  { year: '2021 – 2026', role: 'Head of Web Development', org: 'SLATE Media' },
-  { year: '2023 – 2024',   role: 'Graduate Engineer',        org: 'Fulton Hogan' },
-  { year: '2024',          role: 'Bachelor of Information Technology', org: 'University of Queensland' },
+  { year: '2021 – Present', role: 'Head of Web Development', org: 'SLATE Media' },
+  { year: '2023 – 2024', role: 'Graduate Engineer', org: 'Fulton Hogan' },
+  { year: '2024', role: 'Bachelor of Information Technology', org: 'University of Queensland' },
 ]
 
 const link = 'font-medium text-primary underline underline-offset-[3px] decoration-1 decoration-maroon-300 hover:decoration-primary transition-colors duration-200'
@@ -72,13 +72,11 @@ export default function AboutPage() {
             <span aria-hidden className="h-px w-8 bg-primary/50" />
             About
           </p>
-          <h1
-            className="enter display text-[3.25rem] sm:text-7xl md:text-8xl text-foreground leading-[0.92]"
-            style={enterDelay(0.24)}
-          >
+          {/* Headline and intro don't animate in: they're the largest contentful paint. */}
+          <h1 className="display text-[3.25rem] sm:text-7xl md:text-8xl text-foreground leading-[0.92]">
             Hi, I&rsquo;m Mitchell<span className="sr-only"> Anderson, a web developer in Brisbane</span>.
           </h1>
-          <p className="enter mt-6 max-w-xl font-sans text-lg md:text-xl text-muted-foreground leading-relaxed" style={enterDelay(0.33)}>
+          <p className="mt-6 max-w-xl font-sans text-lg md:text-xl text-muted-foreground leading-relaxed">
             I build websites in Brisbane. On weekends I solve Rubik&rsquo;s Cubes against the clock, with an official best of 8.87&nbsp;seconds.
           </p>
         </div>

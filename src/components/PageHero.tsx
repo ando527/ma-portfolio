@@ -81,25 +81,24 @@ export default function PageHero({
                 {eyebrow}
               </div>
             )}
-            <h1
-              className="enter display text-white text-[clamp(2.25rem,12.5vw,2.75rem)] sm:text-5xl md:text-6xl xl:text-7xl max-w-[16ch]"
-              style={delay(2)}
-            >
+            {/* The headline and intro don't animate in: they're the page's largest
+                contentful paint, and a fade would hold that back. */}
+            <h1 className="display text-white text-[clamp(2.25rem,12.5vw,2.75rem)] sm:text-5xl md:text-6xl xl:text-7xl max-w-[16ch]">
               {title}
             </h1>
             {intro && (
-              <div className="enter mt-7 font-sans text-lg md:text-xl text-white/70 leading-relaxed max-w-2xl" style={delay(3)}>
+              <div className="mt-7 font-sans text-lg md:text-xl text-white/70 leading-relaxed max-w-2xl">
                 {intro}
               </div>
             )}
             {children && (
-              <div className="enter mt-8" style={delay(4)}>
+              <div className="enter mt-8" style={delay(2)}>
                 {children}
               </div>
             )}
           </div>
           {visual && (
-            <div className="enter min-w-0" style={delay(4)}>
+            <div className="enter min-w-0" style={delay(2)}>
               {visual}
             </div>
           )}
@@ -107,7 +106,7 @@ export default function PageHero({
       </section>
       {overlap && (
         <div className="relative z-10 max-w-6xl mx-auto px-6 -mt-28 sm:-mt-40 lg:-mt-52">
-          <div className="enter" style={delay(5)}>{overlap}</div>
+          <div className="enter" style={delay(3)}>{overlap}</div>
         </div>
       )}
     </>

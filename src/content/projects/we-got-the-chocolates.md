@@ -1,6 +1,7 @@
 ---
 title: "We Got The Chocolates"
 date: "2022-06"
+updated: "2026-10-08"
 tags: ["Shopify", "E-commerce", "Custom Theme", "Animation"]
 thumbnail: "/images/case-studies/wgtc-hero.jpg"
 heroImage: "/images/case-studies/wgtc-hero.jpg"

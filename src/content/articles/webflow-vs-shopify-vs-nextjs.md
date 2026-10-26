@@ -1,6 +1,7 @@
 ---
 title: "Webflow, Shopify or Next.js? How I Choose a Platform for a Website"
 date: "2026-09"
+updated: "2026-10-08"
 summary: "Most business websites belong in Webflow, most online stores belong in Shopify, and a few projects need to be built in code. Here's how I decide, and the client projects that landed on each side."
 seoTitle: "Webflow vs Shopify vs Next.js: How to Choose"
 seoDescription: "How a Brisbane web developer chooses between Webflow, Shopify and Next.js: what the site sells, who edits it and where its data comes from, with real projects."

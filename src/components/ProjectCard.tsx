@@ -22,10 +22,13 @@ export default function ProjectCard({
   project,
   headingLevel = 3,
   size = 'md',
+  priority = false,
 }: {
   project: ProjectCardData
   headingLevel?: 2 | 3
   size?: 'lg' | 'md'
+  /** For cards in the first view: load the thumbnail now instead of lazily. */
+  priority?: boolean
 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3'
   return (
@@ -40,7 +43,8 @@ export default function ProjectCard({
             width={project.thumb.width}
             height={project.thumb.height}
             alt=""
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : undefined}
             decoding="async"
             className="w-full h-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-[1.035] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />

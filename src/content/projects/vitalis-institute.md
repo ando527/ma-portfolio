@@ -1,6 +1,7 @@
 ---
 title: "Vitalis Institute"
 date: "2026-08"
+updated: "2026-10-08"
 tags: ["Webflow", "UI Design", "Wellbeing"]
 thumbnail: "/images/case-studies/vitalis-hero.webp"
 heroImage: "/images/case-studies/vitalis-hero.png"

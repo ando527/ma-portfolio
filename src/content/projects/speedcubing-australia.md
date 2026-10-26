@@ -1,6 +1,7 @@
 ---
 title: "Speedcubing Australia 2026"
 date: "2026-10"
+updated: "2026-10-08"
 tags: ["Webflow", "UI Design", "API Integration", "Accessibility"]
 thumbnail: "/images/case-studies/sca-2026-hero.webp"
 heroImage: "/images/case-studies/sca-2026-hero.jpg"

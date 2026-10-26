@@ -1,6 +1,7 @@
 ---
 title: "VennCap Real Estate"
 date: "2025-01"
+updated: "2026-10-08"
 tags: ["Webflow", "Branding", "UI Design"]
 thumbnail: "/images/case-studies/venncap-after.jpg"
 heroImage: "/images/case-studies/venncap-after.jpg"

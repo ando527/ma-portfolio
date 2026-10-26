@@ -1,6 +1,7 @@
 ---
 title: "Speedcubing Australia 2023"
 date: "2023-06"
+updated: "2026-10-08"
 tags: ["Webflow", "UI Design", "CMS", "Interactive"]
 thumbnail: "/images/case-studies/sca-hero.webp"
 heroImage: "/images/case-studies/sca-hero.png"

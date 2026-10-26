@@ -26,6 +26,8 @@ export interface Service {
   relatedArticles: string[]
   faqs: Faq[]
   order: number
+  /** Last content change, "YYYY-MM-DD", for the sitemap's lastmod. Bump it when the page's content changes. */
+  updated?: string
   content: string
 }
 
@@ -44,6 +46,7 @@ function parse(slug: string, raw: string): Service {
     relatedArticles: data.relatedArticles || [],
     faqs: data.faqs || [],
     order: data.order ?? 99,
+    updated: data.updated ? String(data.updated) : undefined,
     content,
   }
 }

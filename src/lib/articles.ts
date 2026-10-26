@@ -16,6 +16,8 @@ export interface Article {
   title: string
   /** "2025-04" or "2025-04-07" */
   date: string
+  /** Last content change, "YYYY-MM-DD", for the sitemap's lastmod. Bump it when the page's content changes. */
+  updated?: string
   summary: string
   seoTitle: string
   seoDescription: string
@@ -51,6 +53,7 @@ function parse(slug: string, raw: string): Article {
     slug,
     title: data.title || slug,
     date: String(data.date || ''),
+    updated: data.updated ? String(data.updated) : undefined,
     summary: data.summary || '',
     seoTitle: data.seoTitle || data.title || slug,
     seoDescription: data.seoDescription || data.summary || '',

@@ -7,6 +7,7 @@ intro: "I build custom Shopify themes for brands that have outgrown a stock temp
 relatedTags: ["Shopify"]
 relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist"]
 order: 2
+updated: "2026-10-08"
 faqs:
   - question: "Do you build custom Shopify themes or modify existing ones?"
     answer: "I build custom themes with hand-written Liquid sections for the homepage, collections and product pages, so the layout follows your brand instead of a stock template's."

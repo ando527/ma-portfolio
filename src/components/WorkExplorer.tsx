@@ -126,9 +126,10 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
 
       {visible.length > 0 ? (
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-10 gap-y-14 md:gap-y-16">
-          {visible.map(p => (
+          {visible.map((p, i) => (
             <li key={p.slug}>
-              <ProjectCard project={p} headingLevel={2} size="lg" />
+              {/* The first row is in view on load */}
+              <ProjectCard project={p} headingLevel={2} size="lg" priority={i < 2} />
             </li>
           ))}
         </ul>

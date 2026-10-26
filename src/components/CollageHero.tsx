@@ -49,6 +49,31 @@ const SETTLED       = 0.001   // stop the parallax loop once this close to the t
 // Slots are 12–15% of the viewport on desktop, ~24% on phones.
 const SIZES         = '(min-width: 768px) 15vw, 25vw'
 
+// Alt text for each photo, keyed by file name (no folder or extension). The
+// slots swap photos, so the alt is looked up from the photo each one shows.
+// A photo that's added to public/images/collage and isn't listed here gets
+// an empty alt.
+const PHOTO_ALT: Record<string, string> = {
+  '1220653': 'A man in a graduation gown and cap holding a folder beside a purple Congratulations Graduates banner',
+  '20210709-094156-2': 'A man in racing overalls and a cap leaning on a black car in a covered garage',
+  '20240721-172346': 'Selfie of a man in a red cap and mirrored sunglasses in a large crowd outside a stadium',
+  '20250421-140417': 'Selfie of a man in sunglasses making a peace sign from a red car, with a blue car and trees ahead',
+  '20250426-093700': 'A smiling man in sunglasses taking a selfie with a deer in a park',
+  '20250429-201449': 'Group selfie of friends smiling around a table in front of a colourful mural',
+  '20250703-120644': 'Three smiling people in Team Australia jackets in a large hall at the World Championship',
+  '20250706-171004': 'A man in a Team Australia jersey giving a thumbs up in a hall packed with seated people',
+  '2o9a8186': 'A player in a gold and navy number 17 jersey running on a grass field at night',
+  'cubing-award': 'Three people holding certificates on a train station platform at dusk',
+  'cubing-delegate': 'A group in red Speedcubing Australia shirts posing in front of a World Cube Association backdrop',
+  'fb-img-1606954443619': 'A driver in a black helmet seated in the cockpit of a small race car',
+  'fb-img-1756647380485': 'Two smiling men posing with a thumbs up and a peace sign in a busy hall',
+  'google-park': 'A man in sunglasses making a peace sign beside a giant green Android statue holding a lollipop',
+  wsop: 'A man in a maroon sports jersey taking a selfie in front of large illuminated WSOP letters',
+}
+
+/** "/images/collage/wsop.webp" → "wsop" */
+const photoName = (src: string) => src.split('/').pop()!.replace(/\.\w+$/, '')
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function CollageHero({ images }: { images: ImageData[] }) {
@@ -251,7 +276,7 @@ export default function CollageHero({ images }: { images: ImageData[] }) {
                 sizes={SIZES}
                 width={img.width}
                 height={img.height}
-                alt=""
+                alt={PHOTO_ALT[photoName(img.src)] ?? ''}
                 decoding="async"
                 // Desktop-only slots are display:none on phones; lazy keeps
                 // phones from downloading them.

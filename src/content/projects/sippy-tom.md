@@ -1,6 +1,7 @@
 ---
 title: "Sippy Tom"
 date: "2025-01"
+updated: "2026-10-16"
 tags: ["Webflow", "Branding", "CMS", "Hospitality"]
 thumbnail: "/images/case-studies/sippy-tom-after.jpg"
 heroImage: "/images/case-studies/sippy-tom-after.jpg"

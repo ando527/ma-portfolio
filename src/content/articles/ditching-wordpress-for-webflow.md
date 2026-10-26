@@ -1,6 +1,7 @@
 ---
 title: "Why More and More Companies Are Ditching WordPress for Webflow"
 date: "2025-04"
+updated: "2026-10-08"
 summary: "Why businesses are moving their websites from WordPress to Webflow: fewer plugins to babysit, faster pages, more design freedom, less to worry about on security, and what a move actually involves."
 seoTitle: "Why Companies Are Ditching WordPress for Webflow"
 seoDescription: "Why businesses are leaving WordPress for Webflow: no plugin maintenance, faster pages on a global CDN, design freedom, built-in security and a smooth migration."

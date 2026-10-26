@@ -7,6 +7,7 @@ intro: "I design and build Webflow websites for businesses, not-for-profits and 
 relatedTags: ["Webflow"]
 relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist", "ditching-wordpress-for-webflow"]
 order: 1
+updated: "2026-10-08"
 faqs:
   - question: "How long does a Webflow website take to build?"
     answer: "It depends on the number of pages, the CMS structure and any integrations. Small sites can move quickly: Sippy Tom's brand refresh and website were delivered in two days. Larger builds with CMS collections and live data take longer, and you'll get a timeline once discovery is done."

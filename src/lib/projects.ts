@@ -17,6 +17,8 @@ export interface Project {
   slug: string
   title: string
   date: string
+  /** Last content change, "YYYY-MM-DD", for the sitemap's lastmod. Bump it when the page's content changes. */
+  updated?: string
   tags: string[]
   thumbnail: string
   heroImage: string
@@ -70,6 +72,7 @@ function parseProject(slug: string, fileContents: string): Project {
     slug,
     title: data.title || slug,
     date: data.date || '',
+    updated: data.updated ? String(data.updated) : undefined,
     tags: data.tags || [],
     thumbnail,
     heroImage,

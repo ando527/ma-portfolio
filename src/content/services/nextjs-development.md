@@ -7,6 +7,7 @@ intro: "When a project needs more than a visual builder allows, I build it in co
 relatedTags: ["API Integration"]
 relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist"]
 order: 3
+updated: "2026-10-08"
 faqs:
   - question: "Should my site be built in Next.js or Webflow?"
     answer: "Webflow and Shopify cover most business websites well, and I'll say so when one of them fits. Next.js makes sense when a site needs custom logic, data from other systems, or full control over performance and hosting."

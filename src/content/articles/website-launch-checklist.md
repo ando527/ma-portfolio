@@ -1,6 +1,7 @@
 ---
 title: "The Pre-Launch Checklist I Run on Every Website"
 date: "2026-10"
+updated: "2026-10-08"
 summary: "The checks I run before any website goes live: phones, links, accessibility, speed, search and forms. Most of it is work nobody notices until it's missing."
 seoTitle: "Website Launch Checklist: What to Check Before Going Live"
 seoDescription: "A web developer's pre-launch website checklist: mobile layouts, broken links, accessibility, page speed, SEO, structured data, redirects and forms."
