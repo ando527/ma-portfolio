@@ -305,8 +305,11 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
                     selected ? 'text-gray-800' : 'text-gray-300 group-hover:text-gray-100'
                   }`}
                 >
+                  {/* React preloads every eager <img> in the server HTML; low priority
+                      keeps the background tabs' favicons out of that, so only the
+                      selected tab's competes with the hero. */}
                   {tab.kind === 'project' && tab.project.favicon
-                    ? <img src={tab.project.favicon} alt="" width={12} height={12} className="w-3 h-3 rounded-sm flex-shrink-0 object-cover" />
+                    ? <img src={tab.project.favicon} alt="" width={12} height={12} fetchPriority={selected ? undefined : 'low'} className="w-3 h-3 rounded-sm flex-shrink-0 object-cover" />
                     : tab.kind === 'new'
                       ? <img src="/images/ma-logo.svg" alt="" width={12} height={12} className="w-3 h-3 rounded-sm flex-shrink-0 object-cover" />
                       : <span className={`w-3 h-3 rounded-sm flex-shrink-0 ${selected ? 'bg-primary' : 'bg-primary/50'}`} />
@@ -409,7 +412,7 @@ function TabCard({ tab, i, isActive, highlighted = false, canClose, onOpen, onCl
           </div>
           <div className="bg-[#2c2c2e] pl-2 pr-7 py-[6px] flex items-center gap-1.5 min-w-0">
             {tab.kind === 'project' && tab.project.favicon
-              ? <img src={tab.project.favicon} alt="" width={12} height={12} className="w-3 h-3 rounded-[3px] flex-shrink-0 object-cover" />
+              ? <img src={tab.project.favicon} alt="" width={12} height={12} className="w-3 h-3 rounded-[3px] flex-shrink-0 object-cover" loading="lazy" />
               : <img src="/images/ma-logo.svg"  alt="" width={12} height={12} className="w-3 h-3 rounded-[3px] flex-shrink-0" />
             }
             <span className="font-sans text-white/85 text-xs truncate flex-1 text-left leading-none">
