@@ -22,7 +22,7 @@
 }
 
 /* The two turn buttons stack until both labels surely fit side by side
-   ("Turn orange" with swatch and arrow is about 170px). The layout must not
+   ("Turn orange face" with swatch is about 180px). The layout must not
    depend on the label, so the placeholder shown before the cube is ready has
    exactly the same height. */
 .cube-turns {
@@ -31,7 +31,7 @@
   gap: 0.75rem;
 }
 
-@container (min-width: 368px) {
+@container (min-width: 384px) {
   .cube-turns {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
@@ -100,24 +100,44 @@
   will-change: transform;
 }
 
-/* One clockwise quarter turn, looking at the face from outside the cube.
+/* One quarter turn, looking at the face from outside the cube: data-turns='1'
+   is clockwise, '3' anticlockwise (the opposite rotation), matching the
+   button's turn in the model so the layer ends exactly on the new state.
    CSS axes: x right, y down, z towards the viewer. */
-.cube-layer[data-face='U'] {
-  animation-name: cube-turn-u;
+.cube-layer[data-face='U'][data-turns='1'] {
+  animation-name: cube-turn-u-cw;
 }
 
-.cube-layer[data-face='R'] {
-  animation-name: cube-turn-r;
+.cube-layer[data-face='U'][data-turns='3'] {
+  animation-name: cube-turn-u-ccw;
 }
 
-@keyframes cube-turn-u {
+.cube-layer[data-face='R'][data-turns='1'] {
+  animation-name: cube-turn-r-cw;
+}
+
+.cube-layer[data-face='R'][data-turns='3'] {
+  animation-name: cube-turn-r-ccw;
+}
+
+@keyframes cube-turn-u-cw {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(-90deg); }
 }
 
-@keyframes cube-turn-r {
+@keyframes cube-turn-u-ccw {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(90deg); }
+}
+
+@keyframes cube-turn-r-cw {
   from { transform: rotateX(0deg); }
   to { transform: rotateX(90deg); }
+}
+
+@keyframes cube-turn-r-ccw {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(-90deg); }
 }
 
 .cubie {

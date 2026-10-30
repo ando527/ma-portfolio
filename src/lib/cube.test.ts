@@ -11,11 +11,11 @@ import {
   press,
   randomScheme,
   turn,
+  type ButtonTurns,
   type CubeState,
   type ColourName,
   type ColourScheme,
   type FaceName,
-  type TurnFace,
 } from './cube.ts'
 
 /** Small seeded PRNG (mulberry32) so the random tests are repeatable. */
@@ -28,12 +28,6 @@ function seeded(seed: number): () => number {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
   }
-}
-
-function pressTimes(state: CubeState, face: TurnFace, times: number): CubeState {
-  let s = state
-  for (let i = 0; i < times; i++) s = press(s, face)
-  return s
 }
 
 const SAMPLE: CubeState = turn(turn(turn(SOLVED, 'U', 1), 'R', 3), 'U', 2)
@@ -67,10 +61,14 @@ test('R clockwise moves the front face\'s right column onto the top face', () =>
   for (let i = 9; i < 18; i++) assert.equal(s[i], 1)
 })
 
-test('press is a clockwise quarter turn', () => {
-  assert.deepEqual(press(SAMPLE, 'U'), turn(SAMPLE, 'U', 1))
-  assert.deepEqual(press(SAMPLE, 'R'), turn(SAMPLE, 'R', 1))
-  assert.deepEqual(turn(press(SAMPLE, 'R'), 'R', -1), SAMPLE)
+test('press turns the face by the given button quarter turns', () => {
+  const buttons: ButtonTurns = { U: 3, R: 1 }
+  assert.deepEqual(press(SAMPLE, 'U', buttons), turn(SAMPLE, 'U', 3))
+  assert.deepEqual(press(SAMPLE, 'R', buttons), turn(SAMPLE, 'R', 1))
+  assert.deepEqual(turn(press(SAMPLE, 'R', buttons), 'R', -1), SAMPLE)
+  const flipped: ButtonTurns = { U: 1, R: 3 }
+  assert.deepEqual(press(SAMPLE, 'U', flipped), turn(SAMPLE, 'U', 1))
+  assert.deepEqual(press(SAMPLE, 'R', flipped), turn(SAMPLE, 'R', 3))
 })
 
 test('the sequence U then R has order 105', () => {
@@ -96,7 +94,7 @@ test('isSolved is false after any single turn and true after undoing it', () => 
 test('turn does not mutate its input', () => {
   const before = [...SAMPLE]
   turn(SAMPLE, 'R', 1)
-  press(SAMPLE, 'U')
+  press(SAMPLE, 'U', { U: 1, R: 1 })
   assert.deepEqual([...SAMPLE], before)
 })
 
@@ -172,71 +170,82 @@ test('makeScramble is deterministic for a given rand', () => {
   assert.deepEqual(makeScramble(seeded(42)), makeScramble(seeded(42)))
 })
 
-test('makeScramble: 2,000 scrambles are unsolved, 2-6 presses away, and solvable', () => {
+test('makeScramble: 2,000 scrambles are unsolved and exactly two presses from solved', () => {
   const rand = seeded(7)
   const turnsSeen = new Set<number>()
   const ordersSeen = new Set<string>()
-  let min = Infinity
-  let max = -Infinity
   for (let i = 0; i < 2000; i++) {
-    const { moves, state, scheme } = makeScramble(rand)
-    assert.notEqual(moves[0].face, moves[1].face, 'moves faces differ')
+    const { moves, state, scheme, buttons } = makeScramble(rand)
+    assert.notEqual(moves[0].face, moves[1].face, 'move faces differ')
+    assert.ok(moves.every(m => m.turns === 1 || m.turns === 3), 'quarter turns only')
     assert.equal(isSolved(state), false)
     assert.equal(Object.keys(scheme).length, 6)
     // state is exactly the two moves applied to SOLVED.
     assert.deepEqual(state, turn(turn(SOLVED, moves[0].face, moves[0].turns), moves[1].face, moves[1].turns))
-    const d = distanceToSolved(state)
-    assert.ok(d !== null && d >= 2 && d <= 6, `distance ${d}`)
-    // BFS agrees with the documented button solution length.
-    assert.equal(d, 4 - moves[1].turns + (4 - moves[0].turns))
-    min = Math.min(min, d!)
-    max = Math.max(max, d!)
+    // Each button undoes its face's scramble move.
+    for (const m of moves) assert.equal(buttons[m.face], 4 - m.turns, `button ${m.face}`)
+    assert.equal(distanceToSolved(state, buttons), 2)
     turnsSeen.add(moves[0].turns).add(moves[1].turns)
     ordersSeen.add(moves[0].face + moves[1].face)
-    let s = pressTimes(state, moves[1].face, 4 - moves[1].turns)
-    s = pressTimes(s, moves[0].face, 4 - moves[0].turns)
-    assert.equal(isSolved(s), true)
+    // Solution: the second move's face first, then the first move's face.
+    const afterFirst = press(state, moves[1].face, buttons)
+    assert.equal(distanceToSolved(afterFirst, buttons), 1)
+    assert.equal(needsReset(2, afterFirst, buttons), false)
+    assert.equal(isSolved(press(afterFirst, moves[0].face, buttons)), true)
+    // Wrong order: U and R don't commute, so this moves further away.
+    const wrong = press(state, moves[0].face, buttons)
+    const dWrong = distanceToSolved(wrong, buttons)
+    assert.ok(dWrong === null || dWrong > 2, `wrong-order distance ${dWrong}`)
+    assert.equal(needsReset(2, wrong, buttons), true)
   }
-  assert.deepEqual([...turnsSeen].sort(), [1, 2, 3])
+  assert.deepEqual([...turnsSeen].sort(), [1, 3])
   assert.deepEqual([...ordersSeen].sort(), ['RU', 'UR'])
-  assert.equal(min, 2)
-  assert.equal(max, 6)
+})
+
+test('makeScramble produces all four button combinations', () => {
+  const rand = seeded(11)
+  const seen = new Set<string>()
+  for (let i = 0; i < 500; i++) {
+    const { buttons } = makeScramble(rand)
+    seen.add(`${buttons.U}${buttons.R}`)
+  }
+  assert.deepEqual([...seen].sort(), ['11', '13', '31', '33'])
 })
 
 test('distanceToSolved: SOLVED is 0, one press away is 1, a state deeper than 12 is null', () => {
-  assert.equal(distanceToSolved(SOLVED), 0)
-  // One press away means one press solves it: an anticlockwise quarter turn.
-  assert.equal(distanceToSolved(turn(SOLVED, 'U', -1)), 1)
-  assert.equal(distanceToSolved(turn(SOLVED, 'R', -1)), 1)
-  // A clockwise quarter needs three presses, a half turn two.
-  assert.equal(distanceToSolved(turn(SOLVED, 'R', 1)), 3)
-  assert.equal(distanceToSolved(turn(SOLVED, 'U', 2)), 2)
+  for (const buttons of [{ U: 1, R: 1 }, { U: 1, R: 3 }, { U: 3, R: 1 }, { U: 3, R: 3 }] as const) {
+    assert.equal(distanceToSolved(SOLVED, buttons), 0)
+    // Undoing one press (the opposite quarter turn) leaves one press to go.
+    assert.equal(distanceToSolved(turn(SOLVED, 'U', -buttons.U), buttons), 1)
+    assert.equal(distanceToSolved(turn(SOLVED, 'R', -buttons.R), buttons), 1)
+  }
+  // Pressing the other way round takes three presses.
+  assert.equal(distanceToSolved(turn(SOLVED, 'R', 1), { U: 3, R: 3 }), 1)
+  assert.equal(distanceToSolved(turn(SOLVED, 'R', 1), { U: 3, R: 1 }), 3)
   let deep: CubeState = SOLVED
   for (let i = 0; i < 10; i++) deep = turn(turn(deep, 'U', 1), 'R', 2)
-  assert.equal(distanceToSolved(deep), null)
+  assert.equal(distanceToSolved(deep, { U: 3, R: 1 }), null)
 })
 
 test('needsReset follows the best distance', () => {
-  // Two anticlockwise quarters: one press of R then one of U solves it.
-  const start = turn(turn(SOLVED, 'U', 3), 'R', 3)
-  assert.equal(distanceToSolved(start), 2)
-  assert.equal(needsReset(2, start), false)
+  const buttons: ButtonTurns = { U: 3, R: 1 }
+  // Scramble: U clockwise then R anticlockwise. The buttons (U anticlockwise, R clockwise) undo it.
+  const start = turn(turn(SOLVED, 'U', 1), 'R', 3)
+  assert.equal(distanceToSolved(start, buttons), 2)
+  assert.equal(needsReset(2, start, buttons), false)
 
   // Right order: R first gets closer, then U solves.
-  const right1 = press(start, 'R')
-  assert.equal(distanceToSolved(right1), 1)
-  assert.equal(needsReset(2, right1), false)
-  assert.equal(isSolved(press(right1, 'U')), true)
+  const right1 = press(start, 'R', buttons)
+  assert.equal(distanceToSolved(right1, buttons), 1)
+  assert.equal(needsReset(2, right1, buttons), false)
+  assert.equal(isSolved(press(right1, 'U', buttons)), true)
 
   // Wrong first press (U) moves further away.
-  const wrong1 = press(start, 'U')
-  assert.equal(needsReset(2, wrong1), true)
-  // And pressing R after it (wrong order) is still too far.
-  const wrong2 = press(wrong1, 'R')
-  assert.equal(needsReset(2, wrong2), true)
+  const wrong1 = press(start, 'U', buttons)
+  assert.equal(needsReset(2, wrong1, buttons), true)
 
   // A state deeper than the BFS limit always needs a reset.
   let deep: CubeState = SOLVED
   for (let i = 0; i < 10; i++) deep = turn(turn(deep, 'U', 1), 'R', 2)
-  assert.equal(needsReset(6, deep), true)
+  assert.equal(needsReset(6, deep, buttons), true)
 })

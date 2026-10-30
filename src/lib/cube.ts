@@ -20,19 +20,26 @@ export type Sticker = 0 | 1 | 2 | 3 | 4 | 5
  */
 export type CubeState = readonly Sticker[]
 export type ColourScheme = Record<FaceName, ColourName>
+/** Clockwise quarter turns one press of each face's button makes: 1 clockwise, 3 anticlockwise. */
+export type ButtonTurns = Record<TurnFace, 1 | 3>
 export interface Scramble {
-  /** Applied to SOLVED in order. turns = clockwise quarter turns (1 cw, 2 half, 3 ccw); faces always differ. */
-  moves: readonly [{ face: TurnFace; turns: 1 | 2 | 3 }, { face: TurnFace; turns: 1 | 2 | 3 }]
+  /**
+   * Applied to SOLVED in order: two perpendicular quarter turns (turns = clockwise
+   * quarter turns, 1 clockwise or 3 anticlockwise). The faces always differ.
+   */
+  moves: readonly [{ face: TurnFace; turns: 1 | 3 }, { face: TurnFace; turns: 1 | 3 }]
   state: CubeState
   scheme: ColourScheme
+  /**
+   * What each button does for this scramble: the quarter turn that undoes that
+   * face's scramble move, so pressing moves[1].face then moves[0].face solves it.
+   */
+  buttons: ButtonTurns
 }
 
 export const FACES: readonly FaceName[] = ['U', 'R', 'F', 'D', 'L', 'B']
 
 export const SOLVED: CubeState = Array.from({ length: 54 }, (_, i) => Math.floor(i / 9) as Sticker)
-
-/** What one button press does: a quarter turn clockwise. The only place the direction is chosen. */
-const PRESS_QUARTER_TURNS = 1
 
 // One clockwise quarter turn (looking at the face from outside) as a facelet
 // permutation: next[i] = state[PERM[i]]. These are the standard U and R moves
@@ -97,9 +104,9 @@ export function turn(state: CubeState, face: TurnFace, clockwiseQuarterTurns: nu
   return s === state ? [...state] : s
 }
 
-/** What a turn button does. */
-export function press(state: CubeState, face: TurnFace): CubeState {
-  return turn(state, face, PRESS_QUARTER_TURNS)
+/** What a turn button does: one quarter turn of its face, in the direction this scramble gives it. */
+export function press(state: CubeState, face: TurnFace, buttons: ButtonTurns): CubeState {
+  return turn(state, face, buttons[face])
 }
 
 export function isSolved(state: CubeState): boolean {
@@ -155,40 +162,49 @@ export function randomScheme(rand: () => number = Math.random): ColourScheme {
   }
 }
 
-/** Two random turns of U and R (in random order) from solved, on a random colour scheme. */
+/**
+ * Two perpendicular quarter turns of U and R (in random order, each in a random
+ * direction) from solved, on a random colour scheme. Each button turns its face
+ * the opposite way to that face's scramble move, so two presses solve it, but only
+ * in the right order: moves[1].face first, then moves[0].face.
+ */
 export function makeScramble(rand: () => number = Math.random): Scramble {
   const first: TurnFace = pick(rand, 2) === 0 ? 'U' : 'R'
   const second: TurnFace = first === 'U' ? 'R' : 'U'
-  const t0 = (pick(rand, 3) + 1) as 1 | 2 | 3
-  const t1 = (pick(rand, 3) + 1) as 1 | 2 | 3
+  const t0 = pick(rand, 2) === 0 ? 1 : 3
+  const t1 = pick(rand, 2) === 0 ? 1 : 3
   const moves = [
     { face: first, turns: t0 },
     { face: second, turns: t1 },
   ] as const
+  const buttons = {
+    [first]: 4 - t0,
+    [second]: 4 - t1,
+  } as ButtonTurns
   return {
     moves,
     state: turn(turn(SOLVED, first, t0), second, t1),
     scheme: randomScheme(rand),
+    buttons,
   }
 }
 
 const MAX_DEPTH = 12
-let distances: Map<string, number> | null = null
+// One table per button combination (there are only four), built on first use.
+const distanceTables = new Map<string, Map<string, number>>()
 
-/**
- * Fewest button presses that solve the cube, or null if more than 12. Built
- * once on first use: breadth-first from SOLVED undoing a press (an
- * anticlockwise quarter of U or R) at each step, about 8,000 states.
- */
-export function distanceToSolved(state: CubeState): number | null {
-  if (!distances) {
-    const map = new Map<string, number>([[SOLVED.join(','), 0]])
+function distanceTable(buttons: ButtonTurns): Map<string, number> {
+  const id = `${buttons.U}${buttons.R}`
+  let map = distanceTables.get(id)
+  if (!map) {
+    map = new Map<string, number>([[SOLVED.join(','), 0]])
     let frontier: CubeState[] = [SOLVED]
     for (let depth = 1; depth <= MAX_DEPTH; depth++) {
       const next: CubeState[] = []
       for (const s of frontier) {
         for (const face of ['U', 'R'] as const) {
-          const t = turn(s, face, -PRESS_QUARTER_TURNS)
+          // Undo one press of this face's button.
+          const t = turn(s, face, -buttons[face])
           const key = t.join(',')
           if (!map.has(key)) {
             map.set(key, depth)
@@ -198,13 +214,22 @@ export function distanceToSolved(state: CubeState): number | null {
       }
       frontier = next
     }
-    distances = map
+    distanceTables.set(id, map)
   }
-  return distances.get(state.join(',')) ?? null
+  return map
+}
+
+/**
+ * Fewest presses of these two buttons that solve the cube, or null if more than
+ * 12. Each button combination's table is built once on first use: breadth-first
+ * from SOLVED undoing a press at each step, about 8,000 states.
+ */
+export function distanceToSolved(state: CubeState, buttons: ButtonTurns): number | null {
+  return distanceTable(buttons).get(state.join(',')) ?? null
 }
 
 /** True when the visitor has wandered more than one press further than their best so far. */
-export function needsReset(bestDistance: number, current: CubeState): boolean {
-  const d = distanceToSolved(current)
+export function needsReset(bestDistance: number, current: CubeState, buttons: ButtonTurns): boolean {
+  const d = distanceToSolved(current, buttons)
   return d === null || d > bestDistance + 1
 }

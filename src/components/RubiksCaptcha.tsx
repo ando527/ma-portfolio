@@ -21,6 +21,7 @@ import {
   makeScramble,
   needsReset,
   press,
+  type ButtonTurns,
   type ColourName,
   type ColourScheme,
   type CubeState,
@@ -116,6 +117,8 @@ const inLayer = (face: TurnFace, pos: readonly number[]) => (face === 'U' ? pos[
 interface Anim {
   id: number
   face: TurnFace
+  /** Which way the layer rotates: the button's quarter turns (1 clockwise, 3 anticlockwise). */
+  turns: 1 | 3
   from: CubeState
 }
 
@@ -143,13 +146,13 @@ type Action =
   | { type: 'reset' }
 
 const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
-const distanceOr = (s: CubeState) => distanceToSolved(s) ?? Infinity
+const distanceOr = (s: CubeState, buttons: ButtonTurns) => distanceToSolved(s, buttons) ?? Infinity
 
 function reducer(m: Model, a: Action): Model {
   if (a.type === 'start') {
     // Only ever once, so the scramble never changes under the visitor.
     if (m.phase !== 'detecting') return m
-    const d = distanceOr(a.scramble.state)
+    const d = distanceOr(a.scramble.state, a.scramble.buttons)
     return {
       phase: 'ready',
       scramble: a.scramble,
@@ -170,22 +173,22 @@ function reducer(m: Model, a: Action): Model {
   switch (a.type) {
     case 'press': {
       if (locked) return m
-      const next = press(m.state, a.face)
-      const before = distanceOr(m.state)
-      const after = distanceOr(next)
+      const next = press(m.state, a.face, m.scramble.buttons)
+      const before = distanceOr(m.state, m.scramble.buttons)
+      const after = distanceOr(next, m.scramble.buttons)
       const best = Math.min(m.best, after)
       const solved = isSolved(next)
       // Warn when the press left the cube too far from the visitor's best;
       // a press that gets closer clears it.
-      const warn = !solved && after >= before && needsReset(best, next)
-      const turned = `${capitalise(m.scramble.scheme[a.face])} turned.`
+      const warn = !solved && after >= before && needsReset(best, next, m.scramble.buttons)
+      const turned = `${capitalise(m.scramble.scheme[a.face])} face turned.`
       return {
         ...m,
         state: next,
         best,
         warn,
         seq: m.seq + 1,
-        anim: a.animate ? { id: m.seq + 1, face: a.face, from: m.state } : null,
+        anim: a.animate ? { id: m.seq + 1, face: a.face, turns: m.scramble.buttons[a.face], from: m.state } : null,
         announce: {
           text: solved ? `${turned} Cube solved.` : warn ? `${turned} ${WARN_TEXT}` : turned,
           n: m.announce.n + 1,
@@ -268,6 +271,7 @@ function CubeView({
           key={anim.id}
           className="cube-layer"
           data-face={anim.face}
+          data-turns={anim.turns}
           onAnimationEnd={e => {
             if (e.target === e.currentTarget) onAnimEnd(anim.id)
           }}
@@ -278,15 +282,6 @@ function CubeView({
         </div>
       )}
     </div>
-  )
-}
-
-function ClockwiseIcon() {
-  return (
-    <svg aria-hidden viewBox="0 0 24 24" className="w-4 h-4 flex-none" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-      <path d="M21 3v5h-5" />
-    </svg>
   )
 }
 
@@ -421,13 +416,11 @@ function Puzzle({ onStatusChange, sendFocusRef }: Props) {
                       ref={i === 0 ? firstTurnRef : undefined}
                       type="button"
                       className={turnBtn}
-                      aria-label={`Turn ${colour} clockwise`}
                       aria-disabled={solved || undefined}
                       onClick={() => dispatch({ type: 'press', face, animate: !prefersReducedMotion() })}
                     >
                       <span className="cube-swatch" data-c={colour} aria-hidden />
-                      <span>Turn {colour}</span>
-                      <ClockwiseIcon />
+                      <span>Turn {colour} face</span>
                     </button>
                   )
                 })}
