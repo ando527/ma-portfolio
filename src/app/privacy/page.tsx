@@ -1,10 +1,11 @@
+import Link from 'next/link'
 import { pageMetadata, SITE } from '@/lib/site'
 import PageHero from '@/components/PageHero'
 import '@/app/prose.css'
 
 export const metadata = pageMetadata({
   title: 'Privacy Policy',
-  description: 'Privacy policy for mitchellanderson.com.au: what analytics data is collected, why, and how to opt out.',
+  description: 'Privacy policy for mitchellanderson.com.au: what the contact form and analytics collect, why, who processes it, and how to opt out.',
   path: '/privacy/',
   noindex: true,
 })
@@ -38,9 +39,36 @@ export default function PrivacyPolicy() {
               level). No personally identifiable information is collected.
             </p>
 
+            <h2>Contact form</h2>
+            <p>
+              If you use the <Link prefetch={false} href="/contact/">contact form</Link>, I collect what you type into it: your
+              name, your email address, your message, your project type and budget range, and, if you
+              choose to give them, your company, your current website, your timeline and how you heard
+              about me. Nothing else is collected from the form.
+            </p>
+            <p>
+              Your message is emailed to me through Resend and is not stored on this site. It lives in my
+              inbox and in Resend&apos;s records of sent email, and I use it only to reply to you.
+            </p>
+            <p>
+              When you press send, the form runs a bot check from Cloudflare Turnstile. It works
+              invisibly in the background and Cloudflare sees your IP address and some browser details to
+              do it, whether or not you have accepted analytics cookies. The Turnstile script only loads on
+              the contact page. How Cloudflare handles that data is set out in the{' '}
+              <a href="https://www.cloudflare.com/turnstile-privacy-policy/" target="_blank" rel="noopener noreferrer">
+                Cloudflare Turnstile Privacy Addendum
+              </a>
+              .
+            </p>
+            <p>
+              The Rubik&apos;s Cube puzzle on the form runs entirely in your browser. It sends no data
+              anywhere.
+            </p>
+
             <h2>Why it&apos;s collected</h2>
             <p>
-              To understand how visitors find and use this portfolio, so I can improve it.
+              Analytics data is collected to understand how visitors find and use this portfolio, so I can
+              improve it. Contact form details are collected so I can read and reply to your enquiry.
             </p>
 
             <h2>Cookie consent</h2>
@@ -52,9 +80,21 @@ export default function PrivacyPolicy() {
 
             <h2>Third parties</h2>
             <p>
-              Data is processed by Google under their{' '}
+              Analytics data is processed by Google under their{' '}
               <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
                 Privacy Policy
+              </a>
+              .
+            </p>
+            <p>
+              This site is hosted and protected by Cloudflare, which also runs Turnstile on the contact
+              form; see the{' '}
+              <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">
+                Cloudflare Privacy Policy
+              </a>
+              . Contact form emails are delivered by Resend; see the{' '}
+              <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">
+                Resend Privacy Policy
               </a>
               .
             </p>
@@ -67,15 +107,16 @@ export default function PrivacyPolicy() {
 
             <h2>Data retention</h2>
             <p>
-              Google Analytics retains data for 14 months by default. No data is stored on this
-              site&apos;s servers.
+              Google Analytics retains data for 14 months by default. This site doesn&apos;t keep a
+              database of visitors or messages: analytics data stays with Google, and contact form
+              messages stay in my email inbox until I delete them.
             </p>
 
             <h2>Your rights</h2>
             <p>
               You can withdraw consent at any time by clearing local storage or cookies for this
               site in your browser settings. If you are in the EU or UK, you have the right to
-              access, correct, or request deletion of your data — contact me via LinkedIn.
+              access, correct, or request deletion of your data — including anything you sent through the contact form — contact me via LinkedIn.
             </p>
           </div>
         </div>

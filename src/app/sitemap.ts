@@ -21,6 +21,7 @@ const PAGE_UPDATED = {
   '/': '2026-10-26',
   '/work/': '2026-10-16',
   '/about/': '2026-10-26',
+  '/contact/': '2026-10-30',
   '/articles/': '2026-10-08',
 } as const
 
@@ -40,6 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl('/'), lastModified: toDate(PAGE_UPDATED['/']) },
     { url: absoluteUrl('/work/'), lastModified: toDate(PAGE_UPDATED['/work/']) },
     { url: absoluteUrl('/about/'), lastModified: toDate(PAGE_UPDATED['/about/']) },
+    { url: absoluteUrl('/contact/'), lastModified: toDate(PAGE_UPDATED['/contact/']) },
     ...projects.map(p => ({
       url: absoluteUrl(`/work/${p.slug}/`),
       ...((p.updated ?? p.date) && { lastModified: toDate(p.updated ?? p.date) }),

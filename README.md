@@ -1,6 +1,6 @@
 # mitchellanderson.com.au
 
-Next.js site exported as static files (`output: 'export'`) and served by DigitalOcean App Platform. Every push to `main` builds and deploys.
+Next.js site exported as static files (`output: 'export'`) and served by Cloudflare Workers (static assets, plus one small Worker for the contact form). Every push to `main` builds and deploys.
 
 ## Commands
 
@@ -13,6 +13,9 @@ Next.js site exported as static files (`output: 'export'`) and served by Digital
 | `npm run wca` | Refreshes the speedcubing cache on its own |
 | `npm run covers` | Rebuilds the composite article cover photos from their screenshots |
 | `npm run screenshot:home` | Screenshots the homepage (from `npm run serve`) for the platform article's cover |
+| `npm test` | Runs the Worker tests and the cube and contact-schema tests (Node's built-in test runner) |
+| `npm run test:worker` | Runs the Worker tests on their own |
+| `npm run typecheck:worker` | Typechecks the Worker (`worker/`), which the site's own typecheck skips |
 
 ## Adding an image
 
@@ -45,8 +48,12 @@ Two covers are composites of screenshots, built by `scripts/make-article-covers.
 
 `scripts/update-wca-cache.mjs` runs before every build. It saves the WCA profile and every competition attended to `src/data/wca/`, fetching only competitions that aren't cached yet. The About page renders from that cache, then checks the live profile in the browser and fetches only competitions newer than the build.
 
+## Contact form
+
+`/contact/` has a form that posts to `worker/index.ts`, a Worker that runs only for `POST /api/contact`. It validates the message, checks an invisible Cloudflare Turnstile token and emails it through Resend, storing nothing. The Rubik's cube on the form is UX only; the server never sees it. The one-time setup (Turnstile widget, Resend domain, secrets), local testing and troubleshooting are in `docs/contact-form-setup.md`. Shared field choices and limits are in `src/lib/contact-schema.ts`.
+
 ## Hosting
 
-`.do/app.yaml` is a reference copy of the App Platform spec (including the www → apex redirect); App Platform only reads the copy in its console. App Platform can't set custom response headers for static sites, so the cache and security headers in `public/_headers` only apply on a host that reads that file, such as Cloudflare or Netlify.
+Cloudflare Workers serves the site: `wrangler.jsonc` points it at `out/` and at the contact form Worker, and `public/_headers` sets the cache and security headers. Cloudflare's Git integration runs `npm run build` and `npx wrangler deploy` on every push to `main`, and other branches get a preview URL. `.node-version` sets Node 24. `docs/cloudflare-setup.md` has the setup steps.
 
-`wrangler.jsonc` and `.node-version` set the site up for Cloudflare Workers, which applies `_headers` and deploys on every push to `main`. `docs/cloudflare-setup.md` has the steps to move over.
+`.do/app.yaml` is the old DigitalOcean App Platform spec, kept as a reference copy until that app is retired (see step 8 of `docs/cloudflare-setup.md`). App Platform can't set custom response headers for static sites, so `public/_headers` only applies on a host that reads that file, such as Cloudflare or Netlify.

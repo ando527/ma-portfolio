@@ -1,0 +1,14 @@
+# Local secrets for `npx wrangler dev`. Copy to .dev.vars (git-ignored) and edit.
+# Never put real secrets in this example file.
+
+# Turnstile's always-passes dummy secret (pairs with the dummy site key 1x00000000000000000000BB).
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Not needed while CONTACT_DRY_RUN=1. Use a Resend key with "Sending access" only.
+RESEND_API_KEY=
+
+# Where enquiries are delivered. Use your own address in .dev.vars, never in this file.
+CONTACT_TO=you@example.com
+
+# 1 = log the email subject instead of sending. Local development only: never set this in production.
+CONTACT_DRY_RUN=1

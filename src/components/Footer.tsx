@@ -33,7 +33,7 @@ function External({ href, children }: { href: string; children: React.ReactNode 
 }
 
 /** "Let's talk." — the contact panel at the top of the footer, on every page.
- *  The nav's Contact link jumps here (#contact). */
+ *  Keeps id="contact" so older #contact links still land here. */
 function ContactPanel() {
   return (
     <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 max-w-6xl mx-auto px-6 pt-20 md:pt-28">
@@ -72,14 +72,14 @@ function ContactPanel() {
             I&rsquo;m available for freelance work and collaborations.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className={btnLight}>
-              Reach out on LinkedIn
+            <Link prefetch={false} href="/contact/" className={btnLight}>
+              Send me a message
               <span aria-hidden className={btnArrow}>→</span>
+            </Link>
+            <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className={btnOnDark}>
+              Reach out on LinkedIn
               <span className="sr-only">(opens in a new tab)</span>
             </a>
-            <Link prefetch={false} href="/work/" className={btnOnDark}>
-              See my work
-            </Link>
           </div>
         </div>
       </div>
@@ -146,6 +146,7 @@ export default function Footer() {
 
           <Column title="About">
             <li><Link prefetch={false} href="/about/" className={linkClass}>About me</Link></li>
+            <li><Link prefetch={false} href="/contact/" className={linkClass}>Contact</Link></li>
             <External href={SITE.links.linkedin}>LinkedIn</External>
             <External href={SITE.links.github}>GitHub</External>
             <External href={SITE.links.wca}>WCA profile</External>

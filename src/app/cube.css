@@ -1,0 +1,183 @@
+/* The contact form's Rubik's cube (RubiksCaptcha.tsx). Plain DOM and CSS 3D
+   transforms: 27 cubies of 6 faces each, the visible ones carrying a sticker.
+   Imported by the component, so it only loads on pages that use it. */
+
+.cube-captcha {
+  /* Layout responds to the space the form gives it, not the viewport. */
+  container-type: inline-size;
+}
+
+.cube-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.cube-controls {
+  /* Needs an explicit width: inline-size containment ignores its content. */
+  width: 100%;
+  max-width: 28rem;
+  container-type: inline-size;
+}
+
+/* The two turn buttons stack until both labels surely fit side by side
+   ("Turn orange" with swatch and arrow is about 170px). The layout must not
+   depend on the label, so the placeholder shown before the cube is ready has
+   exactly the same height. */
+.cube-turns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+@container (min-width: 368px) {
+  .cube-turns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* Wide forms: cube on the left, controls beside it. */
+@container (min-width: 620px) {
+  .cube-body {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .cube-controls {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+/* ── The cube ─────────────────────────────────────────────────────────────── */
+
+.cube-stage {
+  --cube-box: clamp(150px, 46vw, 220px);
+  /* Edge of one cubie. The whole cube is 3 of these (60% of the box), which
+     leaves room for the corners at this camera angle. */
+  --cubie: calc(var(--cube-box) * 0.2);
+  --cube-body: #141014;
+  position: relative;
+  flex: none;
+  width: var(--cube-box);
+  height: var(--cube-box);
+  perspective: 900px;
+  isolation: isolate;
+}
+
+/* A soft contact shadow under the cube so it sits on the page. */
+.cube-stage::after {
+  content: '';
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 3%;
+  height: 9%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(28, 10, 14, 0.22), rgba(28, 10, 14, 0));
+}
+
+/* Zero-sized anchor at the centre of the stage; everything hangs off it. */
+.cube-model,
+.cube-layer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+.cube-layer {
+  left: 0;
+  top: 0;
+  animation-duration: var(--cube-turn-ms, 250ms);
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: forwards;
+  will-change: transform;
+}
+
+/* One clockwise quarter turn, looking at the face from outside the cube.
+   CSS axes: x right, y down, z towards the viewer. */
+.cube-layer[data-face='U'] {
+  animation-name: cube-turn-u;
+}
+
+.cube-layer[data-face='R'] {
+  animation-name: cube-turn-r;
+}
+
+@keyframes cube-turn-u {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-90deg); }
+}
+
+@keyframes cube-turn-r {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(90deg); }
+}
+
+.cubie {
+  position: absolute;
+  left: calc(var(--cubie) / -2);
+  top: calc(var(--cubie) / -2);
+  width: var(--cubie);
+  height: var(--cubie);
+  transform-style: preserve-3d;
+  transform: translate3d(
+    calc(var(--x) * var(--cubie)),
+    calc(var(--y) * var(--cubie)),
+    calc(var(--z) * var(--cubie))
+  );
+}
+
+.cubie-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 8%;
+  background: var(--cube-body);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.cubie-face[data-dir='px'] { transform: rotateY(90deg) translateZ(calc(var(--cubie) / 2)); }
+.cubie-face[data-dir='nx'] { transform: rotateY(-90deg) translateZ(calc(var(--cubie) / 2)); }
+.cubie-face[data-dir='py'] { transform: rotateX(90deg) translateZ(calc(var(--cubie) / 2)); }
+.cubie-face[data-dir='ny'] { transform: rotateX(-90deg) translateZ(calc(var(--cubie) / 2)); }
+.cubie-face[data-dir='pz'] { transform: translateZ(calc(var(--cubie) / 2)); }
+.cubie-face[data-dir='nz'] { transform: rotateY(180deg) translateZ(calc(var(--cubie) / 2)); }
+
+.cube-sticker {
+  position: absolute;
+  inset: 7%;
+  border-radius: 16%;
+  background-color: var(--c);
+  /* A little gloss top-left and a soft inner edge so the stickers look tactile;
+     the edge also keeps white stickers distinct from each other. */
+  background-image: linear-gradient(140deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 45%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.16),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Sticker colours, tuned on the #FDF7F7 page and spread out in lightness
+   (white > yellow > orange > green > red > blue) so they differ by more than
+   hue alone. The button swatches use the same values. */
+.cube-captcha [data-c='white'] { --c: #f4f4ef; }
+.cube-captcha [data-c='yellow'] { --c: #ffd23f; }
+.cube-captcha [data-c='orange'] { --c: #ff7a1a; }
+.cube-captcha [data-c='green'] { --c: #0b9a4b; }
+.cube-captcha [data-c='red'] { --c: #c41e3a; }
+.cube-captcha [data-c='blue'] { --c: #1d4fc4; }
+
+.cube-swatch {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background-color: var(--c);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.28);
+}

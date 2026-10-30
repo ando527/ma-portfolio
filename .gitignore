@@ -51,3 +51,7 @@ assets/linkedin/linkedin-banner@2x.png
 assets/linkedin/fonts/archivo-latin.woff2
 assets/linkedin/fonts/space-grotesk-latin.woff2
 scripts/make-linkedin-banner.mjs
+
+# wrangler dev local secrets (template: .dev.vars.example)
+.dev.vars
+plan.md

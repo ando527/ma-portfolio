@@ -26,6 +26,7 @@ export function GET() {
     `- [Home](${absoluteUrl('/')}): introduction, featured projects and services`,
     `- [Work](${absoluteUrl('/work/')}): every case study`,
     `- [About](${absoluteUrl('/about/')}): background, experience and speedcubing results`,
+    `- [Contact](${absoluteUrl('/contact/')}): send a message about a project`,
     '',
     '## Services',
     '',

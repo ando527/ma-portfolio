@@ -16,6 +16,14 @@ export const SITE = {
     wca: 'https://www.worldcubeassociation.org/persons/2022ANDE01',
   },
   employer: { name: 'SLATE Media', url: 'https://www.slatemedia.com.au' },
+  /**
+   * Public site key of the Cloudflare Turnstile widget on the contact page
+   * (an Invisible widget; the secret half lives in the Worker as
+   * TURNSTILE_SECRET_KEY). Site keys are public by design. For local testing
+   * with Cloudflare's dummy secret, set NEXT_PUBLIC_TURNSTILE_SITE_KEY to the
+   * dummy key 1x00000000000000000000BB (docs/contact-form-setup.md).
+   */
+  turnstileSiteKey: '0x4AAAAAAFsBws4CbZjdDzGe',
 } as const
 
 export const absoluteUrl = (path = '/') => new URL(path, SITE.url).toString()
