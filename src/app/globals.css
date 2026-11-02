@@ -263,9 +263,35 @@ html.js [data-stagger]:not([data-revealed]) > .reveal-item {
   filter: blur(4px);
 }
 
+/* ── Highlighter marker ───────────────────────────────────────────────────────
+   A pale maroon stroke behind the lower part of an inline phrase (the
+   homepage's pull quotes). The default box-decoration-break keeps it one
+   continuous stroke across wrapped lines. Inside a .reveal it starts at zero
+   width and sweeps out once the block is revealed, just after the fade-up.
+   Without JavaScript it is simply shown in full. */
+.marker {
+  background-image: linear-gradient(#F9DDE1, #F9DDE1);
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 38%;
+  transition: background-size 1.1s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--reveal-delay, 0s) + 0.3s);
+}
+
+html.js .reveal:not([data-revealed]) .marker {
+  background-size: 0% 38%;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .enter {
     animation: none;
+  }
+
+  .marker {
+    transition: none;
+  }
+
+  html.js .reveal:not([data-revealed]) .marker {
+    background-size: 100% 38%;
   }
 
   .reveal,

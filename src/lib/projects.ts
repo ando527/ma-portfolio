@@ -12,6 +12,8 @@ export interface ProjectTestimonial {
   /** The review as written, one string per paragraph. */
   quote: string[]
   name: string
+  /** The reviewer's title, e.g. "Director". */
+  role?: string
   /** The reviewer's business, e.g. "Sippy Tom". */
   company?: string
   /** Star rating out of 5. */
@@ -59,8 +61,8 @@ export interface Project {
   year?: string
   deliverables?: string[]
   stats?: ProjectStat[]
-  /** An optional client review, shown below the write-up. */
-  testimonial?: ProjectTestimonial
+  /** Optional client reviews, shown below the write-up. */
+  testimonials?: ProjectTestimonial[]
   beforeImage?: string
   color?: string
   favicon?: string
@@ -107,7 +109,7 @@ function parseProject(slug: string, fileContents: string): Project {
     year: data.year || '',
     deliverables: data.deliverables || [],
     stats: data.stats || [],
-    testimonial: data.testimonial || undefined,
+    testimonials: data.testimonials || undefined,
     beforeImage,
     color: data.color || '',
     favicon: data.favicon || '',

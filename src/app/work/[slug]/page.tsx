@@ -70,6 +70,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const articles = getArticlesLinkingTo(`/work/${slug}/`).map(toArticleCard)
   const { hero, before } = project.images
   const url = absoluteUrl(`/work/${slug}/`)
+  const testimonials = project.testimonials ?? []
+  const multiple = testimonials.length > 1
 
   const schema = graph(
     {
@@ -207,6 +209,75 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </section>
       )}
 
+      {/* ── Testimonials ─────────────────────────────────────────────
+          Between the before/after and the write-up, so skimmers see it.
+          No bottom padding: the write-up brings its own top padding. */}
+      {testimonials.length > 0 && (
+        <section className="max-w-6xl mx-auto px-6" aria-labelledby="testimonial-heading">
+          <AnimateIn>
+            <h2 id="testimonial-heading" className={`${LABEL} mb-6`}>What the client said</h2>
+            {/* One review fills the width; two or more sit side by side from md. */}
+            <div className={multiple ? 'grid gap-6 md:grid-cols-2 md:gap-8' : undefined}>
+              {testimonials.map((t, i) => (
+                <figure key={i} className={`relative flex flex-col overflow-hidden rounded-[1.5rem] border border-maroon-100 bg-maroon-50 p-8 ${multiple ? 'lg:p-12' : 'md:p-12'}`}>
+                  <span
+                    aria-hidden
+                    className={`display pointer-events-none absolute select-none leading-none text-primary/15 ${
+                      multiple
+                        ? 'right-6 top-2 text-[6rem] md:text-[8rem]'
+                        : 'right-6 top-2 text-[8rem] md:right-10 md:top-4 md:text-[12rem]'
+                    }`}
+                  >
+                    &ldquo;
+                  </span>
+                  {t.rating ? (
+                    <div
+                      role="img"
+                      aria-label={`Rated ${t.rating} out of 5`}
+                      className="relative mb-6 flex gap-1"
+                    >
+                      {[1, 2, 3, 4, 5].map(n => (
+                        <svg
+                          key={n}
+                          aria-hidden
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className={`h-5 w-5 ${n <= t.rating! ? 'text-primary' : 'text-maroon-200'}`}
+                        >
+                          <path d="M10 1.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L1.4 7.8l6-.8L10 1.5z" />
+                        </svg>
+                      ))}
+                    </div>
+                  ) : null}
+                  <blockquote className={`relative mb-8 max-w-3xl space-y-4 font-heading font-medium leading-relaxed text-foreground ${multiple ? 'text-lg' : 'text-lg md:text-xl'}`}>
+                    {t.quote.map((paragraph, j) => (
+                      <p key={j}>{paragraph}</p>
+                    ))}
+                  </blockquote>
+                  <figcaption className="relative mt-auto border-t border-maroon-100 pt-6 font-sans">
+                    <p className="font-semibold text-foreground">
+                      {t.name}
+                      {(t.role || t.company) && (
+                        <span className="font-normal text-muted-foreground">, {[t.role, t.company].filter(Boolean).join(', ')}</span>
+                      )}
+                    </p>
+                    {(t.source || t.date) && (
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {t.source}
+                        {t.source && t.date && ' · '}
+                        {t.date && (
+                          <time dateTime={t.date}>{formatMonth(t.date)}</time>
+                        )}
+                      </p>
+                    )}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </AnimateIn>
+        </section>
+      )}
+
       {/* ── The write-up, with a sticky sidebar ──────────────────── */}
       {html.replace(/<[^>]*>/g, '').trim() && (
         <ProseLayout
@@ -239,64 +310,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </>
           }
         />
-      )}
-
-      {/* ── Testimonial ──────────────────────────────────────────── */}
-      {project.testimonial && (
-        <section className="max-w-6xl mx-auto px-6 pt-0 pb-16 md:pb-20" aria-labelledby="testimonial-heading">
-          <AnimateIn>
-            <h2 id="testimonial-heading" className={`${LABEL} mb-6`}>What the client said</h2>
-            <figure className="relative overflow-hidden rounded-[1.5rem] border border-maroon-100 bg-maroon-50 p-8 md:p-12">
-              <span
-                aria-hidden
-                className="display pointer-events-none absolute right-6 top-2 select-none text-[8rem] leading-none text-primary/15 md:right-10 md:top-4 md:text-[12rem]"
-              >
-                &ldquo;
-              </span>
-              {project.testimonial.rating ? (
-                <div
-                  role="img"
-                  aria-label={`Rated ${project.testimonial.rating} out of 5`}
-                  className="relative mb-6 flex gap-1"
-                >
-                  {[1, 2, 3, 4, 5].map(n => (
-                    <svg
-                      key={n}
-                      aria-hidden
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className={`h-5 w-5 ${n <= project.testimonial!.rating! ? 'text-primary' : 'text-maroon-200'}`}
-                    >
-                      <path d="M10 1.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L1.4 7.8l6-.8L10 1.5z" />
-                    </svg>
-                  ))}
-                </div>
-              ) : null}
-              <blockquote className="relative max-w-3xl space-y-4 font-heading text-lg font-medium leading-relaxed text-foreground md:text-xl">
-                {project.testimonial.quote.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </blockquote>
-              <figcaption className="relative mt-8 border-t border-maroon-100 pt-6 font-sans">
-                <p className="font-semibold text-foreground">
-                  {project.testimonial.name}
-                  {project.testimonial.company && (
-                    <span className="font-normal text-muted-foreground">, {project.testimonial.company}</span>
-                  )}
-                </p>
-                {(project.testimonial.source || project.testimonial.date) && (
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {project.testimonial.source}
-                    {project.testimonial.source && project.testimonial.date && ' · '}
-                    {project.testimonial.date && (
-                      <time dateTime={project.testimonial.date}>{formatMonth(project.testimonial.date)}</time>
-                    )}
-                  </p>
-                )}
-              </figcaption>
-            </figure>
-          </AnimateIn>
-        </section>
       )}
 
       {/* ── Articles that link to this case study ───────────────── */}

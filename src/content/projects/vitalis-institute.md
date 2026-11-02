@@ -1,7 +1,7 @@
 ---
 title: "Vitalis Institute"
 date: "2026-08"
-updated: "2026-10-08"
+updated: "2026-11-02"
 tags: ["Webflow", "UI Design", "Wellbeing"]
 thumbnail: "/images/case-studies/vitalis-hero.webp"
 heroImage: "/images/case-studies/vitalis-hero.png"
@@ -40,6 +40,17 @@ stats:
     value: "Homepage"
   - label: "Platform"
     value: "Webflow"
+testimonials:
+  - name: "Dave Hobart"
+    role: "Director"
+    company: "Vitalis Institute"
+    quote:
+      - "Mitch is very professional and responsive with an equal balance of creativity and integrity. If you’re looking for someone that is solutions focused and reliable, Mitch is your man."
+  - name: "Stuart Smith"
+    role: "Director"
+    company: "Vitalis Institute"
+    quote:
+      - "Working with Mitch was an excellent experience, he is very knowledgeable and has a great creative mind. The work we did in person was so productive and he is very reliable. It is for these reasons that I continue to use him for any website or creative work."
 ---
 
 ## The Brief

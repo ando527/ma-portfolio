@@ -10,6 +10,7 @@ import HeroBackground from '@/components/HeroBackground'
 import BrowserWindow from '@/components/BrowserWindow'
 import HeroContent from '@/components/HeroContent'
 import ArticleSlider from '@/components/ArticleSlider'
+import Testimonials from '@/components/Testimonials'
 import SectionHeading from '@/components/SectionHeading'
 import { AnimateIn, StaggerIn, FadeItem } from '@/components/ui/animate-in'
 import { btnSecondary, btnArrow } from '@/components/ui/button'
@@ -128,12 +129,15 @@ export default function Home() {
 
       </section>
 
-      {/* ── Featured Work ─────────────────────────────────────────────
+      {/* ── Testimonials ──────────────────────────────────────────────
           A light sheet with rounded top corners that slides up over the
           sticky hero as the page scrolls. */}
+      <Testimonials />
+
+      {/* ── Featured Work ─────────────────────────────────────────── */}
       {featured.length > 0 && (
         <section
-          className="relative z-10 pt-20 md:pt-28 pb-24 bg-card rounded-t-[2rem] md:rounded-t-[2.75rem] shadow-[0_-24px_60px_-24px_rgba(0,0,0,0.55)]"
+          className="relative z-10 pt-20 md:pt-28 pb-24 bg-card border-t border-maroon-100"
           aria-labelledby="featured-heading"
         >
           <div className="max-w-6xl mx-auto px-6">
