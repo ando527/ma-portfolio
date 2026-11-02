@@ -1,7 +1,7 @@
 ---
 title: "Sippy Tom"
 date: "2025-01"
-updated: "2026-10-16"
+updated: "2026-11-02"
 tags: ["Webflow", "Branding", "CMS", "Hospitality"]
 thumbnail: "/images/case-studies/sippy-tom-after.jpg"
 heroImage: "/images/case-studies/sippy-tom-after.jpg"
@@ -41,6 +41,18 @@ stats:
     value: "Webflow"
   - label: "Location"
     value: "Teneriffe"
+testimonial:
+  name: "Tom Sharpe"
+  company: "Sippy Tom"
+  rating: 5
+  source: "Google review of SLATE Media"
+  # Google shows "9 months ago" as of 2026-11-02, so the month is approximate.
+  date: "2026-02"
+  quote:
+    - "Slate looked after my cafe rebrand and website. Incredibly happy with the final result."
+    - "Clear communication throughout the process."
+    - "Successfully understood my design ideas and converted them into the branding I wanted."
+    - "Would highly recommend"
 ---
 
 ## The Brief

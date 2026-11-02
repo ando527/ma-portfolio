@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getAllProjects, getProjectBySlug, type Project } from '@/lib/projects'
+import { getAllProjects, getProjectBySlug, formatMonth, type Project } from '@/lib/projects'
 import { getAllServices } from '@/lib/services'
 import { getArticlesLinkingTo, toArticleCard } from '@/lib/articles'
 import { renderMarkdown } from '@/lib/markdown'
@@ -239,6 +239,64 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </>
           }
         />
+      )}
+
+      {/* ── Testimonial ──────────────────────────────────────────── */}
+      {project.testimonial && (
+        <section className="max-w-6xl mx-auto px-6 pt-0 pb-16 md:pb-20" aria-labelledby="testimonial-heading">
+          <AnimateIn>
+            <h2 id="testimonial-heading" className={`${LABEL} mb-6`}>What the client said</h2>
+            <figure className="relative overflow-hidden rounded-[1.5rem] border border-maroon-100 bg-maroon-50 p-8 md:p-12">
+              <span
+                aria-hidden
+                className="display pointer-events-none absolute right-6 top-2 select-none text-[8rem] leading-none text-primary/15 md:right-10 md:top-4 md:text-[12rem]"
+              >
+                &ldquo;
+              </span>
+              {project.testimonial.rating ? (
+                <div
+                  role="img"
+                  aria-label={`Rated ${project.testimonial.rating} out of 5`}
+                  className="relative mb-6 flex gap-1"
+                >
+                  {[1, 2, 3, 4, 5].map(n => (
+                    <svg
+                      key={n}
+                      aria-hidden
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className={`h-5 w-5 ${n <= project.testimonial!.rating! ? 'text-primary' : 'text-maroon-200'}`}
+                    >
+                      <path d="M10 1.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L1.4 7.8l6-.8L10 1.5z" />
+                    </svg>
+                  ))}
+                </div>
+              ) : null}
+              <blockquote className="relative max-w-3xl space-y-4 font-heading text-lg font-medium leading-relaxed text-foreground md:text-xl">
+                {project.testimonial.quote.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </blockquote>
+              <figcaption className="relative mt-8 border-t border-maroon-100 pt-6 font-sans">
+                <p className="font-semibold text-foreground">
+                  {project.testimonial.name}
+                  {project.testimonial.company && (
+                    <span className="font-normal text-muted-foreground">, {project.testimonial.company}</span>
+                  )}
+                </p>
+                {(project.testimonial.source || project.testimonial.date) && (
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {project.testimonial.source}
+                    {project.testimonial.source && project.testimonial.date && ' · '}
+                    {project.testimonial.date && (
+                      <time dateTime={project.testimonial.date}>{formatMonth(project.testimonial.date)}</time>
+                    )}
+                  </p>
+                )}
+              </figcaption>
+            </figure>
+          </AnimateIn>
+        </section>
       )}
 
       {/* ── Articles that link to this case study ───────────────── */}

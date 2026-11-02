@@ -1,7 +1,7 @@
 ---
 title: "VennCap Real Estate"
 date: "2025-01"
-updated: "2026-10-08"
+updated: "2026-11-02"
 tags: ["Webflow", "Branding", "UI Design"]
 thumbnail: "/images/case-studies/venncap-after.jpg"
 heroImage: "/images/case-studies/venncap-after.jpg"
@@ -39,6 +39,16 @@ stats:
     value: "8+"
   - label: "Platform"
     value: "Webflow"
+testimonial:
+  name: "Emily Parr"
+  company: "VennCap"
+  rating: 5
+  source: "Google review of SLATE Media"
+  # Google shows "8 months ago" as of 2026-11-02, so the month is approximate.
+  date: "2026-03"
+  quote:
+    - "We’re absolutely wrapped with the outcome of our new website and brand refresh by Slate Media. The feedback we’ve received has been overwhelmingly positive, which really says it all."
+    - "The team at Slate genuinely nailed what we were after and somehow managed to turn our ideas into something even better than we imagined. They were super easy to deal with, incredibly responsive, and always happy to accommodate our (many) requests along the way."
 ---
 
 ## The Challenge

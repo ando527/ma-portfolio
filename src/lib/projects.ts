@@ -8,6 +8,20 @@ export interface ProjectStat {
   value: string
 }
 
+export interface ProjectTestimonial {
+  /** The review as written, one string per paragraph. */
+  quote: string[]
+  name: string
+  /** The reviewer's business, e.g. "Sippy Tom". */
+  company?: string
+  /** Star rating out of 5. */
+  rating?: number
+  /** Where the review was published, e.g. "Google review of SLATE Media". */
+  source?: string
+  /** When the review was posted, "YYYY-MM". */
+  date?: string
+}
+
 export interface ProjectPreviewSection {
   heading: string
   body: string
@@ -45,6 +59,8 @@ export interface Project {
   year?: string
   deliverables?: string[]
   stats?: ProjectStat[]
+  /** An optional client review, shown below the write-up. */
+  testimonial?: ProjectTestimonial
   beforeImage?: string
   color?: string
   favicon?: string
@@ -91,6 +107,7 @@ function parseProject(slug: string, fileContents: string): Project {
     year: data.year || '',
     deliverables: data.deliverables || [],
     stats: data.stats || [],
+    testimonial: data.testimonial || undefined,
     beforeImage,
     color: data.color || '',
     favicon: data.favicon || '',
