@@ -12,6 +12,7 @@ Next.js site exported as static files (`output: 'export'`) and served by Cloudfl
 | `npm run images` | Turns originals in `assets/images/` into the WebP files and sizes the site serves |
 | `npm run wca` | Refreshes the speedcubing cache on its own |
 | `npm run covers` | Rebuilds the composite article cover photos from their screenshots |
+| `npm run og` | Renders the share cards (`assets/og/cards/<slug>.png`) from each project and article, and the default card. Needs Chrome or Edge. Run it before `npm run images` |
 | `npm run screenshot:home` | Screenshots the homepage (from `npm run serve`) for the platform article's cover |
 | `npm test` | Runs the Worker tests and the cube and contact-schema tests (Node's built-in test runner) |
 | `npm run test:worker` | Runs the Worker tests on their own |
@@ -28,7 +29,7 @@ If an image is referenced but hasn't been through step 2, the build fails and sa
 
 ## Adding a case study
 
-Create `src/content/projects/<slug>.md` (copy an existing one for the front matter). It appears on `/work/`, in the footer, the sitemap and `llms.txt` automatically, and gets a 1200×630 share image the next time `npm run images` runs. `seoTitle`, `seoDescription`, `heroAlt` and `beforeAlt` are optional but worth filling in. `effort` (0–100) sets its place in the Work page's "Most involved" sort and isn't shown anywhere. `preview` (two short sections, each a `heading` and `body`) is what the homepage project browser shows for a featured project. It's never shown on the case study page, so write it fresh rather than copying from the body, to keep the homepage from duplicating the case study.
+Create `src/content/projects/<slug>.md` (copy an existing one for the front matter). It appears on `/work/`, in the footer, the sitemap and `llms.txt` automatically, and gets a 1200×630 share image the next time `npm run og` and then `npm run images` run. `seoTitle`, `seoDescription`, `heroAlt` and `beforeAlt` are optional but worth filling in. `effort` (0–100) sets its place in the Work page's "Most involved" sort and isn't shown anywhere. `preview` (two short sections, each a `heading` and `body`) is what the homepage project browser shows for a featured project. It's never shown on the case study page, so write it fresh rather than copying from the body, to keep the homepage from duplicating the case study.
 
 ## Adding an article
 
@@ -36,9 +37,13 @@ Create `src/content/articles/<slug>.md` with the front matter from the existing 
 
 ### Article covers
 
-Article cards show `coverText` on a dark panel. Add `coverImage` (and optionally `coverPosition`, default `right center`) to put a photo behind the text and its gradient. The gradient is solid on the left, so the subject should sit on the right. `heroImage` is different: it replaces the cover with a plain photo and no text.
+Article cards show `coverText` on a dark panel. Add `coverImage` (and optionally `coverPosition`, default `right center`) to put a photo beside the text. A solid panel covers the left side with a hard edge, so the subject should sit on the right. `heroImage` is different: it replaces the cover with a plain photo and no text.
 
 Two covers are composites of screenshots, built by `scripts/make-article-covers.mjs`: the launch checklist's phones (from the Speedcubing Australia mobile screenshot) and the platform article's browser windows (this site, We Got The Chocolates and Sippy Tom). If one of those screenshots changes, run `npm run covers` then `npm run images`. This site's screenshot lives in `assets/covers/home.png`, outside `assets/images/` so it isn't published; refresh it with `npm run screenshot:home` while `npm run serve` is running.
+
+## Light and dark theme
+
+`<html data-theme="light|dark">` is the one switch. A tiny inline script in `src/app/layout.tsx` sets it before first paint from `localStorage['theme']`, else the system setting; `src/lib/theme.ts` (`applyTheme`) and `ThemeToggle` change it. The colours are CSS variables (RGB channels, so `bg-paper/90` still works): light values on `:root`, dark values under `[data-theme='dark']` in `src/app/globals.css`, wired into `tailwind.config.ts`. The `d-*` tokens are the always-dark ramp (hero, footer, covers, cookie banner, browser chrome) and do not change. Use `bg-accent-fill text-on-accent` for solid accent fills (the button red is lighter in dark), `text-accent` for accent text, `border-control` for input borders, `text-negative-text` for error text, and `dark:` utilities when one element needs a one-off dark rule.
 
 ## Service pages
 

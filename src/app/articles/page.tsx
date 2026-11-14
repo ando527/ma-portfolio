@@ -21,7 +21,7 @@ export default function ArticlesPage() {
   const articles = getAllArticles()
 
   return (
-    <div className="bg-background">
+    <div className="bg-paper">
       <JsonLd
         data={graph(
           webPageNode('/articles/', {
@@ -32,6 +32,7 @@ export default function ArticlesPage() {
             breadcrumb: true,
             mainEntity: {
               '@type': 'ItemList',
+              numberOfItems: articles.length,
               itemListElement: articles.map((a, i) => ({
                 '@type': 'ListItem',
                 position: i + 1,
@@ -51,17 +52,22 @@ export default function ArticlesPage() {
         crumbs={[{ name: 'Home', href: '/' }, { name: 'Articles' }]}
         eyebrow="Writing"
         title="Articles"
-        intro="Notes on Webflow, Shopify and front-end development, and what I've learned building websites for clients."
+        intro="Notes on Webflow, Shopify and front-end development, and what I've learned building websites for clients"
       />
 
-      <section className="py-16 md:py-20" aria-label="Articles">
-        <ul className="max-w-6xl mx-auto px-6 grid gap-8">
-          {articles.map(a => (
-            <li key={a.slug}>
-              <FeatureCard article={toArticleCard(a)} headingAs="h2" />
-            </li>
-          ))}
-        </ul>
+      <section className="py-16 md:py-24" aria-label="Articles">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="split pb-4 mb-8 border-b border-line">
+            {articles.length} {articles.length === 1 ? 'article' : 'articles'}
+          </p>
+          <ul className="grid gap-6 md:gap-8">
+            {articles.map((a, i) => (
+              <li key={a.slug}>
+                <FeatureCard article={toArticleCard(a)} headingAs="h2" priority={i === 0} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
     </div>

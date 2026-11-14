@@ -4,31 +4,212 @@
 
 @layer base {
   :root {
-    --ink: #100408;
-    --paper: #FDF7F7;
-    --primary: #7C1D2E;
-    --secondary: #9B2335;
-    --rose: #F1B8BF;
-    /* Body copy in long-form content: a warm near-black, easier to read at
-       length than the maroon used for short supporting text (12.9:1 on paper). */
-    --prose-body: #3B2228;
+    /* The theme ramp, as RGB channels so Tailwind's opacity utilities work
+       (bg-paper/90). Light is the default; the dark values are in the
+       [data-theme='dark'] block below. The unprefixed names (--paper, --fg, ...) are
+       ready colours for plain CSS. The
+       always-dark ramp (--d-*) and the hero, footer and cover colours do not
+       change with the theme. */
+    --c-paper: 247 244 238; /* #F7F4EE */
+    --c-card: 253 251 247; /* #FDFBF7 */
+    --c-raised: 239 233 223; /* #EFE9DF */
+    --c-fg: 31 27 22; /* #1F1B16 */
+    --c-fg-2: 94 85 74; /* #5E554A */
+    --c-fg-3: 110 101 90; /* #6E655A: 4.7:1 on raised, 5.2:1 on paper */
+    --c-control: 133 124 112; /* #857C70: input border, 3.4:1 on raised */
+    --c-line: 31 27 22;
+    --a-line: 0.08;
+    --a-line-strong: 0.14;
+    --c-accent: 124 29 46; /* #7C1D2E */
+    --c-accent-hover: 107 24 38; /* #6B1826 */
+    --c-accent-fill: 124 29 46;
+    --c-accent-fill-hover: 107 24 38;
+    --c-on-accent: 255 255 255;
+    --c-on-fg: 255 255 255;
+    --c-positive: 21 128 61; /* #15803D: 4.2:1 on raised, 5.0:1 under a white check */
+    --c-on-positive: 255 255 255;
+    --c-negative: 220 38 38; /* #DC2626: borders and icons */
+    --c-negative-text: 185 28 28; /* #B91C1C: text, 5.4:1 on raised */
+
+    --paper: rgb(var(--c-paper));
+    --card: rgb(var(--c-card));
+    --raised: rgb(var(--c-raised));
+    --fg: rgb(var(--c-fg));
+    --fg-2: rgb(var(--c-fg-2));
+    --fg-3: rgb(var(--c-fg-3));
+    --control: rgb(var(--c-control));
+    --line: rgb(var(--c-line) / var(--a-line));
+    --line-strong: rgb(var(--c-line) / var(--a-line-strong));
+    --accent: rgb(var(--c-accent));
+    --accent-hover: rgb(var(--c-accent-hover));
+    --accent-fill: rgb(var(--c-accent-fill));
+    --on-accent: rgb(var(--c-on-accent));
+    --accent-on-dark: #E08A9A;
+    --d-deep: #12110F;
+    --d-page: #161513;
+    --d-card: #1C1A18;
+    --d-raised: #262421;
+    --d-line: rgb(239 233 222 / 0.08);
+    --d-fg: #EFE9DE;
+    --d-fg-2: #AAA398;
+    --d-fg-3: #918B81;
+
+    /* The one easing curve and the few durations. */
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 150ms;
+    --dur-menu: 200ms;
+    --dur-enter: 450ms;
+
+    /* Body copy in long-form content (articles, case studies): a notch softer
+       than the headline colour, easier to read at length. */
+    --prose-body: #2E2822;
+
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --scrollbar: rgb(31 27 22 / 0.28);
+
+    /* Competition gold (World Championships). Fill is for markers and dots and
+       always carries the dark edge, because a gold fill alone is only ~2:1 on
+       the light map. Text gold is 5.8:1 on paper, 5.2:1 on raised. */
+    --gold-fill: #C9A227;
+    --gold-edge: #4A3800; /* 9.8:1 on the map land, 4.7:1 against the fill */
+    --gold-on: #1F1B16; /* text on a gold fill, 7.1:1 */
+    --gold-text: #7A5B00;
+
+    /* Medal dots (graphics next to their labels). */
+    --medal-gold: #B8860B;
+    --medal-silver: #8A8D91;
+    --medal-bronze: #92400E;
+
+    color-scheme: light;
+  }
+
+  /* Dark theme. Set on <html> by the inline script in layout.tsx (before first
+     paint) and by ThemeToggle. Bright gold for dark surfaces: 5.5:1 on the dark
+     map land, 9.3:1 (text variant 10.3:1) on d-card. */
+  :root[data-theme='dark'] {
+    /* Dark ramp for the theme. One step lighter than the always-dark hero and
+       footer (--d-page, --d-deep) so those bands still separate from the page. */
+    --c-paper: 26 24 21; /* #1A1815 */
+    --c-card: 33 31 27; /* #211F1B */
+    --c-raised: 42 39 34; /* #2A2722 */
+    --c-fg: 239 233 222; /* 14.7:1 on paper */
+    --c-fg-2: 179 172 160; /* 7.9:1 on paper, 6.6:1 on raised */
+    --c-fg-3: 154 148 138; /* 5.9:1 on paper, 4.9:1 on raised */
+    --c-control: 132 125 114; /* input border: 3.7:1 on raised, 4.7:1 on paper */
+    --c-line: 239 233 222;
+    --a-line: 0.1;
+    --a-line-strong: 0.18;
+    --c-accent: 224 138 154; /* #E08A9A: 7.0:1 on paper, 5.9:1 on raised */
+    --c-accent-hover: 235 163 176; /* #EBA3B0 */
+    --c-accent-fill: 194 79 102; /* #C24F66: white label 4.6:1, 3.9:1 on paper */
+    --c-accent-fill-hover: 184 71 92; /* #B8475C: white label 5.1:1, 3.5:1 on paper */
+    --c-on-accent: 255 255 255;
+    --c-on-fg: 26 24 21;
+    --c-positive: 76 195 138; /* #4CC38A */
+    --c-on-positive: 18 17 15;
+    --c-negative: 229 72 77; /* #E5484D: 3.8:1 on raised, for borders and icons */
+    --c-negative-text: 255 138 143; /* #FF8A8F: 7.3:1 on card */
+    --prose-body: #D8D2C6; /* 11.8:1 on paper */
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-float: 0 8px 24px rgb(0 0 0 / 0.45);
+    --scrollbar: rgb(239 233 222 / 0.34);
+    --gold-fill: #E3B93C;
+    --gold-edge: #F6E7B0;
+    --gold-on: #2A1F00;
+    --gold-text: #E6C45A;
+    --medal-gold: #E3B93C;
+    --medal-silver: #B4B7BB;
+    --medal-bronze: #D08A4E;
+    color-scheme: dark;
+  }
+
+  /* No JavaScript: nothing sets data-theme, so follow the system. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+    /* Dark ramp for the theme. One step lighter than the always-dark hero and
+       footer (--d-page, --d-deep) so those bands still separate from the page. */
+    --c-paper: 26 24 21; /* #1A1815 */
+    --c-card: 33 31 27; /* #211F1B */
+    --c-raised: 42 39 34; /* #2A2722 */
+    --c-fg: 239 233 222; /* 14.7:1 on paper */
+    --c-fg-2: 179 172 160; /* 7.9:1 on paper, 6.6:1 on raised */
+    --c-fg-3: 154 148 138; /* 5.9:1 on paper, 4.9:1 on raised */
+    --c-control: 132 125 114; /* input border: 3.7:1 on raised, 4.7:1 on paper */
+    --c-line: 239 233 222;
+    --a-line: 0.1;
+    --a-line-strong: 0.18;
+    --c-accent: 224 138 154; /* #E08A9A: 7.0:1 on paper, 5.9:1 on raised */
+    --c-accent-hover: 235 163 176; /* #EBA3B0 */
+    --c-accent-fill: 194 79 102; /* #C24F66: white label 4.6:1, 3.9:1 on paper */
+    --c-accent-fill-hover: 184 71 92; /* #B8475C: white label 5.1:1, 3.5:1 on paper */
+    --c-on-accent: 255 255 255;
+    --c-on-fg: 26 24 21;
+    --c-positive: 76 195 138; /* #4CC38A */
+    --c-on-positive: 18 17 15;
+    --c-negative: 229 72 77; /* #E5484D: 3.8:1 on raised, for borders and icons */
+    --c-negative-text: 255 138 143; /* #FF8A8F: 7.3:1 on card */
+    --prose-body: #D8D2C6; /* 11.8:1 on paper */
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-float: 0 8px 24px rgb(0 0 0 / 0.45);
+    --scrollbar: rgb(239 233 222 / 0.34);
+    --gold-fill: #E3B93C;
+    --gold-edge: #F6E7B0;
+    --gold-on: #2A1F00;
+    --gold-text: #E6C45A;
+    --medal-gold: #E3B93C;
+    --medal-silver: #B4B7BB;
+    --medal-bronze: #D08A4E;
+    color-scheme: dark;
+    }
+  }
+
+  /* More contrast, when the system asks for it: dimmer text and the hairlines
+     get firmer. Both themes. */
+  @media (prefers-contrast: more) {
+    :root {
+    --c-fg-2: 63 56 47;
+    --c-fg-3: 85 76 66;
+    --c-control: 100 92 81;
+    --a-line: 0.22;
+    --a-line-strong: 0.45;
+    --scrollbar: rgb(31 27 22 / 0.6);
+    }
+    :root[data-theme='dark'] {
+    --c-fg-2: 207 200 187;
+    --c-fg-3: 184 177 165;
+    --c-control: 170 163 152;
+    --a-line: 0.26;
+    --a-line-strong: 0.5;
+    --scrollbar: rgb(239 233 222 / 0.65);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+    --c-fg-2: 207 200 187;
+    --c-fg-3: 184 177 165;
+    --c-control: 170 163 152;
+    --a-line: 0.26;
+    --a-line-strong: 0.5;
+    --scrollbar: rgb(239 233 222 / 0.65);
+      }
+    }
   }
 
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scrollbar-color: #C9A3AA transparent;
+    scrollbar-color: var(--scrollbar) transparent;
   }
 
   body {
-    background-color: #FDF7F7;
-    color: #1C0A0E;
+    background-color: var(--paper);
+    color: var(--fg);
   }
 
   ::selection {
-    background-color: #7C1D2E;
-    color: #fff;
+    background-color: var(--accent-fill);
+    color: var(--on-accent);
   }
 
   h1, h2, h3 {
@@ -41,13 +222,13 @@
 
   /* Keyboard focus is always visible; mouse clicks don't draw a ring. */
   :focus-visible {
-    outline: 2px solid #9B2335;
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
 
-  /* Dark surfaces (hero, nav, expertise, footer) get a light ring. */
+  /* Dark surfaces (hero, footer, dark bands) get the lighter accent. */
   .on-dark :focus-visible {
-    outline-color: #F1B8BF;
+    outline-color: var(--accent-on-dark);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -58,31 +239,72 @@
 }
 
 @layer components {
-  /* Display headings: Archivo, slightly expanded and tightly tracked. The
-     width comes from the font's wdth axis (layout.tsx), so no extra family. */
+  /* Display headings: Geist 500, tight. Three steps so tracking follows size
+     (0 under 16px, -0.01em for section titles, -0.02em from 40px, -0.03em
+     from 56px). Pick the size with Tailwind text-* utilities. */
+  .display-sm {
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
   .display {
-    font-family: var(--font-archivo), sans-serif;
-    font-weight: 700;
-    font-stretch: 112%;
-    letter-spacing: -0.035em;
-    line-height: 0.98;
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .display-xl {
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
   }
 
-  /* Small uppercase label above a heading. */
+  /* Small label above a heading: sentence case, muted, no tracking. */
   .eyebrow {
-    font-family: var(--font-space-grotesk), sans-serif;
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    color: var(--fg-3);
+  }
+  .on-dark .eyebrow {
+    color: var(--d-fg-3);
+  }
+  /* Same label in mono, for the rare label that reads as a readout. */
+  .eyebrow-mono {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
     font-size: 0.75rem;
     line-height: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg-3);
+  }
+  .on-dark .eyebrow-mono {
+    color: var(--d-fg-3);
+  }
+
+  /* The signature: a split-time readout. Dates, read times, counts and index
+     numbers, nothing else. */
+  .split {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg-3);
+  }
+  .on-dark .split {
+    color: var(--d-fg-3);
   }
 }
 
 /* ── Reading progress ─────────────────────────────────────────────────────────
-   A thin bar along the top edge that fills as the page scrolls. Driven by a
-   CSS scroll timeline, so there's no scroll listener; browsers without scroll
-   timelines simply don't show it. */
+   A thin solid bar along the top edge that fills as the page scrolls. Driven
+   by a CSS scroll timeline, so there's no scroll listener; browsers without
+   scroll timelines simply don't show it. */
 .scroll-progress {
   display: none;
 }
@@ -92,9 +314,9 @@
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 60;
-    height: 3px;
+    height: 2px;
     transform-origin: 0 50%;
-    background: linear-gradient(90deg, #9B2335, #F1B8BF);
+    background-color: var(--accent);
     pointer-events: none;
     animation: progress-grow linear both;
     animation-timeline: scroll(root block);
@@ -115,7 +337,7 @@
   .faq-item::details-content {
     height: 0;
     overflow: clip;
-    transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), content-visibility 0.35s allow-discrete;
+    transition: height 0.3s var(--ease), content-visibility 0.3s allow-discrete;
   }
   .faq-item[open]::details-content {
     height: auto;
@@ -128,8 +350,8 @@
 }
 
 /* ── Availability dot ─────────────────────────────────────────────────────────
-   A ring pulses out of the dot twice on load, then stops (so it never keeps
-   moving for more than five seconds). */
+   For the one live status ("available for work"). A ring pulses out of the dot
+   twice on load, then stops, so it never keeps moving. */
 .pulse-dot {
   position: relative;
 }
@@ -139,84 +361,20 @@
   inset: 0;
   border-radius: 9999px;
   background: currentColor;
-  animation: pulse-ring 2s cubic-bezier(0, 0, 0.2, 1) 1s 2;
+  animation: pulse-ring 2s var(--ease) 1s 2;
   opacity: 0;
 }
 @keyframes pulse-ring {
-  0%   { transform: scale(1); opacity: 0.55; }
-  80%, 100% { transform: scale(2.8); opacity: 0; }
+  0%   { transform: scale(1); opacity: 0.45; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
 }
 
-@keyframes float-y {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
-}
-
-/* ── About page photo collage ─────────────────────────────────────────────────
-   Each slot carries its desktop (-d) and mobile (-m) position as variables
-   (see CollageHero.tsx); the media query picks one, so there's no layout jump
-   when JavaScript loads. */
-.collage-slot {
-  position: absolute;
-  z-index: 5;
-  will-change: transform;
-  top: var(--top-m);
-  left: var(--left-m);
-  width: var(--w-m);
-  --rot: var(--rot-m);
-  --aspect: var(--aspect-m);
-  --dur: var(--dur-m);
-  --delay: var(--delay-m);
-}
-.collage-desktop-only {
-  display: none;
-}
-@media (min-width: 768px) {
-  .collage-slot {
-    top: var(--top-d);
-    left: var(--left-d);
-    width: var(--w-d);
-    --rot: var(--rot-d);
-    --aspect: var(--aspect-d);
-    --dur: var(--dur-d);
-    --delay: var(--delay-d);
-  }
-  .collage-desktop-only {
-    display: block;
-  }
-}
-.collage-float {
-  animation: float-y var(--dur) ease-in-out var(--delay) infinite;
-}
-.collage-paused .collage-float {
-  animation-play-state: paused;
-}
-.collage-frame {
-  transform: rotate(var(--rot));
-  aspect-ratio: var(--aspect);
-  overflow: hidden;
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-/* A soft wash of the page colour behind the About hero's text, so the copy
-   always sits on at least ~86% paper even where a photo floats behind it
-   (WCAG 1.4.3). Wider and centred on phones, where the text spans the screen. */
-.collage-scrim {
-  background: radial-gradient(130% 80% at 50% 62%, rgba(253, 247, 247, 0.95) 0%, rgba(253, 247, 247, 0.88) 72%, rgba(253, 247, 247, 0) 100%);
-}
-@media (min-width: 768px) {
-  .collage-scrim {
-    background: radial-gradient(75% 95% at 26% 62%, rgba(253, 247, 247, 0.95) 0%, rgba(253, 247, 247, 0.86) 66%, rgba(253, 247, 247, 0) 100%);
-  }
-}
-
-/* ── Logo mark, written on load ───────────────────────────────────────────────
+/* ── Logo mark, written once on load ──────────────────────────────────────────
    Each stroke has pathLength=1, so a dash offset of 1 → 0 draws it. Strokes
-   run in writing order via --draw-delay; hover replays it (Nav.tsx). */
+   run in writing order via --draw-delay. Static with reduced motion. */
 .logo-mark path {
   stroke-dasharray: 1 1;
-  animation: logo-write var(--draw-duration) cubic-bezier(0.55, 0.1, 0.35, 1) var(--draw-delay) both;
+  animation: logo-write var(--draw-duration) var(--ease) var(--draw-delay) both;
 }
 @keyframes logo-write {
   0%   { stroke-dashoffset: 1; opacity: 0; }
@@ -226,72 +384,44 @@
 
 /* ── Entrance on page load (no JavaScript needed) ─────────────────────────────
    Used for above-the-fold text so it paints as soon as the HTML arrives,
-   instead of waiting for React to hydrate. Stagger with --enter-delay.
+   instead of waiting for React to hydrate. Stagger with --enter-delay
+   (40 to 60ms steps, at most six items).
    Starts at 0.01 rather than 0: Chrome skips fully transparent text when
    timing Largest Contentful Paint, so a hero that fades in from 0 isn't
-   counted until something else repaints it (e.g. the heading font arriving
-   seconds later). 0.01 looks the same and is counted at first paint. Inner-page
-   headlines and intros skip it anyway: they're the LCP, and the delay showed up
-   as 1–2 s of extra LCP on mobile.
-   Only opacity and transform, so it runs on the compositor: a blur would be
-   repainted on the main thread every frame, while the page is still loading. */
+   counted until something else repaints it. 0.01 looks the same and is
+   counted at first paint. Inner-page headlines and intros skip it anyway:
+   they're the LCP.
+   Only opacity and transform, so it runs on the compositor. */
 @keyframes enter-up {
-  from { opacity: 0.01; transform: translateY(20px); }
+  from { opacity: 0.01; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
 }
 
 .enter {
-  animation: enter-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--enter-delay, 0s) both;
+  animation: enter-up var(--dur-enter) var(--ease) var(--enter-delay, 0s) both;
 }
 
 /* ── Reveal on scroll ─────────────────────────────────────────────────────────
    The `js` class is added to <html> by an inline script before first paint,
    so without JavaScript nothing is ever hidden. AnimateIn / StaggerIn set
-   data-revealed when the element scrolls into view. */
+   data-revealed when the element scrolls into view. Fade and a 12px rise,
+   opacity and transform only. */
 .reveal,
 .reveal-item {
   transition:
-    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s),
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s),
-    filter 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s);
+    opacity var(--dur-enter) var(--ease) var(--reveal-delay, 0s),
+    transform var(--dur-enter) var(--ease) var(--reveal-delay, 0s);
 }
 
 html.js .reveal:not([data-revealed]),
 html.js [data-stagger]:not([data-revealed]) > .reveal-item {
   opacity: 0;
-  transform: translateY(16px);
-  filter: blur(4px);
-}
-
-/* ── Highlighter marker ───────────────────────────────────────────────────────
-   A pale maroon stroke behind the lower part of an inline phrase (the
-   homepage's pull quotes). The default box-decoration-break keeps it one
-   continuous stroke across wrapped lines. Inside a .reveal it starts at zero
-   width and sweeps out once the block is revealed, just after the fade-up.
-   Without JavaScript it is simply shown in full. */
-.marker {
-  background-image: linear-gradient(#F9DDE1, #F9DDE1);
-  background-repeat: no-repeat;
-  background-position: 0 88%;
-  background-size: 100% 38%;
-  transition: background-size 1.1s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--reveal-delay, 0s) + 0.3s);
-}
-
-html.js .reveal:not([data-revealed]) .marker {
-  background-size: 0% 38%;
+  transform: translateY(12px);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .enter {
     animation: none;
-  }
-
-  .marker {
-    transition: none;
-  }
-
-  html.js .reveal:not([data-revealed]) .marker {
-    background-size: 100% 38%;
   }
 
   .reveal,
@@ -303,7 +433,6 @@ html.js .reveal:not([data-revealed]) .marker {
   html.js [data-stagger]:not([data-revealed]) > .reveal-item {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 
   .motion-float,
@@ -335,5 +464,343 @@ html.js .reveal:not([data-revealed]) .marker {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+}
+
+/* ── Theme toggle ─────────────────────────────────────────────────────────────
+   What is drawn comes from <html data-theme>, not from React state, because the
+   page is static HTML (see ThemeToggle.tsx). Without JavaScript the toggle
+   cannot work, so it is not shown. */
+html:not(.js) .theme-toggle {
+  display: none;
+}
+.theme-toggle {
+  transition: color 150ms var(--ease);
+}
+
+/* The nav icon: one drawing that morphs between moon and sun (the markup is in
+   ThemeToggle.tsx). Light shows the moon: a disc with a cut-out biting its top
+   right. Dark shows the sun: the cut slides away, the disc shrinks and eight
+   rays grow in while the whole icon turns a quarter. Rest state is set per
+   theme here, so the server HTML needs no state; the motion is added below
+   under no-preference. */
+.theme-icon {
+  display: block;
+  overflow: visible;
+}
+.theme-icon-disc,
+.theme-icon-rays {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.theme-icon-rays {
+  opacity: 0;
+  transform: scale(0.3);
+}
+:root[data-theme='dark'] .theme-icon-disc {
+  transform: scale(0.47);
+}
+:root[data-theme='dark'] .theme-icon-cut {
+  transform: translate(12px, -12px);
+}
+:root[data-theme='dark'] .theme-icon-rays {
+  opacity: 1;
+  transform: none;
+}
+
+/* The footer's switch. Lives on the always-dark ramp. */
+.theme-track {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 2.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--d-fg-3);
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease);
+}
+.theme-knob {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 9999px;
+  background-color: var(--d-fg-2);
+  transition: background-color 150ms var(--ease);
+}
+:root[data-theme='dark'] .theme-track {
+  background-color: var(--accent-on-dark);
+  border-color: var(--accent-on-dark);
+}
+:root[data-theme='dark'] .theme-knob {
+  background-color: var(--d-deep);
+  transform: translateX(15px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .theme-toggle {
+    transition: color 150ms var(--ease), transform 120ms var(--ease);
+  }
+  .theme-toggle:active {
+    transform: scale(0.94);
+  }
+  .theme-icon {
+    transition: transform 400ms var(--ease);
+  }
+  .theme-icon-disc {
+    transition: transform 350ms var(--ease);
+  }
+  .theme-icon-cut {
+    transition: transform 350ms var(--ease);
+  }
+  .theme-icon-rays {
+    transition: transform 350ms var(--ease) 60ms, opacity 200ms var(--ease) 60ms;
+  }
+  :root[data-theme='dark'] .theme-icon {
+    transform: rotate(90deg);
+  }
+  :root:not([data-theme='dark']) .theme-icon-rays {
+    transition-delay: 0s;
+  }
+  /* The knob travels with a little overshoot, and stretches while pressed. */
+  .theme-knob {
+    transition: background-color 150ms var(--ease), transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .theme-toggle:active .theme-knob {
+    transform: scaleX(1.25);
+  }
+  :root[data-theme='dark'] .theme-toggle:active .theme-knob {
+    transform: translateX(13px) scaleX(1.25);
+  }
+}
+
+/* The circular reveal (theme.ts runs it with document.startViewTransition).
+   The old page stays put under the new one, which grows out of the toggle as a
+   circle (--vt-x/y/r are set by theme.ts). [data-vt] is on <html> only while a
+   change is running, so no other view transition is touched. The overlay must
+   not take clicks: the page underneath is live. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-vt]::view-transition {
+    pointer-events: none;
+  }
+  :root[data-vt]::view-transition-group(root) {
+    animation: none;
+  }
+  :root[data-vt]::view-transition-image-pair(root) {
+    isolation: auto;
+  }
+  :root[data-vt]::view-transition-old(root),
+  :root[data-vt]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  :root[data-vt]::view-transition-new(root) {
+    z-index: 1;
+    animation: theme-reveal 600ms var(--ease) both;
+  }
+}
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--vt-x) var(--vt-y)); }
+  to   { clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y)); }
+}
+
+/* ── Forced colours (Windows High Contrast) ───────────────────────────────────
+   Controls keep a boundary and state is never carried by fill colour alone. */
+@media (forced-colors: active) {
+  .theme-track {
+    border-color: ButtonText;
+    forced-color-adjust: none;
+    background-color: Canvas;
+  }
+  .theme-knob {
+    forced-color-adjust: none;
+    background-color: ButtonText;
+  }
+  :root[data-theme='dark'] .theme-track {
+    background-color: Highlight;
+    border-color: ButtonText;
+  }
+  :root[data-theme='dark'] .theme-knob {
+    background-color: HighlightText;
+  }
+}
+
+/* ── Leaflet chrome (the About page map) ──────────────────────────────────────
+   Popups and the zoom control use the theme's surfaces, so they are readable
+   in both themes. The attribution control is styled in CompetitionMap.tsx.
+   `:root` in front raises specificity above leaflet.css, whichever stylesheet
+   loads last. */
+:root .leaflet-container {
+  background: var(--raised);
+}
+:root .leaflet-popup-content-wrapper,
+:root .leaflet-popup-tip {
+  background: var(--card);
+  color: var(--fg);
+  box-shadow: var(--shadow-float);
+}
+:root .leaflet-container a.leaflet-popup-close-button {
+  color: var(--fg-2);
+}
+:root .leaflet-container a.leaflet-popup-close-button:hover,
+:root .leaflet-container a.leaflet-popup-close-button:focus-visible {
+  color: var(--fg);
+}
+:root .leaflet-bar {
+  border: 1px solid var(--control);
+  box-shadow: none;
+}
+:root .leaflet-bar a,
+:root .leaflet-bar a:hover,
+:root .leaflet-bar a:focus {
+  background-color: var(--card);
+  color: var(--fg);
+  border-bottom-color: var(--line-strong);
+}
+:root .leaflet-bar a:hover {
+  background-color: var(--raised);
+}
+:root .leaflet-bar a.leaflet-disabled {
+  background-color: var(--card);
+  color: var(--fg-3);
+}
+
+/* ── Micro-interactions ───────────────────────────────────────────────────────
+   Small, shared, CSS only. The rules: transform and opacity, nothing that
+   changes layout; all movement behind prefers-reduced-motion: no-preference;
+   hover effects only where a real pointer hovers (touch never gets a stuck
+   hover). Colour changes stay in the components. The theme toggle's own
+   motion is in the Theme toggle section above. */
+
+/* The focus ring: always there, in full, from the first frame (2px solid, see
+   :focus-visible in the base layer). Only its gap eases in, from wide to the
+   usual 3px. Only the "from" frame is given, so it settles on whatever offset
+   the element has. */
+@keyframes focus-ring-in {
+  from { outline-offset: 7px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :focus-visible:not(.enter, [class*='animate-']) {
+    animation: focus-ring-in 180ms var(--ease) backwards;
+  }
+}
+
+/* A banner or toast that arrives after load (the cookie banner): rises 16px
+   and fades in. Opacity starts at .01, not 0, so it is painted from frame one. */
+@keyframes toast-in {
+  from { opacity: 0.01; transform: translateY(16px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .toast-in {
+    animation: toast-in 380ms var(--ease) both;
+  }
+}
+
+/* The nav's current-page mark. At rest it is a 1px underline that shows or
+   hides (opacity, so reduced motion keeps it). With motion it is drawn in from
+   the left and drawn out to the right, so moving between pages reads as the
+   mark travelling across the bar; hovering another link previews it at half
+   strength. */
+.nav-ind {
+  opacity: 0;
+}
+.nav-ind[data-on] {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nav-ind {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    transition: transform 280ms var(--ease), opacity 150ms var(--ease);
+  }
+  .nav-ind[data-on] {
+    transform: scaleX(1);
+    transform-origin: 0 50%;
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  a:hover > .nav-ind-host > .nav-ind:not([data-on]) {
+    transform: scaleX(1);
+    transform-origin: 0 50%;
+    opacity: 0.45;
+  }
+}
+
+/* Text link underline wipe: a 1px line draws in from the left on hover or
+   focus and leaves to the right. For links that have no underline at rest
+   (footer lists). --wipe-offset is the line's distance from the box bottom. */
+.link-wipe {
+  position: relative;
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .link-wipe::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--wipe-offset, 0.375rem);
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    transition: transform 300ms var(--ease);
+    pointer-events: none;
+  }
+  .link-wipe:hover::after {
+    transform: scaleX(1);
+    transform-origin: 0 50%;
+  }
+}
+
+/* Arrow nudge: an arrow that slides 3px along its direction when its button
+   (.group/btn), card (.group) or link host (.lift-host) is hovered. */
+.arrow-nudge {
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .arrow-nudge,
+  .icon-lift {
+    transition: transform 220ms var(--ease);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .group\/btn:hover .arrow-nudge,
+  .group:hover .arrow-nudge,
+  .lift-host:hover .arrow-nudge {
+    transform: translateX(3px);
+  }
+  .group\/btn:hover .arrow-nudge-down {
+    transform: translateY(3px);
+  }
+  .group\/btn:hover .arrow-nudge-back {
+    transform: translateX(-3px);
+  }
+  .group:hover .icon-lift,
+  .lift-host:hover .icon-lift {
+    transform: translateY(-3px);
+  }
+}
+
+/* Card lift and image zoom. Put .lift-host on a wrapper that does not move and
+   .lift on the card inside it, so the hover target stays put while the card
+   rises (a card that moves out from under the pointer flickers). .zoom goes on
+   the image inside an overflow-hidden frame. */
+@media (prefers-reduced-motion: no-preference) {
+  .lift {
+    transition: transform 300ms var(--ease), background-color 150ms var(--ease), border-color 150ms var(--ease);
+  }
+  .zoom {
+    transition: transform 600ms var(--ease);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .lift-host:hover > .lift {
+    transform: translateY(-3px);
+  }
+  .lift-host:hover .zoom {
+    transform: scale(1.04);
   }
 }

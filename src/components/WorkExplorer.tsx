@@ -74,9 +74,12 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
   const active = filters.find(f => f.id === show) ?? filters[0]
   const visible = projects.filter(active.test).sort(sorters[sort])
 
+  // The newest (or most involved) project leads the grid across the full row.
+  const hasLead = sort !== 'az' && visible.length >= 3
+
   return (
     <div>
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div role="group" aria-label="Show projects" className="flex flex-wrap gap-2">
           {filters.map(f => {
             const pressed = f.id === active.id
@@ -86,38 +89,38 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
                 type="button"
                 aria-pressed={pressed}
                 onClick={() => update(f.id, sort)}
-                className={`inline-flex items-center gap-2 h-11 pl-4 pr-2 rounded-full border font-sans text-sm font-medium transition-colors duration-200 ${
+                className={`inline-flex items-center gap-2 h-10 px-3 rounded-lg border font-sans text-sm font-medium transition-[background-color,border-color,color] duration-150 ease-spec motion-reduce:transition-none ${
                   pressed
-                    ? 'bg-foreground border-foreground text-white'
-                    : 'bg-white border-maroon-200 text-foreground hover:border-primary hover:text-primary'
+                    ? 'bg-raised border-control text-fg'
+                    : 'bg-transparent border-line text-fg-2 hover:bg-raised/60 hover:text-fg'
                 }`}
               >
                 {f.label}
-                <span className={`min-w-7 h-7 px-1.5 inline-flex items-center justify-center rounded-full tabular-nums text-xs font-semibold ${pressed ? 'bg-white/15 text-white' : 'bg-maroon-50 text-muted-foreground'}`}>{f.count}</span>
+                <span className="split">{f.count}</span>
               </button>
             )
           })}
         </div>
 
-        <label className="shrink-0 whitespace-nowrap flex items-center gap-3 font-sans text-sm text-muted-foreground" htmlFor="work-sort">
+        <label className="shrink-0 whitespace-nowrap flex items-center gap-3 font-sans text-sm text-fg-2" htmlFor="work-sort">
           Sort by
           <span className="relative">
             <select
               id="work-sort"
               value={sort}
               onChange={e => update(show, e.target.value as Sort)}
-              className="appearance-none h-11 pl-4 pr-10 rounded-full border border-maroon-200 bg-white font-medium text-foreground cursor-pointer hover:border-primary transition-colors duration-200"
+              className="appearance-none h-10 pl-3 pr-9 rounded-lg border border-control bg-card font-medium text-fg cursor-pointer hover:bg-raised/60 transition-[background-color,border-color] duration-150 ease-spec motion-reduce:transition-none"
             >
               {SORTS.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
             </select>
-            <svg aria-hidden className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-primary" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-fg-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
               <path d="M2.5 4.5 6 8l3.5-3.5" />
             </svg>
           </span>
         </label>
       </div>
 
-      <p aria-live="polite" className="font-sans text-sm text-muted-foreground pb-6 mb-10 border-b border-maroon-100">
+      <p aria-live="polite" className="split pb-4 mb-8 border-b border-line">
         {visible.length === projects.length
           ? `${projects.length} projects`
           : `${visible.length} of ${projects.length} projects`}
@@ -125,18 +128,23 @@ export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {
       </p>
 
       {visible.length > 0 ? (
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-10 gap-y-14 md:gap-y-16">
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {visible.map((p, i) => (
-            <li key={p.slug}>
+            <li key={p.slug} className={hasLead && i === 0 ? 'md:col-span-2' : undefined}>
               {/* The first row is in view on load */}
-              <ProjectCard project={p} headingLevel={2} size="lg" priority={i < 2} />
+              <ProjectCard
+                project={p}
+                headingLevel={2}
+                size={hasLead && i === 0 ? 'xl' : 'lg'}
+                priority={i < 2}
+              />
             </li>
           ))}
         </ul>
       ) : (
-        <div className="py-20 text-center">
-          <p className="font-sans text-muted-foreground mb-4">No projects match that filter.</p>
-          <button type="button" onClick={() => update('all', sort)} className="font-sans text-sm font-semibold text-primary underline underline-offset-2">
+        <div className="py-16 text-center">
+          <p className="font-sans text-fg-2 mb-4">No projects match that filter</p>
+          <button type="button" onClick={() => update('all', sort)} className="font-sans text-sm font-medium text-accent underline underline-offset-4 hover:text-accent-hover">
             Show all projects
           </button>
         </div>

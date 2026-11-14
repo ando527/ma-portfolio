@@ -6,7 +6,7 @@ tags: ["Webflow", "UI Design", "CMS", "Interactive"]
 thumbnail: "/images/case-studies/sca-hero.webp"
 heroImage: "/images/case-studies/sca-hero.png"
 beforeImage: "/images/case-studies/speedcubing-before.jpg"
-summary: "The original 2023 Webflow build for Australia's national speedcubing organisation — interactive competition map, live records database, and community-driven CMS."
+summary: "The original 2023 Webflow build for Australia's national speedcubing organisation: interactive competition map, live records database, and community-driven CMS."
 # Homepage project browser only, never shown on the case study page. Written
 # fresh rather than copied from below, so the homepage doesn't duplicate it.
 preview:
@@ -47,7 +47,7 @@ stats:
     value: "Webflow"
 ---
 
-> This is the original 2023 build. Three years later I redesigned the site on a refreshed brand — [read the 2026 case study](/work/speedcubing-australia/).
+> This is the original 2023 build. Three years later I redesigned the site on a refreshed brand: [read the 2026 case study](/work/speedcubing-australia/).
 
 ## The Organisation
 
@@ -57,9 +57,9 @@ Their old site was a plain grey page with a basic list of links and a spinning R
 
 ## Design Direction
 
-The rebrand drew directly from the Rubik's cube itself: a bold, multi-colour system using green, yellow, and orange — the face colours of a standard cube. Typography is heavy and confident, with orange pill-shaped CTAs and green/yellow alternating table rows that make data instantly scannable.
+The rebrand drew directly from the Rubik's cube itself: a bold, multi-colour system using green, yellow, and orange, the face colours of a standard cube. Typography is heavy and confident, with orange pill-shaped CTAs and green/yellow alternating table rows that make data instantly scannable.
 
-The design deliberately feels energetic and approachable — this is a community sport, not a corporate organisation. Every page needed to reflect that.
+The design deliberately feels energetic and approachable. This is a community sport, not a corporate organisation. Every page needed to reflect that.
 
 ## The Build
 
@@ -89,12 +89,12 @@ A featured slider on the homepage cycles through recent record-breaking moments,
 
 ### Content Management
 
-Because the organisation is entirely volunteer-run, the CMS was architected so that non-technical committee members can update all content — adding new competitions, updating records, and managing team members — without any developer involvement.
+Because the organisation is entirely volunteer-run, the CMS was architected so that non-technical committee members can update all content (adding new competitions, updating records, and managing team members) without any developer involvement.
 
 ![The Webflow CMS editor: collections for delegates, committee members, roles and national records, with the committee members list open](/images/case-studies/sca-4.png)
 
 ## Outcome
 
-The rebuild transformed Speedcubing Australia's digital presence from a static afterthought into a genuine community hub. The records database in particular has become a key feature that the community engages with — tracking records, watching solves, and following Australian competitors at the world stage.
+The rebuild transformed Speedcubing Australia's digital presence from a static afterthought into a genuine community hub. The records database in particular has become a key feature that the community engages with: tracking records, watching solves, and following Australian competitors at the world stage.
 
 The site is also significantly faster and more accessible than its predecessor, with a mobile-first layout that works for competitors checking competition details on-site.

@@ -1,8 +1,26 @@
 # robots.txt for mitchellanderson.com.au
-# Everything is open to search engines and AI crawlers.
+# Everything is open to search engines and AI crawlers; nothing is blocked.
 # Pages that shouldn't be indexed (privacy, 404) use a noindex meta tag instead.
+# A crawler that matches a named group below ignores the * group, so each named
+# group repeats the same open Allow.
 
 User-agent: *
+Allow: /
+
+# Search and AI-assistant crawlers, named so the intent is explicit.
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: DuckDuckBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://mitchellanderson.com.au/sitemap.xml

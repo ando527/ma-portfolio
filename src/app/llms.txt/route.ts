@@ -1,7 +1,7 @@
 import { getAllProjects } from '@/lib/projects'
 import { getAllServices } from '@/lib/services'
 import { getAllArticles } from '@/lib/articles'
-import { SITE, absoluteUrl } from '@/lib/site'
+import { SITE, FEED, absoluteUrl } from '@/lib/site'
 
 // /llms.txt: a plain-text guide to the site for AI assistants and search tools
 // (https://llmstxt.org). Built from the same content as the pages, so it
@@ -25,6 +25,7 @@ export function GET() {
     '',
     `- [Home](${absoluteUrl('/')}): introduction, featured projects and services`,
     `- [Work](${absoluteUrl('/work/')}): every case study`,
+    ...(articles.length ? [`- [Articles](${absoluteUrl('/articles/')}): writing on Webflow, Shopify, front-end development and running websites`] : []),
     `- [About](${absoluteUrl('/about/')}): background, experience and speedcubing results`,
     `- [Contact](${absoluteUrl('/contact/')}): send a message about a project`,
     '',
@@ -53,6 +54,12 @@ export function GET() {
     `- GitHub: ${SITE.links.github}`,
     '- Location: Brisbane, Queensland, Australia',
     '- Available for freelance projects and collaborations',
+    `- Send a message: ${absoluteUrl('/contact/')}`,
+    '',
+    '## Optional',
+    '',
+    `- [Articles feed (RSS)](${absoluteUrl(FEED.path)}): new articles as they are published`,
+    `- [Sitemap](${absoluteUrl('/sitemap.xml')}): every page on the site`,
     '',
   ]
 

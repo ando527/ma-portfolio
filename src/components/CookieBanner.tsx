@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { btnLight, btnOnDark } from '@/components/ui/button'
 
 type Props = {
   onConsent: (granted: boolean) => void
@@ -13,7 +14,9 @@ export default function CookieBanner({ onConsent }: Props) {
   // The stored choice only exists in the browser, so it's read after mount
   // (the static HTML always renders without the banner), and only once.
   useEffect(() => {
-    const stored = localStorage.getItem('cookie_consent')
+    // Storage can throw (blocked, private windows): then the banner shows each visit.
+    let stored: string | null = null
+    try { stored = localStorage.getItem('cookie_consent') } catch {}
     if (stored === null) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value, read after hydration
       setVisible(true)
@@ -23,7 +26,7 @@ export default function CookieBanner({ onConsent }: Props) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps -- run once on load
 
   const handleChoice = (granted: boolean) => {
-    localStorage.setItem('cookie_consent', String(granted))
+    try { localStorage.setItem('cookie_consent', String(granted)) } catch {}
     onConsent(granted)
     setVisible(false)
   }
@@ -34,26 +37,26 @@ export default function CookieBanner({ onConsent }: Props) {
     <div
       role="region"
       aria-label="Cookie consent"
-      className="on-dark fixed z-[9999] bottom-3 inset-x-3 sm:bottom-5 sm:left-5 sm:right-auto sm:w-[22rem] rounded-2xl border border-white/10 bg-ink/95 backdrop-blur-md p-5 shadow-[0_24px_60px_-12px_rgba(16,4,8,0.6)]"
+      className="toast-in on-dark fixed z-[9999] bottom-3 inset-x-3 sm:bottom-5 sm:left-5 sm:right-auto sm:w-[22rem] rounded-2xl border border-d-line-strong dark:border-d-fg-3/60 bg-d-card p-5 shadow-float-dark"
     >
-      <p className="font-sans text-sm text-white/80 leading-relaxed m-0">
+      <p className="font-sans text-sm text-d-fg-2 leading-5 m-0">
         This site uses cookies to understand traffic via Google Analytics.{' '}
-        <Link prefetch={false} href="/privacy/" className="text-maroon-200 underline underline-offset-2 hover:text-white transition-colors">
-          Privacy Policy
+        <Link prefetch={false} href="/privacy/" className="text-d-fg underline underline-offset-2 hover:text-accent-on-dark transition-colors duration-150 ease-spec">
+          Privacy policy
         </Link>
       </p>
       <div className="mt-4 flex items-center gap-2">
         <button
           type="button"
           onClick={() => handleChoice(false)}
-          className="flex-1 h-10 rounded-full border border-white/25 bg-transparent font-sans text-sm font-semibold text-white/90 hover:bg-white/10 hover:border-white/40 transition-colors cursor-pointer"
+          className={`${btnOnDark} flex-1 !min-h-10 !py-2 !text-sm cursor-pointer`}
         >
           Decline
         </button>
         <button
           type="button"
           onClick={() => handleChoice(true)}
-          className="flex-1 h-10 rounded-full bg-white font-sans text-sm font-semibold text-ink hover:bg-maroon-100 transition-colors cursor-pointer"
+          className={`${btnLight} flex-1 !min-h-10 !py-2 !text-sm cursor-pointer`}
         >
           Accept
         </button>

@@ -1,24 +1,43 @@
 // Shared button styles, so every button on the site is the same size.
-// 48px tall (12px padding + 24px line height), 15px semibold label, pill
-// shaped to match the nav. Put {btnArrow} on an arrow inside to nudge it on hover.
+// 44px tall, 15px medium label, 10px radius. Hover changes colour only, press
+// scales to .98. Put {btnArrow} on an arrow inside to nudge it 3px on hover
+// (.arrow-nudge in globals.css: pointer devices only, no motion if reduced).
+//
+// Which one to use:
+//   on a light page    btnPrimary (the one main action), btnSecondary (second action)
+//   on a dark band     btnLight (the one main action), btnOnDark (second action)
+//   in the nav (36px)  btnNav on light, btnNavOnDark over the dark hero
 
 const base =
-  'group/btn inline-flex items-center justify-center gap-2 font-sans font-semibold text-[15px] leading-6 px-6 py-3 rounded-full whitespace-nowrap transition-[background-color,border-color,color,box-shadow] duration-200'
+  'group/btn inline-flex items-center justify-center gap-2 font-sans font-medium text-[15px] leading-6 min-h-11 px-5 py-2.5 rounded-[10px] whitespace-nowrap select-none transition-[background-color,border-color,color,transform] duration-150 ease-spec active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 forced-colors:border'
 
-/** Maroon, for the main action on a section. */
-export const btnPrimary = `${base} bg-primary hover:bg-secondary text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_28px_-12px_rgba(124,29,46,0.8)]`
+/** Accent fill, for the main action on a light page. */
+export const btnPrimary = `${base} bg-accent-fill hover:bg-accent-fill-hover active:bg-accent-fill-hover text-on-accent`
 
-/** Glassy outline, for a second action on dark backgrounds. */
-export const btnOnDark = `${base} bg-white/[0.07] hover:bg-white/[0.13] border border-white/20 hover:border-white/35 text-white`
+/** Raised surface with a hairline, for a second action on a dark band. */
+export const btnOnDark = `${base} bg-d-raised hover:bg-d-card border border-d-line-strong hover:border-d-fg-3 text-d-fg`
 
-/** White outline, for a second action on light backgrounds. */
-export const btnSecondary = `${base} bg-white hover:bg-maroon-50 border border-maroon-200 hover:border-primary/50 text-foreground`
+/** Raised surface with a hairline, for a second action on a light page. */
+export const btnSecondary = `${base} bg-raised hover:bg-card border border-line-strong hover:border-fg-3 text-fg`
 
-/** Solid white, for the main action on a maroon or ink panel. */
-export const btnLight = `${base} bg-white hover:bg-maroon-100 text-ink shadow-[0_10px_28px_-12px_rgba(0,0,0,0.6)]`
+/** Off-white with dark text, for the main action on a dark band. */
+export const btnLight = `${base} bg-d-fg hover:bg-white active:bg-white text-ink`
 
-/** Solid ink, for a strong action on light backgrounds that isn't the main one. */
-export const btnInk = `${base} bg-foreground hover:bg-primary text-white`
+/** Graphite fill, for a strong action on a light page that isn't the main one. */
+export const btnInk = `${base} bg-fg hover:bg-fg-2 active:bg-fg-2 text-on-fg`
 
-/** An arrow inside a button that slides a little on hover. */
-export const btnArrow = 'transition-transform duration-200 ease-out-expo group-hover/btn:translate-x-0.5 motion-reduce:transition-none'
+/** Same as btnLight, under a name that says where it goes. */
+export const btnOnDarkPrimary = btnLight
+
+// Nav-sized variants: 36px tall, tighter padding.
+const navBase =
+  'group/btn inline-flex items-center justify-center gap-2 font-sans font-medium text-[14px] leading-5 h-9 px-4 rounded-lg whitespace-nowrap select-none transition-[background-color,border-color,color,transform] duration-150 ease-spec active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 forced-colors:border'
+
+/** Accent fill, 36px, for the nav on a light bar. */
+export const btnNav = `${navBase} bg-accent-fill hover:bg-accent-fill-hover text-on-accent`
+
+/** Off-white, 36px, for the nav over the dark hero. */
+export const btnNavOnDark = `${navBase} bg-d-fg hover:bg-white text-ink`
+
+/** An arrow inside a button that slides 3px on hover. */
+export const btnArrow = 'arrow-nudge'

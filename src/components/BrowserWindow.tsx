@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef, type KeyboardEvent, type RefObject } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef, type KeyboardEvent, type RefObject } from 'react'
 import { motion, AnimatePresence, MotionConfig, useMotionValue, useTransform, animate, type PanInfo } from 'framer-motion'
 import Link from 'next/link'
 import type { FeaturedProject } from '@/lib/types'
+import { TrafficLights, HistoryMenu, type ChromeItem } from '@/components/browser/BrowserChrome'
+import { flyTabToHistory, flyTabFrom, pulse } from '@/components/browser/motion'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type ProjectTab = { kind: 'project'; project: FeaturedProject }
@@ -12,7 +14,7 @@ type Tab        = ProjectTab | NewTab
 type PhoneView  = 'tabs' | 'browser'
 
 const tabKey   = (tab: Tab) => (tab.kind === 'project' ? tab.project.slug : `new-${tab.id}`)
-const tabTitle = (tab: Tab) => (tab.kind === 'project' ? tab.project.title : 'New Tab')
+const tabTitle = (tab: Tab) => (tab.kind === 'project' ? tab.project.title : 'New tab')
 
 // ── Hooks ─────────────────────────────────────────────────────────────────────
 
@@ -64,17 +66,17 @@ function useClock(active: boolean) {
 
 // ── New Tab page ──────────────────────────────────────────────────────────────
 const FUN_FACTS = [
-  '🎲 Represented Australia at the WCA World Championships — twice.',
-  '🏆 Silver medalist at the 2025 QLD Speedcubing State Championships.',
-  '🌐 Runs speedcubing.org.au as Website Coordinator for Speedcubing Australia.',
-  '🏅 2022 IDA Honourable Mention for the McR ESG Web Project.',
+  'Represented Australia at the WCA World Championships twice.',
+  'Silver medalist at the 2025 QLD Speedcubing State Championships.',
+  'Runs speedcubing.org.au as Website Coordinator for Speedcubing Australia.',
+  '2022 IDA Honourable Mention for the McR ESG Web Project.',
 ]
 
 const SHORTCUTS = [
-  { label: 'Work',    href: '/work/',                     emoji: '💼' },
-  { label: 'About',  href: '/about/',                    emoji: '👋' },
-  { label: 'GitHub', href: 'https://github.com/ando527',  emoji: '🐙' },
-  { label: 'Cubing', href: 'https://www.worldcubeassociation.org/persons/2022ANDE01', emoji: '🎲' },
+  { label: 'Work',   href: '/work/' },
+  { label: 'About',  href: '/about/' },
+  { label: 'GitHub', href: 'https://github.com/ando527' },
+  { label: 'Cubing', href: 'https://www.worldcubeassociation.org/persons/2022ANDE01' },
 ]
 
 function NewTabPage({ compact = false }: { compact?: boolean }) {
@@ -96,47 +98,46 @@ function NewTabPage({ compact = false }: { compact?: boolean }) {
   const dateStr  = time ? time.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' }) : ''
 
   return (
-    <div ref={ref} className={`h-full flex flex-col items-center justify-center bg-[#f5f0f1] ${compact ? 'px-5 py-5 gap-5' : 'px-8 py-10 gap-8'}`}>
+    <div ref={ref} className={`h-full flex flex-col items-center justify-center bg-paper ${compact ? 'px-5 py-5 gap-5' : 'px-8 py-10 gap-8'}`}>
 
       {/* Clock + greeting */}
       <div className="text-center">
-        <div className={`font-heading font-bold leading-none text-foreground tracking-tight tabular-nums ${compact ? 'text-5xl min-h-[3rem]' : 'text-[5rem] min-h-[5rem]'}`}>
+        <div className={`font-mono font-medium leading-none text-fg tabular-nums ${compact ? 'text-5xl min-h-12' : 'text-6xl min-h-16'}`}>
           {timeStr}
         </div>
-        <p className={`font-sans text-muted-foreground mt-1.5 min-h-[1.25em] ${compact ? 'text-xs' : 'text-sm'}`}>{dateStr}</p>
-        <p className={`font-heading font-semibold text-foreground mt-2 ${compact ? 'text-base' : 'text-2xl'}`}>{greeting}.</p>
+        <p className={`font-sans text-fg-3 mt-3 min-h-5 ${compact ? 'text-xs' : 'text-sm'}`}>{dateStr}</p>
+        <p className={`font-heading font-medium text-fg mt-2 ${compact ? 'text-base' : 'text-xl'}`}>{greeting}</p>
       </div>
 
       {/* Shortcuts */}
-      <div className={compact ? 'grid grid-cols-2 gap-3 w-full max-w-[200px]' : 'flex items-center gap-5'}>
+      <div className={compact ? 'grid grid-cols-2 gap-2 w-full max-w-48' : 'flex items-center gap-3'}>
         {SHORTCUTS.map(s => (
-          <Link prefetch={false} key={s.label} href={s.href} className="flex flex-col items-center gap-1.5 group">
-            <div aria-hidden className={`bg-white border border-maroon-100 shadow-sm flex items-center justify-center group-hover:shadow-md group-hover:-translate-y-0.5 transition-[transform,box-shadow] duration-200 ${compact ? 'w-11 h-11 rounded-xl text-xl' : 'w-14 h-14 rounded-2xl text-2xl'}`}>
-              {s.emoji}
-            </div>
-            <span className="font-sans text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-200">
-              {s.label}
-            </span>
+          <Link
+            prefetch={false}
+            key={s.label}
+            href={s.href}
+            className="inline-flex items-center justify-center h-10 min-w-20 px-4 rounded-[10px] border border-line bg-card font-sans text-sm font-medium text-fg-2 hover:text-fg hover:border-line-strong hover:bg-raised transition-[background-color,border-color,color] duration-150 ease-spec motion-reduce:transition-none"
+          >
+            {s.label}
           </Link>
         ))}
       </div>
 
-      {/* Fun fact — fixed height prevents layout shift when it changes */}
-      <div className={`text-center flex flex-col items-center ${compact ? 'max-w-[230px]' : 'max-w-sm'}`}>
+      {/* Fun fact: fixed height prevents layout shift when it changes */}
+      <div className={`text-center flex flex-col items-center ${compact ? 'max-w-56' : 'max-w-sm'}`}>
         <p
           aria-live="polite"
-          className="font-sans text-xs text-muted-foreground leading-relaxed"
-          style={{ minHeight: compact ? '3rem' : '2.5rem' }}
+          className={`font-sans text-xs leading-4 text-fg-2 ${compact ? 'min-h-12' : 'min-h-10'}`}
         >
           {FUN_FACTS[factIdx]}
         </p>
         <button
           type="button"
           onClick={() => setFactIdx(i => (i + 1) % FUN_FACTS.length)}
-          className="mt-1 inline-flex items-center gap-1.5 min-h-[32px] px-3 rounded-full font-sans text-xs font-semibold text-primary hover:bg-maroon-50 transition-colors duration-200"
+          className="mt-1 inline-flex items-center gap-1.5 min-h-8 px-3 rounded-md font-sans text-xs font-medium text-accent hover:bg-raised transition-colors duration-150 ease-spec motion-reduce:transition-none"
         >
           Another fact
-          <svg aria-hidden className="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+          <svg aria-hidden className="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
             <path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3" />
           </svg>
         </button>
@@ -148,8 +149,8 @@ function NewTabPage({ compact = false }: { compact?: boolean }) {
 // ── Mini case study ───────────────────────────────────────────────────────────
 function MiniCaseStudy({ project, imageSizes }: { project: FeaturedProject; imageSizes: string }) {
   return (
-    <div className="min-h-full bg-white">
-      <div className="w-full aspect-[16/5] bg-maroon-50 overflow-hidden">
+    <div className="min-h-full bg-card">
+      <div className="w-full aspect-[16/5] bg-raised overflow-hidden">
         {project.hero
           ? <img
               src={project.hero.src}
@@ -162,8 +163,8 @@ function MiniCaseStudy({ project, imageSizes }: { project: FeaturedProject; imag
               loading="lazy"
               decoding="async"
             />
-          : <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-maroon-50 via-maroon-100 to-maroon-50">
-              <span className="font-heading font-bold text-8xl text-primary/10 select-none">{project.title.charAt(0)}</span>
+          : <div className="w-full h-full flex items-center justify-center">
+              <span className="font-heading font-medium text-8xl text-fg-3/30 select-none">{project.title.charAt(0)}</span>
             </div>
         }
       </div>
@@ -171,28 +172,28 @@ function MiniCaseStudy({ project, imageSizes }: { project: FeaturedProject; imag
         {project.tags.length > 0 && (
           <ul className="flex flex-wrap gap-2 mb-3" aria-label="Tags">
             {project.tags.map(tag => (
-              <li key={tag} className="text-xs font-sans font-medium text-primary bg-maroon-50 px-2.5 py-1 rounded-full border border-maroon-200">{tag}</li>
+              <li key={tag} className="eyebrow text-fg-2 bg-raised px-2 py-0.5 rounded-md">{tag}</li>
             ))}
           </ul>
         )}
-        <h3 className="font-heading font-bold text-xl text-foreground tracking-tight mb-1">{project.title}</h3>
-        {project.dateLabel && <p className="font-sans text-xs text-muted-foreground mb-3">{project.dateLabel}</p>}
+        <h3 className="font-heading font-medium text-xl leading-7 text-fg mb-1">{project.title}</h3>
+        {project.dateLabel && <p className="split mb-3">{project.dateLabel}</p>}
         {/* The preview sections replace the summary here. The summary is the case study's intro, so repeating it on the homepage duplicates that page's text. */}
-        {project.preview.length === 0 && <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-5">{project.summary}</p>}
+        {project.preview.length === 0 && <p className="font-sans text-sm text-fg-2 leading-5 mb-5">{project.summary}</p>}
         {project.preview.length > 0 && (
-          <div className="space-y-4 border-t border-maroon-100 pt-5">
+          <div className="space-y-4 border-t border-line pt-5">
             {project.preview.map(({ heading, body }) => (
               <div key={heading}>
-                <h4 className="font-heading font-semibold text-sm text-foreground uppercase tracking-widest mb-2">{heading}</h4>
-                <p className="font-sans text-sm text-muted-foreground leading-relaxed">{body}</p>
+                <h4 className="font-heading font-medium text-sm leading-5 text-fg mb-1">{heading}</h4>
+                <p className="font-sans text-sm text-fg-2 leading-5">{body}</p>
               </div>
             ))}
           </div>
         )}
-        <div className="mt-6 pt-4 border-t border-maroon-100">
-          <Link prefetch={false} href={`/work/${project.slug}/`} className="inline-flex items-center gap-2 py-1 font-sans text-sm font-semibold text-primary hover:text-maroon-700 transition-colors duration-200 group">
+        <div className="mt-6 pt-4 border-t border-line">
+          <Link prefetch={false} href={`/work/${project.slug}/`} className="group inline-flex items-center gap-2 py-1 font-sans text-sm font-medium text-accent hover:text-accent-hover transition-colors duration-150 ease-spec motion-reduce:transition-none">
             View full case study<span className="sr-only">: {project.title}</span>
-            <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            <span aria-hidden className="transition-transform duration-150 ease-spec group-hover:translate-x-0.5 motion-reduce:transition-none">→</span>
           </Link>
         </div>
       </div>
@@ -200,15 +201,54 @@ function MiniCaseStudy({ project, imageSizes }: { project: FeaturedProject; imag
   )
 }
 
+// ── Closed tabs (shared by the desktop window and the phone) ──────────────────
+type ClosedEntry = { tab: Tab; index: number; scroll: number }
+
+const MAX_CLOSED    = 8
+const NEW_TAB_ICON  = '/images/ma-logo.svg'
+const tabIcon       = (tab: Tab) => (tab.kind === 'project' ? tab.project.favicon || undefined : NEW_TAB_ICON)
+const toItem        = (tab: Tab): ChromeItem => ({ key: tabKey(tab), title: tabTitle(tab), favicon: tabIcon(tab) })
+
+/** A polite live region for "Closed…", "Reopened…". Present (empty) in the server HTML so it is announced reliably. */
+function useAnnouncer() {
+  const [msg, setMsg] = useState({ text: '', n: 0 })
+  const say = (text: string) => setMsg(m => ({ text, n: m.n + 1 }))
+  const region = (
+    <div role="status" aria-live="polite" className="sr-only">
+      <span key={msg.n}>{msg.text}</span>
+    </div>
+  )
+  return [say, region] as const
+}
+
 // ── Desktop Chrome ────────────────────────────────────────────────────────────
 let tabCounter = 0
 
 function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
   const [tabs, setTabs]           = useState<Tab[]>(() => projects.slice(0, 4).map(p => ({ kind: 'project', project: p })))
+  const [closed, setClosed]       = useState<ClosedEntry[]>([])
   const [activeIdx, setActiveIdx] = useState(0)
+  const [say, status]             = useAnnouncer()
   const scrollRef                 = useRef<HTMLDivElement>(null)
+  const layerRef                  = useRef<HTMLDivElement>(null)
+  const historyBtnRef             = useRef<HTMLButtonElement>(null)
+  const plusBtnRef                = useRef<HTMLButtonElement>(null)
   const tabRefs                   = useRef<(HTMLButtonElement | null)[]>([])
+  const wrapRefs                  = useRef<Record<string, HTMLElement | null>>({})
   const scrollPositions           = useRef<Record<number, number>>({})
+  // A tab that has just been added or reopened: where it came from, and whether to focus it.
+  const entering                  = useRef<{ key: string; from: DOMRect | null; focus: boolean } | null>(null)
+
+  // Once a reopened tab is in the DOM, grow it in from its source and (for
+  // keyboard routes) move focus to it. The state change has already happened.
+  useLayoutEffect(() => {
+    const p = entering.current
+    if (!p) return
+    entering.current = null
+    const el = wrapRefs.current[p.key]
+    if (el && p.from) flyTabFrom(el, p.from)
+    if (p.focus) tabRefs.current[tabs.findIndex(t => tabKey(t) === p.key)]?.focus()
+  }, [tabs])
 
   if (tabs.length === 0) return null
   const activeTab = tabs[activeIdx]
@@ -219,14 +259,35 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
     requestAnimationFrame(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollPositions.current[i] ?? 0 })
   }
 
+  /** Put a tab in at position `at`, select it, and restore its scroll position. */
+  const insertTab = (tab: Tab, at: number, scroll = 0) => {
+    const j = Math.max(0, Math.min(at, tabs.length))
+    if (scrollRef.current) scrollPositions.current[activeIdx] = scrollRef.current.scrollTop
+    const np: Record<number, number> = {}
+    Object.entries(scrollPositions.current).forEach(([k, v]) => { const ki = Number(k); np[ki < j ? ki : ki + 1] = v })
+    np[j] = scroll
+    scrollPositions.current = np
+    setTabs([...tabs.slice(0, j), tab, ...tabs.slice(j)])
+    setActiveIdx(j)
+    requestAnimationFrame(() => { if (scrollRef.current) scrollRef.current.scrollTop = scroll })
+  }
+
   const addNewTab = () => {
-    const next = [...tabs, { kind: 'new' as const, id: ++tabCounter }]
-    setTabs(next)
-    switchTab(next.length - 1)
+    const tab = { kind: 'new' as const, id: ++tabCounter }
+    entering.current = { key: tabKey(tab), from: plusBtnRef.current?.getBoundingClientRect() ?? null, focus: false }
+    insertTab(tab, tabs.length)
   }
 
   const closeTab = (i: number) => {
     if (tabs.length === 1) return
+    const tab  = tabs[i]
+    const key  = tabKey(tab)
+    // Measured before the DOM changes, for the animation only.
+    const from   = wrapRefs.current[key]?.getBoundingClientRect()
+    const to     = historyBtnRef.current?.getBoundingClientRect()
+    const layer  = layerRef.current
+    const scroll = i === activeIdx ? (scrollRef.current?.scrollTop ?? 0) : (scrollPositions.current[i] ?? 0)
+
     const next = tabs.filter((_, idx) => idx !== i)
     const np: Record<number, number> = {}
     Object.entries(scrollPositions.current).forEach(([k, v]) => {
@@ -234,9 +295,35 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
     })
     scrollPositions.current = np
     setTabs(next)
+    setClosed(c => [{ tab, index: i, scroll }, ...c.filter(e => tabKey(e.tab) !== key)].slice(0, MAX_CLOSED))
+    say(`Closed ${tabTitle(tab)}`)
     const nextActive = Math.min(i <= activeIdx ? Math.max(activeIdx - (i < activeIdx ? 1 : 0), 0) : activeIdx, next.length - 1)
     setActiveIdx(nextActive)
     requestAnimationFrame(() => tabRefs.current[nextActive]?.focus())
+
+    if (from && to && layer) {
+      flyTabToHistory({ layer, from, to, title: tabTitle(tab), favicon: tabIcon(tab), selected: i === activeIdx })
+      pulse(historyBtnRef.current, 300)
+    }
+  }
+
+  const reopen = (key: string, from: DOMRect | null, focus: boolean) => {
+    const entry = closed.find(e => tabKey(e.tab) === key)
+    if (!entry) return
+    setClosed(c => c.filter(e => e !== entry))
+    entering.current = { key, from, focus }
+    insertTab(entry.tab, entry.index, entry.scroll)
+    say(`Reopened ${tabTitle(entry.tab)}`)
+  }
+
+  // Ctrl/Cmd+Shift+T reopens the last closed tab, only while focus is inside
+  // this window. (Most browsers keep that shortcut for themselves, so the
+  // history menu is the route that always works.)
+  const onWindowKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && !e.altKey && e.key.toLowerCase() === 't' && closed.length > 0) {
+      e.preventDefault()
+      reopen(tabKey(closed[0].tab), historyBtnRef.current?.getBoundingClientRect() ?? null, true)
+    }
   }
 
   // Arrow keys move between tabs and Delete closes one (WAI-ARIA tabs pattern).
@@ -260,49 +347,57 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
 
   const urlSlug = activeTab.kind === 'project' ? activeTab.project.slug : 'new-tab'
   const panelId = 'browser-panel'
+  const layoutKey = tabs.map(tabKey).join()
 
   return (
-    <div className="rounded-[1.25rem] overflow-hidden shadow-[0_50px_100px_-30px_rgba(60,10,20,0.45),0_20px_40px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/10">
-      <div className="bg-[#1e1e1e] h-11 flex items-center px-4 gap-3 select-none">
-        <div className="flex items-center gap-[6px]" aria-hidden>
-          {(['#FF5F57','#FFBD2E','#28C840'] as const).map((col, i) => (
-            <div key={i} className="w-3 h-3 rounded-full" style={{ backgroundColor: col }} />
-          ))}
-        </div>
+    // The shortcut listener only sees keys pressed while focus is inside the window.
+    <div className="relative rounded-2xl overflow-hidden border border-d-line-strong bg-d-deep shadow-float" onKeyDown={onWindowKeyDown}>
+      <div className="on-dark bg-d-card h-11 flex items-center px-4 gap-3 select-none">
+        <TrafficLights />
         <div className="flex-1 max-w-sm mx-auto">
-          <div className="bg-[#2c2c2e] rounded-lg h-7 flex items-center justify-center gap-1.5 px-3">
-            <svg aria-hidden className="w-3 h-3 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="bg-d-raised rounded-lg h-7 flex items-center justify-center gap-1.5 px-3">
+            <svg aria-hidden className="w-3 h-3 text-d-fg-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
-            <span className="font-sans text-xs text-gray-300 tracking-tight truncate">
-              {activeTab.kind === 'new' ? 'New Tab' : `mitchellanderson.com.au/work/${urlSlug}`}
+            <span className="font-sans text-xs text-d-fg-2 truncate">
+              {activeTab.kind === 'new' ? 'New tab' : `mitchellanderson.com.au/work/${urlSlug}`}
             </span>
           </div>
         </div>
+        <HistoryMenu
+          items={closed.map(e => toItem(e.tab))}
+          buttonRef={historyBtnRef}
+          onReopen={(key, rect) => reopen(key, rect, true)}
+        />
       </div>
-      <div className="bg-[#292929] flex items-end px-2 pt-2 gap-0.5 select-none overflow-x-auto overflow-y-hidden scrollbar-none">
+      <div className="on-dark bg-d-deep flex items-end px-2 pt-2 gap-0.5 select-none overflow-x-auto overflow-y-hidden scrollbar-none">
         <div role="tablist" aria-label="Featured projects" className="flex items-end gap-0.5">
           {tabs.map((tab, i) => {
             const selected = i === activeIdx
+            const key = tabKey(tab)
             return (
-              <div
-                key={tabKey(tab)}
-                className={`group relative flex-shrink-0 min-w-[110px] max-w-[190px] rounded-t-lg transition-colors duration-150 ${
-                  selected ? 'bg-white mb-[-1px] z-10 shadow-sm' : 'bg-[#3a3a3a] hover:bg-[#454545]'
+              <motion.div
+                key={key}
+                ref={el => { wrapRefs.current[key] = el }}
+                layout="position"
+                layoutDependency={layoutKey}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                className={`group relative flex-shrink-0 min-w-28 max-w-48 rounded-t-lg transition-colors duration-150 ease-spec motion-reduce:transition-none ${
+                  selected ? 'bg-card -mb-px z-10' : 'bg-d-card hover:bg-d-raised'
                 }`}
               >
                 <button
                   ref={el => { tabRefs.current[i] = el }}
                   role="tab"
-                  id={`browser-tab-${tabKey(tab)}`}
+                  id={`browser-tab-${key}`}
                   aria-selected={selected}
                   aria-controls={panelId}
                   aria-keyshortcuts={tabs.length > 1 ? 'Delete' : undefined}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => switchTab(i)}
                   onKeyDown={e => onTabKeyDown(e, i)}
-                  className={`flex w-full items-center gap-2 pl-3 pr-8 py-2 text-xs font-sans font-medium rounded-t-lg ${
-                    selected ? 'text-gray-800' : 'text-gray-300 group-hover:text-gray-100'
+                  className={`flex w-full items-center gap-2 pl-3 pr-8 py-2 text-xs font-sans font-medium rounded-t-lg focus-visible:outline-offset-[-3px] ${
+                    selected ? 'text-fg focus-visible:outline-accent' : 'text-d-fg-2 group-hover:text-d-fg'
                   }`}
                 >
                   {/* React preloads every eager <img> in the server HTML; low priority
@@ -312,7 +407,7 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
                     ? <img src={tab.project.favicon} alt="" width={12} height={12} fetchPriority={selected ? undefined : 'low'} className="w-3 h-3 rounded-sm flex-shrink-0 object-cover" />
                     : tab.kind === 'new'
                       ? <img src="/images/ma-logo.svg" alt="" width={12} height={12} className="w-3 h-3 rounded-sm flex-shrink-0 object-cover" />
-                      : <span className={`w-3 h-3 rounded-sm flex-shrink-0 ${selected ? 'bg-primary' : 'bg-primary/50'}`} />
+                      : <span className={`w-3 h-3 rounded-sm flex-shrink-0 ${selected ? 'bg-accent' : 'bg-d-fg-3'}`} />
                   }
                   <span className="truncate flex-1 text-left">{tabTitle(tab)}</span>
                 </button>
@@ -324,21 +419,21 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
                     aria-hidden
                     onClick={() => closeTab(i)}
                     title={`Close ${tabTitle(tab)} tab`}
-                    className={`absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-xs leading-none cursor-default transition-[color,background-color,opacity] duration-150 ${
+                    className={`absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-md flex items-center justify-center text-xs leading-none cursor-default transition-[color,background-color,opacity] duration-150 ease-spec motion-reduce:transition-none ${
                       selected
-                        ? 'text-gray-500 hover:bg-gray-200 hover:text-gray-800'
-                        : 'text-gray-400 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-white/20'
+                        ? 'text-fg-3 hover:bg-raised hover:text-fg'
+                        : 'text-d-fg-3 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-d-line-strong'
                     }`}
                   >
                     ×
                   </span>
                 )}
-              </div>
+              </motion.div>
             )
           })}
         </div>
-        <button onClick={addNewTab} aria-label="Open a new tab"
-          className="mb-0.5 ml-1 w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-100 hover:bg-white/10 active:scale-95 transition-[color,background-color,transform] duration-150 font-sans text-base font-light pb-0.5"
+        <button ref={plusBtnRef} onClick={addNewTab} aria-label="Open a new tab"
+          className="mb-0.5 ml-1 w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-md text-d-fg-3 hover:text-d-fg hover:bg-d-raised active:scale-[0.98] transition-[color,background-color,transform] duration-150 ease-spec motion-reduce:transition-none font-sans text-base"
         ><span aria-hidden>+</span></button>
         <div className="flex-1 min-w-0" />
       </div>
@@ -348,12 +443,15 @@ function DesktopBrowser({ projects }: { projects: FeaturedProject[] }) {
         role="tabpanel"
         aria-labelledby={`browser-tab-${tabKey(activeTab)}`}
         tabIndex={0}
-        className="h-[520px] overflow-y-auto overscroll-contain bg-white"
+        className="h-[520px] overflow-y-auto overscroll-contain bg-card focus-visible:outline-accent focus-visible:outline-offset-[-4px]"
       >
         {activeTab.kind === 'project'
           ? <MiniCaseStudy project={activeTab.project} imageSizes="(min-width: 1152px) 1104px, 96vw" />
           : <NewTabPage />}
       </div>
+      {status}
+      {/* Closing-tab ghosts fly across this overlay; it never takes input. */}
+      <div ref={layerRef} aria-hidden className="pointer-events-none absolute inset-0 z-50 overflow-hidden" />
     </div>
   )
 }
@@ -379,7 +477,7 @@ function TabCard({ tab, i, isActive, highlighted = false, canClose, onOpen, onCl
     if (canClose && Math.abs(info.offset.x) > 70) {
       onClose()
     } else {
-      animate(x, 0, { type: 'spring', stiffness: 300, damping: 25 })
+      animate(x, 0, { duration: 0.2, ease: [0.22, 1, 0.36, 1] })
     }
   }
 
@@ -388,10 +486,10 @@ function TabCard({ tab, i, isActive, highlighted = false, canClose, onOpen, onCl
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.88 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.88 }}
-      transition={{ type: 'spring', stiffness: 340, damping: 28, delay: i * 0.04 }}
+      initial={{ opacity: 0, scale: 0.88, y: -10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.85 }}
+      transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1], delay: i * 0.04 }}
     >
       <motion.div
         drag={canClose ? 'x' : false}
@@ -399,23 +497,23 @@ function TabCard({ tab, i, isActive, highlighted = false, canClose, onOpen, onCl
         dragElastic={0.4}
         onDragEnd={handleDragEnd}
         style={{ x, opacity, rotate, touchAction: 'pan-y' }}
-        className={`relative w-full rounded-xl overflow-hidden border-2 ${highlighted || isActive ? 'border-[#0a84ff]' : 'border-transparent'}`}
+        className={`relative w-full rounded-xl overflow-hidden border-2 ${highlighted || isActive ? 'border-accent-on-dark' : 'border-transparent'}`}
       >
         <button type="button" onClick={onOpen} className="block w-full text-left" aria-label={`Open ${tabTitle(tab)}`}>
-          <div className="aspect-[4/3] bg-[#2c2c2e] overflow-hidden">
+          <div className="aspect-[4/3] bg-d-raised overflow-hidden">
             {hero
               ? <img src={hero.src} srcSet={hero.srcSet} sizes="140px" width={hero.width} height={hero.height} alt="" className="w-full h-full object-cover object-top" loading="lazy" decoding="async" draggable={false} />
-              : <div className="w-full h-full bg-[#f5f0f1] flex items-center justify-center">
+              : <div className="w-full h-full bg-paper flex items-center justify-center">
                   <img src="/images/ma-logo.svg" alt="" width={28} height={28} className="w-7 h-7" />
                 </div>
             }
           </div>
-          <div className="bg-[#2c2c2e] pl-2 pr-7 py-[6px] flex items-center gap-1.5 min-w-0">
+          <div className="bg-d-raised pl-2 pr-7 py-1.5 flex items-center gap-1.5 min-w-0">
             {tab.kind === 'project' && tab.project.favicon
-              ? <img src={tab.project.favicon} alt="" width={12} height={12} className="w-3 h-3 rounded-[3px] flex-shrink-0 object-cover" loading="lazy" />
-              : <img src="/images/ma-logo.svg"  alt="" width={12} height={12} className="w-3 h-3 rounded-[3px] flex-shrink-0" />
+              ? <img src={tab.project.favicon} alt="" width={12} height={12} className="w-3 h-3 rounded-sm flex-shrink-0 object-cover" loading="lazy" />
+              : <img src="/images/ma-logo.svg"  alt="" width={12} height={12} className="w-3 h-3 rounded-sm flex-shrink-0" />
             }
-            <span className="font-sans text-white/85 text-xs truncate flex-1 text-left leading-none">
+            <span className="font-sans text-d-fg text-xs truncate flex-1 text-left leading-none">
               {tabTitle(tab)}
             </span>
           </div>
@@ -425,7 +523,7 @@ function TabCard({ tab, i, isActive, highlighted = false, canClose, onOpen, onCl
             type="button"
             onClick={onClose}
             aria-label={`Close ${tabTitle(tab)} tab`}
-            className="absolute right-0.5 bottom-0 w-7 h-[26px] flex items-center justify-center text-white/60 hover:text-white text-sm leading-none"
+            className="absolute right-0.5 bottom-0 w-7 h-7 flex items-center justify-center text-d-fg-3 hover:text-d-fg text-sm leading-none transition-colors duration-150 ease-spec motion-reduce:transition-none"
           >
             <span aria-hidden>×</span>
           </button>
@@ -450,6 +548,12 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
   const scrollTimerRef                = useRef<ReturnType<typeof setTimeout>>(undefined)
   // 0=none  1=tabs-highlight  2=scroll-highlight  3=tab-btn-highlight
   const [tooltipStep, setTooltipStep] = useState(0)
+
+  // Closed tabs come back from the history panel in the tab switcher.
+  const [closed, setClosed]           = useState<ClosedEntry[]>([])
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const [say, status]                 = useAnnouncer()
+  const historyBtnRef                 = useRef<HTMLButtonElement>(null)
 
   // ── Real device status ────────────────────────────────────────────────────
   const [battery, setBattery]         = useState<{ level: number; charging: boolean } | null>(null)
@@ -504,7 +608,7 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
 
   const activeTab = tabs[activeIdx]
   const urlSlug   = activeTab?.kind === 'project' ? activeTab.project.slug : ''
-  const urlText   = activeTab?.kind === 'new' ? 'New Tab' : `mitchellanderson.com.au/work/${urlSlug}`
+  const urlText   = activeTab?.kind === 'new' ? 'New tab' : `mitchellanderson.com.au/work/${urlSlug}`
 
   const openTab = (i: number) => {
     setActiveIdx(i)
@@ -525,14 +629,31 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
 
   const closeTab = (i: number) => {
     if (tabs.length === 1) return
+    const tab  = tabs[i]
     const next = tabs.filter((_, idx) => idx !== i)
     setTabs(next)
     setActiveIdx(prev => Math.min(prev, next.length - 1))
+    setClosed(c => [{ tab, index: i, scroll: 0 }, ...c.filter(e => tabKey(e.tab) !== tabKey(tab))].slice(0, MAX_CLOSED))
+    say(`Closed ${tabTitle(tab)}`)
+    pulse(historyBtnRef.current, 150)
   }
 
   const addTab = () => {
     const next = [...tabs, { kind: 'new' as const, id: ++mobileTabCounter }]
     setTabs(next); setActiveIdx(next.length - 1); setView('browser')
+  }
+
+  /** Put a closed tab back where it was and show it. */
+  const reopen = (key: string) => {
+    const entry = closed.find(e => tabKey(e.tab) === key)
+    if (!entry) return
+    const j = Math.min(entry.index, tabs.length)
+    setClosed(c => c.filter(e => e !== entry))
+    setTabs([...tabs.slice(0, j), entry.tab, ...tabs.slice(j)])
+    setActiveIdx(j)
+    setView('browser')
+    setHistoryOpen(false)
+    say(`Reopened ${tabTitle(entry.tab)}`)
   }
 
   const nudgeVolume = (delta: number) => {
@@ -543,52 +664,44 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
   }
 
   return (
-    <div ref={rootRef} className="relative" style={{ width: 'min(290px, calc(100vw - 32px))', margin: '0 auto' }}>
+    <div ref={rootRef} className="relative" style={{ width: 'min(288px, calc(100vw - 32px))', margin: '0 auto' }}>
 
       {/* Hardware buttons are part of the illustration: decorative, out of the tab order */}
       <button
         onClick={() => nudgeVolume(10)}
         tabIndex={-1}
         aria-hidden
-        className="absolute rounded-l-full bg-[#2c2c2e] hover:brightness-125 active:brightness-75 transition-[filter]"
-        style={{ left: -5, top: 70, width: 5, height: 32 }}
+        className="absolute rounded-l-sm bg-d-raised"
+        style={{ left: -4, top: 72, width: 4, height: 32 }}
       />
       <button
         onClick={() => nudgeVolume(-10)}
         tabIndex={-1}
         aria-hidden
-        className="absolute rounded-l-full bg-[#2c2c2e] hover:brightness-125 active:brightness-75 transition-[filter]"
-        style={{ left: -5, top: 114, width: 5, height: 32 }}
+        className="absolute rounded-l-sm bg-d-raised"
+        style={{ left: -4, top: 116, width: 4, height: 32 }}
       />
       <button
         onClick={() => setIsOff(o => !o)}
         tabIndex={-1}
         aria-hidden
-        className="absolute rounded-r-full bg-[#2c2c2e] hover:brightness-125 active:brightness-75 transition-[filter]"
-        style={{ right: -5, top: 108, width: 5, height: 48 }}
+        className="absolute rounded-r-sm bg-d-raised"
+        style={{ right: -4, top: 108, width: 4, height: 48 }}
       />
 
       {/* Phone body */}
       <div
-        className="rounded-[2.1rem] p-[10px] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.08),0_0_0_1px_rgba(0,0,0,0.4)]"
-        style={{
-          background: 'linear-gradient(160deg, #2e2e2e 0%, #1a1a1a 100%)',
-          height: 'min(calc(100dvh - 90px), 620px)',
-        }}
+        className="rounded-[32px] p-2.5 bg-d-card border border-d-line-strong shadow-float"
+        style={{ height: 'min(calc(100dvh - 90px), 620px)' }}
       >
-        {/* Screen */}
-        <div className="relative rounded-[1.6rem] overflow-hidden h-full flex flex-col bg-white select-none">
+        {/* Screen: 32px outer minus 10px bezel = 22px, within 1px of the border */}
+        <div className="relative rounded-[22px] overflow-hidden h-full flex flex-col bg-card select-none">
+
+          {status}
 
           {/* Punch-hole camera lens */}
           <div aria-hidden className="absolute left-1/2 -translate-x-1/2 z-30 pointer-events-none" style={{ top: 11 }}>
-            <div className="rounded-full bg-black flex items-center justify-center relative" style={{ width: 14, height: 14 }}>
-              <div className="rounded-full flex items-center justify-center" style={{ width: 11, height: 11, background: '#1a1a22', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-                <div className="rounded-full bg-black flex items-center justify-center" style={{ width: 7, height: 7 }}>
-                  <div className="rounded-full" style={{ width: 3, height: 3, background: 'rgba(70,90,200,0.25)' }} />
-                </div>
-              </div>
-              <div className="absolute rounded-full bg-white/20" style={{ width: 2.5, height: 2.5, top: 1.5, left: 2 }} />
-            </div>
+            <div className="rounded-full bg-d-deep" style={{ width: 12, height: 12 }} />
           </div>
 
           {/* Volume HUD */}
@@ -596,31 +709,27 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
             {showVolume && (
               <motion.div
                 aria-hidden
-                initial={{ opacity: 0, scale: 0.88, y: -6 }}
-                animate={{ opacity: 1, scale: 1,    y: 0  }}
-                exit={{    opacity: 0, scale: 0.88, y: -6 }}
-                transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-                className="absolute z-[45] rounded-2xl flex items-center gap-2 px-3 py-2.5"
-                style={{ top: 38, left: 12, minWidth: 130, background: 'rgba(30,30,30,0.88)', backdropFilter: 'blur(8px)' }}
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{    opacity: 0, y: -6 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute z-[45] rounded-xl flex items-center gap-2 px-3 py-2 bg-d-raised text-d-fg"
+                style={{ top: 40, left: 12, minWidth: 128 }}
               >
                 {/* Speaker icon */}
-                <svg className="w-3.5 h-3.5 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-d-fg flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   {volumeLevel === 0
                     ? <path d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
                     : <>
-                        <path d="M11.536 3.464a5 5 0 010 7.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                        {volumeLevel > 40 && <path d="M15.536 8.464a5 5 0 010 7.072" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" fill="none"/>}
-                        {volumeLevel > 70 && <path d="M18.364 5.636a9 9 0 010 12.728" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" fill="none"/>}
+                        <path d="M11.536 3.464a5 5 0 010 7.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        {volumeLevel > 40 && <path d="M15.536 8.464a5 5 0 010 7.072" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>}
+                        {volumeLevel > 70 && <path d="M18.364 5.636a9 9 0 010 12.728" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>}
                       </>
                   }
                 </svg>
                 {/* Volume bar */}
-                <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.2)' }}>
-                  <motion.div
-                    className="h-full rounded-full bg-white"
-                    animate={{ width: `${volumeLevel}%` }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
+                <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-d-line-strong">
+                  <div className="h-full rounded-full bg-d-fg" style={{ width: `${volumeLevel}%` }} />
                 </div>
               </motion.div>
             )}
@@ -637,17 +746,11 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                 transition={{ duration: 0.25 }}
                 onClick={() => setIsOff(false)}
                 aria-label="Wake the phone"
-                className="absolute inset-0 z-40 bg-black flex flex-col items-center justify-center w-full cursor-pointer"
+                className="on-dark absolute inset-0 z-40 bg-d-deep flex flex-col items-center justify-center w-full cursor-pointer"
               >
-                <p className="font-sans text-white/50 text-xs tracking-widest uppercase">{dateStr}</p>
-                <p className="font-heading font-bold text-white leading-none tracking-tight tabular-nums mt-2" style={{ fontSize: '3.8rem' }}>{timeStr}</p>
-                <motion.p
-                  className="font-sans text-white/50 text-xs mt-8 tracking-widest uppercase"
-                  animate={{ opacity: [0.5, 0.9, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  Tap to wake
-                </motion.p>
+                <p className="font-sans text-d-fg-3 text-xs">{dateStr}</p>
+                <p className="font-mono font-medium text-d-fg leading-none tabular-nums mt-2 text-6xl">{timeStr}</p>
+                <p className="font-sans text-d-fg-3 text-xs mt-8">Tap to wake</p>
               </motion.button>
             )}
           </AnimatePresence>
@@ -655,11 +758,11 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
           {/* Status bar */}
           <div
             aria-hidden
-            className={`flex-shrink-0 flex items-center justify-between px-5 z-10 ${view === 'tabs' ? 'bg-[#1c1c1e] text-white' : 'bg-white text-black'}`}
+            className={`flex-shrink-0 flex items-center justify-between px-5 z-10 ${view === 'tabs' ? 'bg-d-card text-d-fg' : 'bg-card text-fg'}`}
             style={{ paddingTop: 13, paddingBottom: 5 }}
           >
-            <span className="font-sans font-semibold text-xs tabular-nums min-w-[2.5rem]">{timeStr}</span>
-            <div className="flex items-center gap-[5px]" style={{ opacity: 0.65 }}>
+            <span className="font-sans font-medium text-xs tabular-nums min-w-10">{timeStr}</span>
+            <div className="flex items-center gap-1" style={{ opacity: 0.65 }}>
               {/* Signal / connection — real if available, otherwise static full bars */}
               {connType === 'wifi' || connType === null ? (
                 <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
@@ -678,8 +781,8 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
               )}
               {/* Battery — real level + percentage + charging bolt if available */}
               {battery ? (
-                <div className="flex items-center gap-[3px]">
-                  <span className="font-sans font-semibold text-xs leading-none tabular-nums">
+                <div className="flex items-center gap-0.5">
+                  <span className="font-sans font-medium text-xs leading-none tabular-nums">
                     {Math.round(battery.level * 100)}%
                   </span>
                   {battery.charging && (
@@ -694,7 +797,7 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                       x="2.2" y="2.2"
                       width={Math.max(1, battery.level * 15)}
                       height="7.6" rx="1.4"
-                      fill={battery.charging ? '#4fe870' : battery.level < 0.2 ? '#ff3b30' : 'currentColor'}
+                      fill={battery.charging ? '#4CC38A' : battery.level < 0.2 ? '#E5484D' : 'currentColor'}
                     />
                   </svg>
                 </div>
@@ -720,29 +823,80 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute inset-0 overflow-y-auto overscroll-contain bg-[#1c1c1e] flex flex-col"
+                  onKeyDown={e => {
+                    if (e.key === 'Escape' && historyOpen) { setHistoryOpen(false); historyBtnRef.current?.focus() }
+                  }}
+                  className="on-dark absolute inset-0 overflow-y-auto overscroll-contain bg-d-card text-d-fg flex flex-col"
                 >
                   {/* Header bar — dimmed during step 1 */}
-                  <div className="relative flex items-center justify-between px-4 pt-2 pb-3 sticky top-0 bg-[#1c1c1e] z-10">
-                    <span className="font-sans font-bold text-white text-sm">
-                      {tabs.length} {tabs.length === 1 ? 'Tab' : 'Tabs'}
+                  <div className="relative flex items-center justify-between px-4 pt-2 pb-3 sticky top-0 bg-d-card z-10">
+                    <span className="font-sans font-medium text-d-fg text-sm">
+                      {tabs.length} {tabs.length === 1 ? 'tab' : 'tabs'}
                     </span>
-                    <button onClick={addTab} className="py-1 font-sans text-[#3d9bff] text-sm font-semibold active:opacity-60 transition-opacity">
-                      + New Tab
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        ref={historyBtnRef}
+                        type="button"
+                        aria-expanded={historyOpen}
+                        aria-controls="phone-history"
+                        aria-label={closed.length > 0 ? `Recently closed tabs (${closed.length})` : 'Recently closed tabs'}
+                        onClick={() => setHistoryOpen(o => !o)}
+                        className="relative flex h-9 w-9 items-center justify-center rounded-md text-d-fg-2 transition-[color,background-color] duration-150 ease-spec hover:text-d-fg active:bg-d-raised aria-expanded:bg-d-raised aria-expanded:text-d-fg motion-reduce:transition-none"
+                      >
+                        <svg aria-hidden className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2" />
+                        </svg>
+                        {closed.length > 0 && (
+                          <span aria-hidden className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent-on-dark px-1 font-mono text-[11px] font-medium leading-none text-d-deep">
+                            {closed.length}
+                          </span>
+                        )}
+                      </button>
+                      <button onClick={addTab} className="py-1 font-sans text-accent-on-dark text-sm font-medium active:opacity-60 transition-opacity duration-150 ease-spec">
+                        New tab
+                      </button>
+                    </div>
                     {tooltipStep === 1 && (
-                      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+                      <div className="absolute inset-0 bg-d-deep/70 pointer-events-none" />
                     )}
                   </div>
+
+                  {/* Recently closed: a disclosure panel under the header */}
+                  {historyOpen && (
+                    <div id="phone-history" className="mx-3 mb-3 rounded-xl bg-d-raised p-2">
+                      <p className="px-2 pb-1 pt-1 font-sans text-xs font-medium text-d-fg-3">Recently closed</p>
+                      {closed.length === 0 ? (
+                        <p className="px-2 pb-2 font-sans text-xs text-d-fg-2">No recently closed tabs</p>
+                      ) : (
+                        <ul className="mb-1">
+                          {closed.map(e => (
+                            <li key={tabKey(e.tab)}>
+                              <button
+                                type="button"
+                                onClick={() => reopen(tabKey(e.tab))}
+                                className="flex min-h-10 w-full items-center gap-2 rounded-lg px-2 text-left font-sans text-xs font-medium text-d-fg active:bg-d-card"
+                              >
+                                {tabIcon(e.tab)
+                                  ? <img src={tabIcon(e.tab)} alt="" width={12} height={12} className="h-3 w-3 flex-shrink-0 rounded-sm object-cover" loading="lazy" />
+                                  : <span aria-hidden className="h-3 w-3 flex-shrink-0 rounded-sm bg-d-fg-3" />}
+                                <span className="truncate">Reopen {tabTitle(e.tab)}</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-2 px-3 pb-4">
                     <AnimatePresence mode="popLayout" initial={false}>
                       {tabs.map((tab, i) => {
                         const isHighlighted = tooltipStep === 1 && i === 0
                         return (
-                          <div
+                          <motion.div
                             key={tabKey(tab)}
-                            className={`relative ${isHighlighted ? 'z-10 rounded-xl shadow-[0_0_0_2px_#0a84ff,0_0_18px_rgba(10,132,255,0.55)]' : ''}`}
+                            exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] } }}
+                            className={`relative ${isHighlighted ? 'z-10 rounded-xl' : ''}`}
                           >
                             <TabCard
                               tab={tab}
@@ -755,7 +909,7 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                             />
                             {/* Dim non-highlighted cards during step 1 */}
                             {tooltipStep === 1 && i !== 0 && (
-                              <div className="absolute inset-0 bg-black/65 rounded-xl pointer-events-none" />
+                              <div className="absolute inset-0 bg-d-deep/70 rounded-xl pointer-events-none" />
                             )}
                             {/* Speech bubble — left:0 right:0 + items-center avoids Framer Motion clobbering translateX */}
                             {isHighlighted && (
@@ -767,17 +921,17 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                                   key="step1-label"
                                   initial={{ opacity: 0, y: -4 }}
                                   animate={{ opacity: 1, y: 0 }}
-                                  transition={{ delay: 0.35, type: 'spring', stiffness: 280, damping: 24 }}
+                                  transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                                   className="flex flex-col items-center"
                                 >
-                                  <div style={{ width: 0, height: 0, borderLeft: '7px solid transparent', borderRight: '7px solid transparent', borderBottom: '8px solid #0a84ff' }} />
-                                  <div className="bg-[#0a6fd6] text-white font-sans font-semibold text-xs px-3.5 py-2 rounded-2xl shadow-xl whitespace-nowrap">
+                                  <div style={{ width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderBottom: '6px solid var(--accent-fill)' }} />
+                                  <div className="bg-accent-fill text-on-accent font-sans font-medium text-xs px-3 py-2 rounded-lg whitespace-nowrap">
                                     Tap to open a project
                                   </div>
                                 </motion.div>
                               </div>
                             )}
-                          </div>
+                          </motion.div>
                         )
                       })}
                     </AnimatePresence>
@@ -800,42 +954,40 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.08, duration: 0.2 }}
-                    className="flex-shrink-0 bg-white px-3 py-2 border-b border-gray-100"
+                    className="flex-shrink-0 bg-card px-3 py-2 border-b border-line"
                   >
-                    <div className="bg-[#f2f2f7] rounded-[10px] h-9 flex items-center gap-1.5 px-3">
-                      <svg aria-hidden className="w-[11px] h-[11px] text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <div className="bg-raised rounded-[10px] h-9 flex items-center gap-1.5 px-3">
+                      <svg aria-hidden className="w-3 h-3 text-fg-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                       </svg>
-                      <div className="relative flex-1 overflow-hidden">
-                        <span className="font-sans text-xs text-black/70 whitespace-nowrap block">{urlText}</span>
-                        <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-[#f2f2f7] to-transparent pointer-events-none" />
+                      <div className="relative flex-1 min-w-0">
+                        <span className="font-sans text-xs text-fg-2 truncate block">{urlText}</span>
                       </div>
                       <button onClick={addTab} aria-label="Open a new tab"
-                        className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-black/[0.07] hover:bg-black/[0.12] active:bg-black/[0.18] transition-colors"
+                        className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-md hover:bg-card active:bg-card transition-colors duration-150 ease-spec"
                       >
-                        <svg aria-hidden className="w-[14px] h-[14px] text-black/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <svg aria-hidden className="w-3.5 h-3.5 text-fg-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                       </button>
                       <button onClick={goToTabs} aria-label={`Show all ${tabs.length} tabs`}
-                        className="relative flex-shrink-0 rounded-[5px] bg-black/[0.07] hover:bg-black/[0.12] border border-black/20 flex items-center justify-center active:bg-black/[0.18] transition-colors"
-                        style={{ width: 24, height: 24 }}
+                        className="relative flex-shrink-0 w-6 h-6 rounded-md hover:bg-card border border-line-strong flex items-center justify-center active:bg-card transition-colors duration-150 ease-spec"
                       >
                         {/* Step 3: static blue ring around tab count button (no infinite loop = no flash) */}
                         <AnimatePresence>
                           {tooltipStep === 3 && (
                             <motion.span
                               key="tab-btn-ring"
-                              initial={{ opacity: 0, scale: 0.7 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.7 }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
                               transition={{ duration: 0.2 }}
-                              className="absolute rounded-[6px] pointer-events-none"
-                              style={{ inset: -3, border: '2px solid #0a84ff', boxShadow: '0 0 10px rgba(10,132,255,0.55)' }}
+                              className="absolute rounded-lg pointer-events-none"
+                              style={{ inset: -3, border: '2px solid var(--accent-fill)' }}
                             />
                           )}
                         </AnimatePresence>
-                        <span aria-hidden className="font-sans font-bold text-xs text-black/70 leading-none">{tabs.length}</span>
+                        <span aria-hidden className="font-sans font-medium text-xs text-fg-2 leading-none tabular-nums">{tabs.length}</span>
                       </button>
                     </div>
                   </motion.div>
@@ -852,8 +1004,8 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                         className="absolute pointer-events-none z-30 flex flex-col items-end"
                         style={{ top: 54, right: 8 }}
                       >
-                        <div style={{ width: 0, height: 0, marginRight: 28, borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderBottom: '6px solid #0a84ff' }} />
-                        <div className="bg-[#0a6fd6] text-white font-sans font-semibold text-xs px-2.5 py-1.5 rounded-xl shadow-lg whitespace-nowrap">
+                        <div style={{ width: 0, height: 0, marginRight: 28, borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderBottom: '6px solid var(--accent-fill)' }} />
+                        <div className="bg-accent-fill text-on-accent font-sans font-medium text-xs px-3 py-1.5 rounded-lg whitespace-nowrap">
                           Browse other projects
                         </div>
                       </motion.div>
@@ -864,9 +1016,9 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                   <div className="flex-1 relative overflow-hidden">
                     <motion.div
                       ref={scrollRef}
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1, duration: 0.22 }}
+                      transition={{ delay: 0.1, duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                       className="h-full overflow-y-auto overscroll-contain"
                       onScroll={() => {
                         if (tooltipStep === 2) {
@@ -893,7 +1045,7 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.25 }}
                             className="absolute inset-0 pointer-events-none z-10"
-                            style={{ border: '2.5px solid #0a84ff', boxShadow: 'inset 0 0 16px rgba(10,132,255,0.15)' }}
+                            style={{ border: '2px solid var(--accent-fill)' }}
                           />
                           <motion.div
                             key="scroll-label"
@@ -903,9 +1055,9 @@ function MobilePhone({ projects }: { projects: FeaturedProject[] }) {
                             transition={{ delay: 0.15, duration: 0.22 }}
                             className="absolute top-3 inset-x-0 flex justify-center pointer-events-none z-20"
                           >
-                            <div className="bg-[#0a6fd6] text-white font-sans font-semibold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
+                            <div className="bg-accent-fill text-on-accent font-sans font-medium text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5">
                               Scroll to read the case study
-                              <svg aria-hidden className="w-2.5 h-2.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                              <svg aria-hidden className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
                               </svg>
                             </div>

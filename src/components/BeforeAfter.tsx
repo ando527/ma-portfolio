@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, type PointerEvent } from 'react'
+import { useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import type { ImageData } from '@/lib/types'
 
 const SIZES = '(min-width: 1152px) 1104px, calc(100vw - 48px)'
@@ -63,6 +63,15 @@ export default function BeforeAfter({
 
   const end = () => { drag.current = null }
 
+  // A press that lands before the page has hydrated never reaches
+  // onPointerDown. scripts/defer-scripts.mjs replays it as a synthetic click
+  // once hydration is done, and this puts the slider where the mouse went.
+  // Real clicks are already handled by the pointer events.
+  const onReplayedClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.nativeEvent.isTrusted || !window.matchMedia('(pointer: fine)').matches) return
+    moveTo(e.clientX)
+  }
+
   const shownBefore = Math.round(pos)
 
   return (
@@ -73,7 +82,8 @@ export default function BeforeAfter({
         onPointerMove={onPointerMove}
         onPointerUp={end}
         onPointerCancel={end}
-        className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-maroon-50 ring-1 ring-black/[0.06] shadow-[0_30px_60px_-30px_rgba(28,10,14,0.35)] select-none cursor-ew-resize"
+        onClick={onReplayedClick}
+        className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-raised border border-line shadow-soft select-none cursor-ew-resize"
         style={{ touchAction: 'pan-y' }}
       >
         <img
@@ -105,14 +115,14 @@ export default function BeforeAfter({
         {/* Corner labels, fading as their side is wiped away */}
         <span
           aria-hidden
-          className="absolute top-4 left-4 eyebrow px-3 py-1.5 rounded-full bg-ink/80 text-white transition-opacity duration-200"
+          className="absolute top-4 left-4 font-sans text-xs leading-4 font-medium px-3 py-1 rounded-md bg-d-deep/85 text-d-fg transition-opacity duration-150 ease-spec motion-reduce:transition-none"
           style={{ opacity: pos < 12 ? 0 : 1 }}
         >
           Before
         </span>
         <span
           aria-hidden
-          className="absolute top-4 right-4 eyebrow px-3 py-1.5 rounded-full bg-primary text-white transition-opacity duration-200"
+          className="absolute top-4 right-4 font-sans text-xs leading-4 font-medium px-3 py-1 rounded-md bg-accent-fill text-on-accent transition-opacity duration-150 ease-spec motion-reduce:transition-none"
           style={{ opacity: pos > 88 ? 0 : 1 }}
         >
           After
@@ -133,21 +143,21 @@ export default function BeforeAfter({
         {/* Divider and handle */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 -translate-x-1/2 w-0.5 bg-white shadow-[0_0_0_1px_rgba(16,4,8,0.15),0_0_24px_rgba(16,4,8,0.35)]"
+          className="pointer-events-none absolute inset-y-0 -translate-x-1/2 w-0.5 bg-light-card shadow-[0_0_0_1px_rgba(0,0,0,0.2)]"
           style={{ left: `${pos}%` }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white text-ink shadow-[0_8px_24px_rgba(16,4,8,0.35)] flex items-center justify-center gap-0.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-white peer-focus-visible:ring-4 peer-focus-visible:ring-secondary"
+          className="pointer-events-none absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-light-card text-ink border border-ink/15 shadow-float flex items-center justify-center peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-card peer-focus-visible:ring-4 peer-focus-visible:ring-accent"
           style={{ left: `${pos}%` }}
         >
-          <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
             <path d="M6 3.5 1.5 8 6 12.5M10 3.5 14.5 8 10 12.5" />
           </svg>
         </div>
       </div>
-      <figcaption className="mt-4 font-sans text-sm text-muted-foreground">
-        Drag across the screenshot, or focus the slider and use the arrow keys, to compare the old site with the new one.
+      <figcaption className="mt-4 font-sans text-sm text-fg-3">
+        Drag across the screenshot, or focus the slider and use the arrow keys, to compare the old site with the new one
       </figcaption>
     </figure>
   )
