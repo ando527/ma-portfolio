@@ -38,8 +38,8 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <nav aria-label="On this page" className="hidden lg:block">
-      <h2 className="eyebrow text-muted-foreground mb-4">On this page</h2>
-      <ol className="border-l border-maroon-100">
+      <h2 className="eyebrow mb-4">On this page</h2>
+      <ol className="border-l border-line">
         {headings.map(h => {
           const current = h.id === active
           return (
@@ -47,10 +47,10 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
               <a
                 href={`#${h.id}`}
                 aria-current={current ? 'location' : undefined}
-                className={`block -ml-px border-l-2 pl-4 py-1.5 font-sans text-sm transition-colors duration-200 ${
+                className={`block -ml-px border-l pl-4 py-1.5 font-sans text-sm transition-colors duration-150 ease-spec motion-reduce:transition-none ${
                   current
-                    ? 'border-primary text-foreground font-medium'
-                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-maroon-200'
+                    ? 'border-accent text-fg'
+                    : 'border-transparent text-fg-2 hover:text-fg hover:border-line-strong'
                 }`}
               >
                 {h.text}

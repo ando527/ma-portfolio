@@ -11,7 +11,7 @@ const DESCRIPTION =
   'Case studies of Webflow and Shopify websites built by Brisbane web developer Mitchell Anderson, from cafes and podcasts to a national sports body.'
 
 export const metadata = pageMetadata({
-  title: 'Web Design & Development Portfolio',
+  title: 'Brisbane Web Developer Portfolio',
   description: DESCRIPTION,
   path: '/work/',
 })
@@ -39,17 +39,18 @@ export default function WorkPage() {
     .map(p => ({ image: p.images.hero!, url: hostOf(p.liveUrl) }))
 
   return (
-    <div className="bg-background">
+    <div className="bg-paper">
       <JsonLd
         data={graph(
           webPageNode('/work/', {
             type: 'CollectionPage',
-            name: 'Web Design & Development Portfolio',
+            name: 'Brisbane Web Developer Portfolio',
             description: DESCRIPTION,
             author: refs.person,
             breadcrumb: true,
             mainEntity: {
               '@type': 'ItemList',
+              numberOfItems: projects.length,
               itemListElement: projects.map((p, i) => ({
                 '@type': 'ListItem',
                 position: i + 1,
@@ -69,32 +70,32 @@ export default function WorkPage() {
         crumbs={[{ name: 'Home', href: '/' }, { name: 'Work' }]}
         eyebrow="Portfolio"
         title="Work"
-        intro="Client work and personal projects, spanning Webflow, Shopify, Next.js and front-end development."
+        intro="Client work and personal projects in Webflow, Shopify, Next.js and front-end development"
         visual={stack.length > 0 ? <FrameStack items={stack} /> : undefined}
       >
-        <dl className="flex flex-wrap gap-x-8 gap-y-5 pt-7 border-t border-white/10">
-          <div className="flex flex-col-reverse gap-1.5">
-            <dt className="eyebrow text-white/60">Case studies</dt>
-            <dd className="display text-3xl md:text-4xl text-white tabular-nums">{projects.length}</dd>
+        <dl className="flex flex-wrap gap-x-8 gap-y-6 pt-8 border-t border-line">
+          <div className="flex flex-col-reverse gap-1">
+            <dt className="eyebrow">Case studies</dt>
+            <dd className="display text-3xl text-fg tabular-nums">{projects.length}</dd>
           </div>
           {years.length > 0 && (
-            <div className="flex flex-col-reverse gap-1.5">
-              <dt className="eyebrow text-white/60">Years</dt>
-              <dd className="display text-3xl md:text-4xl text-white tabular-nums">
+            <div className="flex flex-col-reverse gap-1">
+              <dt className="eyebrow">Years</dt>
+              <dd className="display text-3xl text-fg tabular-nums">
                 {Math.min(...years)}–{Math.max(...years)}
               </dd>
             </div>
           )}
           {platforms.length > 0 && (
-            <div className="flex flex-col-reverse gap-1.5">
-              <dt className="eyebrow text-white/60">Platforms</dt>
-              <dd className="display text-3xl md:text-4xl text-white">{platforms.join(' & ')}</dd>
+            <div className="flex flex-col-reverse gap-1">
+              <dt className="eyebrow">Platforms</dt>
+              <dd className="display text-3xl text-fg">{platforms.join(' & ')}</dd>
             </div>
           )}
         </dl>
       </PageHero>
 
-      <section className="py-16 md:py-20" aria-label="Projects">
+      <section className="py-16 md:py-24" aria-label="Projects">
         <div className="max-w-6xl mx-auto px-6">
           <WorkExplorer projects={items} />
         </div>

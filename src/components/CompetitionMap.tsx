@@ -3,13 +3,49 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import 'leaflet/dist/leaflet.css'
 import type { Competition } from '@/lib/wca'
-import type { Map as LeafletMap, LayerGroup, LatLngExpression } from 'leaflet'
+import type { Map as LeafletMap, LayerGroup, LatLngExpression, TileLayer } from 'leaflet'
 
 type Leaflet = typeof import('leaflet')
 
-const COLOURS = {
-  competition: '#7C1D2E',
-  worlds: '#D99A00',
+// One accent: the World Championships, in gold. Every other competition is
+// neutral graphite, on a grey map, so the gold dots are the ones that matter.
+// Gold comes from the `--gold-*` CSS variables (globals.css), so the theme can
+// swap it; the values below are only the fallback if a variable is missing.
+// Everything on the map is a function of the current theme.
+type Theme = 'light' | 'dark'
+
+const getTheme = (): Theme =>
+  document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
+
+// Esri Canvas base maps: the same neutral grey cartography the Webflow site
+// uses. Light and dark variants share one URL pattern and attribution.
+const TILE_ATTRIBUTION = 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+const tileSource = (theme: Theme) => ({
+  url: `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${theme === 'dark' ? 'Dark' : 'Light'}_Gray_Base/MapServer/tile/{z}/{y}/{x}`,
+  attribution: TILE_ATTRIBUTION,
+  maxZoom: 16, // the last level Esri's Canvas tiles exist for
+})
+
+// Markers are drawn by Leaflet (canvas/SVG), so they need real colour values,
+// read from the CSS variables at draw time.
+const GOLD_FALLBACK: Record<Theme, { fill: string; edge: string }> = {
+  light: { fill: '#C9A227', edge: '#4A3800' },
+  dark: { fill: '#E3B93C', edge: '#F6E7B0' },
+}
+const MARKER: Record<Theme, { fill: string; edge: string }> = {
+  light: { fill: '#5E554A', edge: '#1F1B16' },
+  dark: { fill: '#D8D1C4', edge: '#12110F' },
+}
+function palette(theme: Theme) {
+  const css = getComputedStyle(document.documentElement)
+  const gold = (name: string, fallback: string) => css.getPropertyValue(name).trim() || fallback
+  return {
+    competition: MARKER[theme],
+    worlds: {
+      fill: gold('--gold-fill', GOLD_FALLBACK[theme].fill),
+      edge: gold('--gold-edge', GOLD_FALLBACK[theme].edge),
+    },
+  }
 }
 
 /** WCA World Championships have ids like "WC2025". */
@@ -78,9 +114,12 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
   const layerRef     = useRef<LayerGroup | null>(null)
   const leafletRef   = useRef<Leaflet | null>(null)
   const fittedRef    = useRef(false)
+  const tileRef      = useRef<TileLayer | null>(null)
+  const themeRef     = useRef<Theme>('light')
   const frameRef     = useRef(0)
   const compsRef     = useRef(competitions)
   const [indicators, setIndicators] = useState<Indicator[]>([])
+  const [theme, setTheme] = useState<Theme>('light')
 
   // Keep the latest list for the map callbacks. Declared before the effects
   // that draw markers, so it's current by the time they run.
@@ -106,23 +145,24 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
     // True on touch-only devices (phones/tablets) — no fine pointer
     const isTouch = () => window.matchMedia('(hover: none)').matches
     const markers: ReturnType<typeof L.circleMarker>[] = []
+    const pal = palette(themeRef.current)
 
     // Draw World Championships last so they sit on top.
     const ordered = [...compsRef.current].sort((a, b) => Number(isWorlds(a)) - Number(isWorlds(b)))
     for (const comp of ordered) {
       if (!comp.coordinates) continue
       const worlds = isWorlds(comp)
-      const colour = worlds ? COLOURS.worlds : COLOURS.competition
+      const colour = worlds ? pal.worlds : pal.competition
       const m = L.circleMarker([comp.coordinates.latitude, comp.coordinates.longitude], {
-        color:       worlds ? '#5c3b00' : colour,
-        fillColor:   colour,
-        fillOpacity: worlds ? 0.95 : 0.75,
-        weight:      worlds ? 2 : 1.5,
+        color:       colour.edge,
+        fillColor:   colour.fill,
+        fillOpacity: worlds ? 1 : 0.7,
+        weight:      worlds ? 2 : 1,
         radius:      worlds ? 8 : 6,
       }).bindPopup(
-        (worlds ? `<span style="display:block;font-size:0.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a5a00">World Championship</span>` : '') +
-        `<strong style="display:block;font-size:0.8rem">${escapeHtml(comp.name)}</strong>` +
-        `<span style="font-size:0.75rem;color:#555">${escapeHtml(comp.city)}</span>`,
+        (worlds ? `<span style="display:block;font-size:0.75rem;color:var(--gold-text,#7A5B00)">World Championship</span>` : '') +
+        `<strong style="display:block;font-size:0.8125rem;font-weight:500">${escapeHtml(comp.name)}</strong>` +
+        `<span style="font-size:0.75rem;color:var(--fg-2)">${escapeHtml(comp.city)}</span>`,
       )
 
       // Desktop hover — open on enter, close on leave (unless cursor moves into popup)
@@ -156,9 +196,10 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
       if (cancelled || !containerRef.current || mapRef.current) return
       leafletRef.current = L
       const map = L.map(containerRef.current, { zoomControl: true, scrollWheelZoom: false })
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map)
+      map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>')
+      themeRef.current = getTheme()
+      const { url, ...tileOptions } = tileSource(themeRef.current)
+      tileRef.current = L.tileLayer(url, tileOptions).addTo(map)
       layerRef.current = L.layerGroup().addTo(map)
       mapRef.current = map
       map.on('move zoom resize', refreshIndicators)
@@ -170,10 +211,32 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
       frameRef.current = 0
       mapRef.current?.remove()
       mapRef.current = null
+      tileRef.current = null
       layerRef.current = null
       fittedRef.current = false
     }
   }, [drawMarkers, refreshIndicators])
+
+  // Follow the site theme (`data-theme` on <html>): swap the base map and
+  // repaint the markers. Listens for the `themechange` event and also watches
+  // the attribute, so either way of switching theme is picked up.
+  useEffect(() => {
+    const sync = () => setTheme(getTheme())
+    sync()
+    window.addEventListener('themechange', sync)
+    const observer = new MutationObserver(sync)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => {
+      window.removeEventListener('themechange', sync)
+      observer.disconnect()
+    }
+  }, [])
+
+  useEffect(() => {
+    themeRef.current = theme
+    tileRef.current?.setUrl(tileSource(theme).url)
+    drawMarkers()
+  }, [theme, drawMarkers])
 
   // Redraw markers when competitions are added after a live check.
   useEffect(() => {
@@ -194,15 +257,16 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
 
   return (
     <div>
-      <div className="relative rounded-[1.25rem] ring-1 ring-maroon-100">
+      {/* The Esri grey base map is neutral, so the markers are the only colour on it. */}
+      <div className="relative overflow-hidden rounded-2xl border border-line [&_.leaflet-control-attribution]:!bg-card/90 [&_.leaflet-control-attribution]:text-fg-2 [&_.leaflet-control-attribution_a]:text-fg-2 [&_.leaflet-control-attribution_a]:underline">
         <div
           ref={containerRef}
           role="region"
           aria-label={`Map of ${located.length} competitions attended`}
-          style={{ height: '380px', width: '100%', borderRadius: '1.25rem' }}
+          className="h-96 w-full"
         />
         {/* Arrows to competitions off the edge of the map */}
-        <div className="pointer-events-none absolute inset-0 z-[450] overflow-hidden rounded-[1.25rem]">
+        <div className="pointer-events-none absolute inset-0 z-[450] overflow-hidden rounded-2xl">
           {indicators.map(ind => {
             const label = `${ind.count} ${ind.count === 1 ? 'competition' : 'competitions'} to the ${compassName(ind.angle)}${ind.worlds ? ', including a World Championship' : ''}. Show on map`
             return (
@@ -212,17 +276,17 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
                 onClick={() => goTo(ind)}
                 aria-label={label}
                 title={label.replace('. Show on map', '')}
-                className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md ring-1 ring-black/10 flex items-center justify-center hover:scale-110 motion-reduce:hover:scale-100 transition-transform duration-150"
+                className="pointer-events-auto absolute flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-control bg-card shadow-soft transition-colors duration-150 ease-spec hover:bg-raised motion-reduce:transition-none"
                 style={{ left: ind.x, top: ind.y }}
               >
                 <svg
                   aria-hidden
                   viewBox="0 0 24 24"
-                  className="w-5 h-5"
-                  style={{ transform: `rotate(${ind.angle}rad)`, color: ind.worlds ? COLOURS.worlds : COLOURS.competition }}
+                  className={`h-5 w-5 ${ind.worlds ? 'text-gold-text' : 'text-fg-2'}`}
+                  style={{ transform: `rotate(${ind.angle}rad)` }}
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth={2.5}
+                  strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -230,8 +294,7 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
                 </svg>
                 <span
                   aria-hidden
-                  className="absolute -top-1.5 -right-1.5 min-w-[1.25rem] h-5 px-1 rounded-full text-xs leading-5 font-sans font-bold text-white text-center tabular-nums"
-                  style={{ background: ind.worlds ? '#8a5a00' : COLOURS.competition }}
+                  className={`absolute -right-1.5 -top-1.5 h-5 min-w-5 rounded-md px-1 text-center font-mono text-xs leading-5 tabular-nums ${ind.worlds ? 'bg-gold text-gold-on' : 'bg-fg text-card'}`}
                 >
                   {ind.count}
                 </span>
@@ -242,20 +305,20 @@ export default function CompetitionMap({ competitions }: { competitions: Competi
       </div>
 
       {/* Legend */}
-      <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-sans text-sm text-muted-foreground">
+      <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-sans text-sm text-fg-2">
         <li className="flex items-center gap-2">
-          <span aria-hidden className="w-3 h-3 rounded-full" style={{ background: COLOURS.competition }} />
-          Competition ({located.length - worldsCount})
+          <span aria-hidden className="h-3 w-3 rounded-full" style={{ background: MARKER[theme].fill, boxShadow: `0 0 0 1px ${MARKER[theme].edge}` }} />
+          Competition <span className="split">{located.length - worldsCount}</span>
         </li>
         {worldsCount > 0 && (
           <li className="flex items-center gap-2">
-            <span aria-hidden className="w-3.5 h-3.5 rounded-full ring-2 ring-[#5c3b00]/60" style={{ background: COLOURS.worlds }} />
-            World Championships ({worldsCount})
+            <span aria-hidden className="h-3 w-3 rounded-full bg-gold ring-2 ring-gold-edge" />
+            World Championships <span className="split">{worldsCount}</span>
           </li>
         )}
         <li className="flex items-center gap-2">
-          <span aria-hidden className="inline-flex w-5 h-5 rounded-full bg-white ring-1 ring-black/10 items-center justify-center">
-            <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke={COLOURS.competition} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          <span aria-hidden className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-control bg-card">
+            <svg viewBox="0 0 24 24" className="h-3 w-3 text-fg-2" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </span>
           Off the map: click to go there
         </li>

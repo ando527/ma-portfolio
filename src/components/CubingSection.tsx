@@ -9,7 +9,7 @@ import { WCA_BASE, WCA_ID, WCA_PROFILE, toStats, type CubingStats, type Competit
 
 const CompetitionMap = dynamic(() => import('./CompetitionMap'), { ssr: false })
 
-/** centiseconds — only show video if PR still matches */
+/** centiseconds. The video only shows while the PR still matches. */
 const PR_VIDEO_CS = 887
 const PR_VIDEO_ID = 'dkkchjre3A8'
 const BATCH = 8
@@ -17,7 +17,7 @@ const BATCH = 8
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function formatTime(cs: number): string {
-  if (cs <= 0) return '—'
+  if (cs <= 0) return '–'
   const total = cs / 100
   const mins  = Math.floor(total / 60)
   const secs  = total % 60
@@ -29,14 +29,14 @@ const fmt = (n: number) => new Intl.NumberFormat('en-AU').format(n)
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
-const CARD = 'rounded-2xl border border-maroon-100 bg-card p-6 shadow-[0_1px_2px_rgba(28,10,14,0.04)]'
+const CARD = 'rounded-xl border border-line bg-card p-6 shadow-soft'
 
 function StatBox({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className={CARD}>
-      <p className="eyebrow text-primary mb-3">{label}</p>
-      <p className="display text-3xl text-foreground tabular-nums">{value}</p>
-      {sub && <p className="font-sans text-sm text-muted-foreground mt-2">{sub}</p>}
+      <p className="eyebrow mb-3">{label}</p>
+      <p className="display text-3xl text-fg tabular-nums">{value}</p>
+      {sub && <p className="mt-2 font-sans text-sm text-fg-2">{sub}</p>}
     </div>
   )
 }
@@ -44,17 +44,17 @@ function StatBox({ label, value, sub }: { label: string; value: string; sub?: st
 function MedalRow({ gold, silver, bronze }: { gold: number; silver: number; bronze: number }) {
   return (
     <div className={CARD}>
-      <p className="eyebrow text-primary mb-4">Medals</p>
+      <p className="eyebrow mb-4">Medals</p>
       <ul className="flex flex-wrap gap-x-8 gap-y-3">
         {([
-          { label: 'Gold',   count: gold,   color: '#B8860B' },
-          { label: 'Silver', count: silver, color: '#71717A' },
-          { label: 'Bronze', count: bronze, color: '#92400E' },
+          { label: 'Gold',   count: gold,   color: 'var(--medal-gold)' },
+          { label: 'Silver', count: silver, color: 'var(--medal-silver)' },
+          { label: 'Bronze', count: bronze, color: 'var(--medal-bronze)' },
         ] as const).map(m => (
-          <li key={m.label} className="flex items-center gap-2.5">
-            <span aria-hidden className="w-3.5 h-3.5 rounded-full flex-shrink-0 ring-2 ring-white shadow-[0_0_0_1px_rgba(28,10,14,0.12)]" style={{ backgroundColor: m.color }} />
-            <span className="display text-2xl text-foreground tabular-nums">{m.count}</span>
-            <span className="font-sans text-sm text-muted-foreground">{m.label}</span>
+          <li key={m.label} className="flex items-center gap-2">
+            <span aria-hidden className="h-3 w-3 flex-shrink-0 rounded-full" style={{ backgroundColor: m.color }} />
+            <span className="font-mono text-2xl text-fg tabular-nums">{m.count}</span>
+            <span className="font-sans text-sm text-fg-2">{m.label}</span>
           </li>
         ))}
       </ul>
@@ -163,53 +163,55 @@ export default function CubingSection({
         className="mb-10 md:mb-12"
         action={
           <a href={WCA_PROFILE} target="_blank" rel="noopener noreferrer" className={btnSecondary}>
-            <WCALogo className="w-4 h-4 text-primary" />
+            <WCALogo className="h-4 w-4 text-fg-2" />
             WCA profile
-            <span aria-hidden className={`text-primary ${btnArrow}`}>↗</span>
+            <span aria-hidden className={`text-fg-3 ${btnArrow}`}>↗</span>
             <span className="sr-only">(opens in a new tab)</span>
           </a>
         }
       />
 
       {!stats ? (
-        <p className="font-sans text-base text-muted-foreground">
-          Results are on my <a href={WCA_PROFILE} className="text-primary underline underline-offset-2">WCA profile</a>.
+        <p className="font-sans text-base text-fg-2">
+          Results are on my <a href={WCA_PROFILE} className="font-medium text-fg underline underline-offset-4 decoration-fg-3 hover:decoration-accent">WCA profile</a>.
         </p>
       ) : (
         <div className="space-y-4">
 
-          {/* ── PR Hero ─────────────────────────────────────────── */}
+          {/* The signature moment: the personal best as a split-time readout. */}
           {single && (
-            <div className="on-dark relative bg-ink rounded-[1.75rem] overflow-hidden shadow-[0_40px_80px_-40px_rgba(16,4,8,0.6)]">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0"
-                style={{ background: 'radial-gradient(70% 90% at 0% 0%, rgba(155, 35, 53, 0.45), transparent 65%)' }}
-              />
-              <div className={`relative grid grid-cols-1 ${showVideo ? 'md:grid-cols-[1fr_1.45fr]' : ''}`}>
+            <div className="on-dark overflow-hidden rounded-2xl border border-d-line-strong bg-d-page">
+              <div className={`grid grid-cols-1 ${showVideo ? 'md:grid-cols-5' : ''}`}>
 
                 {/* Stat side */}
-                <div className="p-7 md:p-10 flex flex-col justify-center">
-                  <p className="eyebrow text-maroon-200 mb-4">
-                    3×3 Personal Record — Single
-                  </p>
-                  <p className="display text-[5.5rem] md:text-[7rem] leading-[0.85] text-white mb-5 tabular-nums">
+                <div className="flex flex-col justify-center p-6 md:col-span-2 md:p-10">
+                  <p className="eyebrow">3×3 single, personal record</p>
+                  <p className="mt-4 font-mono text-7xl font-medium leading-none tracking-tighter text-accent-on-dark tabular-nums md:text-8xl">
                     {formatTime(single.best)}
                   </p>
-                  <p className="font-sans text-base text-white/75">
-                    #{fmt(single.rank.country)} in Australia &nbsp;·&nbsp; #{fmt(single.rank.world)} World
-                  </p>
-                  {average && (
-                    <p className="font-sans text-sm text-white/65 mt-1.5">
-                      Average: {formatTime(average.best)} &nbsp;(#{fmt(average.rank.country)} AU)
-                    </p>
-                  )}
+                  <dl className="mt-8 grid grid-cols-3 gap-x-4 border-t border-d-line pt-6">
+                    <div>
+                      <dt className="eyebrow">Australia</dt>
+                      <dd className="mt-1 font-mono text-xl text-d-fg tabular-nums">#{fmt(single.rank.country)}</dd>
+                    </div>
+                    <div>
+                      <dt className="eyebrow">World</dt>
+                      <dd className="mt-1 font-mono text-xl text-d-fg tabular-nums">#{fmt(single.rank.world)}</dd>
+                    </div>
+                    {average && (
+                      <div>
+                        <dt className="eyebrow">Average</dt>
+                        <dd className="mt-1 font-mono text-xl text-d-fg tabular-nums">{formatTime(average.best)}</dd>
+                        <dd className="split mt-1">#{fmt(average.rank.country)} AU</dd>
+                      </div>
+                    )}
+                  </dl>
                 </div>
 
-                {/* Video side — only if PR still matches */}
+                {/* Video side, only while the PR still matches */}
                 {showVideo && (
-                  <div className="bg-black aspect-video md:aspect-auto md:min-h-[320px]">
-                    <YouTubeLite id={PR_VIDEO_ID} title="8.87 official solve — Mitchell Anderson" />
+                  <div className="aspect-video bg-d-deep md:col-span-3 md:aspect-auto md:min-h-80">
+                    <YouTubeLite id={PR_VIDEO_ID} title="8.87 official solve, Mitchell Anderson" />
                   </div>
                 )}
               </div>
@@ -217,21 +219,21 @@ export default function CubingSection({
           )}
 
           {/* ── Stats grid ──────────────────────────────────────── */}
-          <div className="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3">
             <StatBox
               label="Competitions"
               value={String(stats.numberOfCompetitions)}
               sub="attended"
             />
             <StatBox
-              label="World Champs"
-              value="2× Rep."
-              sub="WCA Worlds 2023 & 2025"
+              label="World Championships"
+              value="2"
+              sub="Representative in 2023 and 2025"
             />
             <StatBox
-              label="Best Achievement"
-              value="Silver 🥈"
-              sub="QLD State Champs — FMC"
+              label="Best result"
+              value="Silver"
+              sub="QLD State Champs, FMC"
             />
           </div>
 
@@ -241,13 +243,11 @@ export default function CubingSection({
           {/* ── Competition map ──────────────────────────────────── */}
           {competitions.length > 0 && (
             <div>
-              <p className="eyebrow text-primary mt-10 mb-4">
-                Competition Locations
-              </p>
+              <p className="eyebrow mb-4 mt-10">Competition locations</p>
               <WhenNear
                 placeholder={
-                  <div className="h-[380px] bg-maroon-50 ring-1 ring-maroon-100 rounded-[1.25rem] flex items-center justify-center">
-                    <p className="font-sans text-sm text-muted-foreground">Loading map…</p>
+                  <div className="flex h-96 items-center justify-center rounded-2xl border border-line bg-raised">
+                    <p className="font-sans text-sm text-fg-3">Loading map…</p>
                   </div>
                 }
               >

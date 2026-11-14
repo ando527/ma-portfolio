@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import Link from 'next/link'
-import Script from 'next/script'
 import RubiksCaptcha, { type CubeStatus } from '@/components/RubiksCaptcha'
 import { btnPrimary, btnArrow } from '@/components/ui/button'
 import { SITE } from '@/lib/site'
@@ -186,19 +185,21 @@ function fieldsFromServer(data: unknown): Errors {
 // ── Styles ───────────────────────────────────────────────────────────────────
 
 const linkClass =
-  'font-medium text-primary underline underline-offset-[3px] decoration-1 decoration-maroon-300 hover:decoration-primary transition-colors duration-200'
+  'font-medium text-fg underline underline-offset-4 decoration-1 decoration-fg-3 hover:decoration-accent transition-colors duration-150 ease-spec'
 
-const labelClass = 'block font-sans text-sm font-semibold text-foreground'
+const labelClass = 'block font-sans text-sm font-medium text-fg'
 
+// 44px tall, 10px radius, hairline border on a raised surface. The keyboard
+// focus ring comes from the global :focus-visible rule; the border follows it.
 const controlBase =
-  'block w-full rounded-xl border bg-white px-4 font-sans text-base text-foreground transition-colors duration-200 scroll-mt-28'
+  'block w-full rounded-[10px] border bg-raised px-4 font-sans text-base text-fg transition-colors duration-150 ease-spec scroll-mt-24 motion-reduce:transition-none'
 
 function controlState(invalid: boolean) {
-  return invalid ? 'border-red-700' : 'border-maroon-200 hover:border-primary/50 focus:border-primary'
+  return invalid ? 'border-negative' : 'border-control hover:border-fg-3 focus:border-accent'
 }
 
 const inputClass = (invalid: boolean) =>
-  `${controlBase} h-12 placeholder:text-muted-foreground/60 ${controlState(invalid)}`
+  `${controlBase} h-11 placeholder:text-fg-3 ${controlState(invalid)}`
 
 // ── Small field components ───────────────────────────────────────────────────
 
@@ -212,13 +213,13 @@ function LinkedInLink({ children }: { children: ReactNode }) {
 }
 
 function Optional() {
-  return <span className="font-normal text-muted-foreground"> (optional)</span>
+  return <span className="font-normal text-fg-3"> (optional)</span>
 }
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
   return (
-    <p id={id} className="mt-2 flex items-start gap-1.5 font-sans text-sm text-red-700">
+    <p id={id} className="mt-2 flex items-start gap-2 font-sans text-sm text-negative-text">
       <svg aria-hidden viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 flex-shrink-0">
         <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm-.75-11.5a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-1.5 0v-4Zm.75 7.25a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8Z" clipRule="evenodd" />
       </svg>
@@ -299,7 +300,7 @@ function SelectField({
           onChange={(e) => onChange(field, e.target.value)}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy(error && `${id}-error`)}
-          className={`${controlBase} h-12 cursor-pointer appearance-none pr-11 ${controlState(!!error)}`}
+          className={`${controlBase} h-11 cursor-pointer appearance-none pr-10 ${controlState(!!error)}`}
         >
           <option value="">Choose one (optional)</option>
           {choices.map((c) => (
@@ -314,7 +315,7 @@ function SelectField({
           strokeWidth={1.8}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-3"
         >
           <path d="m5 7.5 5 5 5-5" />
         </svg>
@@ -341,10 +342,10 @@ function ChoiceGroup({
     <fieldset
       id={id}
       aria-describedby={describedBy(error && `${id}-error`)}
-      className="m-0 min-w-0 scroll-mt-28 border-0 p-0"
+      className="m-0 min-w-0 scroll-mt-24 border-0 p-0"
     >
       <legend className={`${labelClass} mb-3 p-0`}>{legend}</legend>
-      <div className={`grid gap-3 ${columns}`}>
+      <div className={`grid gap-2 ${columns}`}>
         {choices.map((c) => (
           <label key={c.value} className="relative block cursor-pointer">
             <input
@@ -359,11 +360,11 @@ function ChoiceGroup({
             {/* The radio dot, filled when checked */}
             <span
               aria-hidden
-              className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 rounded-full border-2 border-maroon-300 bg-white transition-[background-color,border-color,box-shadow] duration-200 peer-checked:border-primary peer-checked:bg-primary peer-checked:shadow-[inset_0_0_0_3px_#fff]"
+              className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border-2 border-fg-3 bg-card transition-[background-color,border-color,box-shadow] duration-150 ease-spec peer-checked:border-accent peer-checked:bg-accent peer-checked:shadow-[inset_0_0_0_3px_var(--card)] motion-reduce:transition-none"
             />
             <span
-              className={`flex min-h-[52px] items-center rounded-xl border bg-white py-3 pl-11 pr-3 font-sans text-[15px] font-medium leading-snug text-foreground transition-[background-color,border-color,box-shadow] duration-200 hover:border-primary/50 peer-checked:border-primary peer-checked:bg-maroon-50 peer-checked:shadow-[inset_0_0_0_1px_#7C1D2E] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-secondary ${
-                error ? 'border-red-700' : 'border-maroon-200'
+              className={`flex min-h-11 items-center rounded-[10px] border bg-raised py-2.5 pl-11 pr-3 font-sans text-[15px] leading-5 text-fg transition-[background-color,border-color,box-shadow] duration-150 ease-spec hover:border-fg-3 peer-checked:border-accent peer-checked:bg-card peer-checked:shadow-[inset_0_0_0_1px_var(--accent)] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent motion-reduce:transition-none ${
+                error ? 'border-negative' : 'border-control'
               }`}
             >
               {c.label}
@@ -446,8 +447,38 @@ export default function ContactForm() {
     }
   }, [settle])
 
+  /**
+   * Loads the Turnstile script the first time it's needed (a field gets focus,
+   * a pointer goes down on the form, or Send is pressed), not on page load: it
+   * pulls in a challenge frame of its own that a visitor who only reads the
+   * page never needs. Safe to call repeatedly.
+   */
+  const loadTurnstile = useCallback(() => {
+    if (window.turnstile) {
+      renderWidget()
+      return
+    }
+    let script = document.getElementById('turnstile-api') as HTMLScriptElement | null
+    if (!script) {
+      script = document.createElement('script')
+      script.id = 'turnstile-api'
+      script.src = TURNSTILE_SRC
+      script.async = true
+      document.head.appendChild(script)
+    }
+    script.addEventListener('load', renderWidget, { once: true })
+    script.addEventListener(
+      'error',
+      () => {
+        scriptFailedRef.current = true
+      },
+      { once: true },
+    )
+  }, [renderWidget])
+
   /** Runs the invisible challenge and resolves with a single-use token. */
   const getToken = useCallback(async (): Promise<string> => {
+    loadTurnstile()
     const waitUntil = Date.now() + SCRIPT_WAIT_MS
     while (widgetIdRef.current === null) {
       if (scriptFailedRef.current || Date.now() > waitUntil) throw new Error('turnstile unavailable')
@@ -469,7 +500,7 @@ export default function ContactForm() {
         settle({ error: err instanceof Error ? err : new Error('turnstile execute failed') })
       }
     })
-  }, [settle])
+  }, [settle, loadTurnstile])
 
   /** Tokens are single use, so after any failed send the widget goes back to its start state. */
   const resetWidget = useCallback(() => {
@@ -625,22 +656,13 @@ export default function ContactForm() {
 
   return (
     <div>
-      {/* Loaded on this page only, never site-wide. */}
-      <Script
-        id="turnstile-api"
-        src={TURNSTILE_SRC}
-        strategy="afterInteractive"
-        onReady={renderWidget}
-        onError={() => {
-          scriptFailedRef.current = true
-        }}
-      />
+      {/* The Turnstile script loads on first use (loadTurnstile), on this page only, never site-wide. */}
 
       {/* Where the invisible Turnstile widget mounts. It has no visible UI. */}
       <div ref={containerRef} aria-hidden="true" />
 
       <noscript>
-        <p className="rounded-xl border border-maroon-200 bg-maroon-50 p-4 font-sans text-base text-foreground">
+        <p className="rounded-xl border border-line-strong bg-raised p-4 font-sans text-base text-fg">
           The contact form needs JavaScript. <LinkedInLink>Message me on LinkedIn</LinkedInLink> instead.
         </p>
       </noscript>
@@ -650,15 +672,15 @@ export default function ContactForm() {
           ref={successRef}
           tabIndex={-1}
           role="status"
-          className="rounded-2xl border border-maroon-200 bg-maroon-50 px-6 py-10 text-center sm:px-10 sm:py-14"
+          className="rounded-xl border border-line-strong bg-raised px-6 py-10 outline-none sm:px-10 sm:py-12"
         >
-          <span aria-hidden className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+          <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-positive text-on-positive">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
               <path d="m4.5 10.5 3.5 3.5 7.5-8" />
             </svg>
           </span>
-          <p className="display mt-6 text-3xl text-foreground sm:text-4xl">Thanks, your message is on its way.</p>
-          <p className="mt-4 font-sans text-lg text-muted-foreground">I&rsquo;ll reply by email.</p>
+          <p className="display-sm mt-6 text-2xl text-fg sm:text-3xl">Thanks, your message is on its way</p>
+          <p className="mt-3 font-sans text-base text-fg-2">I&rsquo;ll reply by email.</p>
         </div>
       ) : (
         // Without JavaScript the form can't send, so it's hidden (the <noscript> note above covers that case).
@@ -667,6 +689,8 @@ export default function ContactForm() {
           method="post"
           noValidate
           onSubmit={onSubmit}
+          onFocusCapture={loadTurnstile}
+          onPointerDown={loadTurnstile}
           aria-label="Contact form"
           className="[html:not(.js)_&]:hidden"
         >
@@ -675,12 +699,12 @@ export default function ContactForm() {
               ref={summaryRef}
               tabIndex={-1}
               role="alert"
-              className="mb-8 scroll-mt-28 rounded-xl border border-red-700 bg-red-50 p-4 outline-none sm:p-5"
+              className="mb-8 scroll-mt-24 rounded-xl border border-negative bg-card p-4 outline-none sm:p-5"
             >
-              <p className="font-sans text-base font-semibold text-red-700">
+              <p className="font-sans text-base font-medium text-negative-text">
                 {errorList.length === 1 ? 'Please fix this field:' : 'Please fix these fields:'}
               </p>
-              <ul className="mt-2 list-disc space-y-1 pl-5 font-sans text-[15px] text-red-700">
+              <ul className="mt-2 list-disc space-y-1 pl-5 font-sans text-[15px] text-negative-text">
                 {errorList.map((k) => (
                   <li key={k}>
                     <a
@@ -689,7 +713,7 @@ export default function ContactForm() {
                         e.preventDefault()
                         focusField(k)
                       }}
-                      className="underline underline-offset-[3px] hover:no-underline"
+                      className="underline underline-offset-4 hover:no-underline"
                     >
                       {errors[k] === ERR.choice ? `${LABELS[k]}: ${errors[k]}` : errors[k]}
                     </a>
@@ -749,7 +773,7 @@ export default function ContactForm() {
               <label htmlFor="contact-message" className={labelClass}>
                 {LABELS.message}
               </label>
-              <p id="contact-message-hint" className="mb-2 mt-1 font-sans text-sm text-muted-foreground">
+              <p id="contact-message-hint" className="mb-2 mt-1 font-sans text-sm text-fg-3">
                 What you need, any deadlines, links to sites you like.
               </p>
               <textarea
@@ -761,14 +785,14 @@ export default function ContactForm() {
                 rows={6}
                 aria-invalid={messageError ? true : undefined}
                 aria-describedby={describedBy('contact-message-hint', messageError && 'contact-message-error', showCount && 'contact-message-count')}
-                className={`${controlBase} min-h-[160px] resize-y py-3 leading-relaxed ${controlState(!!messageError)}`}
+                className={`${controlBase} min-h-40 resize-y py-3 leading-6 ${controlState(!!messageError)}`}
               />
               <FieldError id="contact-message-error" message={messageError} />
               {showCount && (
                 <p
                   id="contact-message-count"
                   aria-live="polite"
-                  className={`mt-2 text-right font-sans text-sm tabular-nums ${overLimit ? 'font-semibold text-red-700' : 'text-muted-foreground'}`}
+                  className={`mt-2 text-right font-mono text-xs tabular-nums ${overLimit ? 'text-negative-text' : 'text-fg-3'}`}
                 >
                   {messageLength} / {LIMITS.message.max}
                 </p>
@@ -787,7 +811,7 @@ export default function ContactForm() {
 
             <div ref={messageRef} tabIndex={-1} role="alert" className="outline-none">
               {formMessage === 'cube' && !cubeOk && (
-                <p className="flex items-start gap-1.5 font-sans text-[15px] text-red-700">
+                <p className="flex items-start gap-2 font-sans text-[15px] text-negative-text">
                   <svg aria-hidden viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 flex-shrink-0">
                     <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm-.75-11.5a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-1.5 0v-4Zm.75 7.25a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8Z" clipRule="evenodd" />
                   </svg>
@@ -795,18 +819,18 @@ export default function ContactForm() {
                 </p>
               )}
               {formMessage === 'verify' && (
-                <p className="rounded-xl border border-red-700 bg-red-50 p-4 font-sans text-[15px] text-red-700">
+                <p className="rounded-xl border border-negative bg-card p-4 font-sans text-[15px] text-negative-text">
                   Verification failed. Please try again. If it keeps happening,{' '}
-                  <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-[3px] hover:no-underline">
+                  <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:no-underline">
                     message me on LinkedIn<span className="sr-only"> (opens in a new tab)</span>
                   </a>{' '}
                   instead.
                 </p>
               )}
               {formMessage === 'fallback' && (
-                <p className="rounded-xl border border-red-700 bg-red-50 p-4 font-sans text-[15px] text-red-700">
+                <p className="rounded-xl border border-negative bg-card p-4 font-sans text-[15px] text-negative-text">
                   Sorry, that didn&rsquo;t send. You can{' '}
-                  <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-[3px] hover:no-underline">
+                  <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:no-underline">
                     message me on LinkedIn<span className="sr-only"> (opens in a new tab)</span>
                   </a>{' '}
                   instead.
@@ -823,7 +847,7 @@ export default function ContactForm() {
                 {sending ? 'Sending…' : 'Send message'}
                 {!sending && <span aria-hidden className={btnArrow}>→</span>}
               </button>
-              <p className="font-sans text-sm text-muted-foreground">
+              <p className="font-sans text-sm text-fg-3">
                 Your message is emailed to me and isn&rsquo;t stored on this site.{' '}
                 <Link prefetch={false} href="/privacy/" className={linkClass}>Privacy policy</Link>
               </p>

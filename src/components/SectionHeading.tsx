@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 
 /**
- * The heading block that opens a section: a numbered eyebrow, a display
- * heading, an optional intro, and an optional action (a "View all" link)
- * that sits to the right on wide screens.
+ * The heading block that opens a section: an eyebrow with an optional split
+ * readout for its number, a heading, an optional intro, and an optional action
+ * (a "View all" link) that sits to the right on wide screens.
  */
 export default function SectionHeading({
   id,
@@ -18,7 +18,7 @@ export default function SectionHeading({
 }: {
   /** id for the h2, so the section can be labelled by it. */
   id?: string
-  /** "01", "02"… — decorative, hidden from screen readers. */
+  /** "01", "02"… — shown as a quiet mono readout, hidden from screen readers. */
   index?: string
   eyebrow: string
   title: ReactNode
@@ -30,27 +30,25 @@ export default function SectionHeading({
   className?: string
 }) {
   const dark = tone === 'dark'
-  const titleSize = size === 'lg' ? 'text-[clamp(2.25rem,11vw,2.5rem)] sm:text-5xl md:text-6xl' : 'text-[clamp(2rem,10vw,2.25rem)] sm:text-5xl'
+  const titleSize = size === 'lg' ? 'text-[1.75rem] sm:text-[2rem] md:text-4xl' : 'text-[1.75rem] sm:text-[2rem]'
+  const muted = dark ? 'text-d-fg-3' : 'text-fg-3'
   return (
     <div className={`flex flex-col gap-6 md:flex-row md:items-end md:justify-between ${className}`}>
       <div className="max-w-2xl min-w-0">
-        <p className={`eyebrow flex items-center gap-3 ${dark ? 'text-maroon-200' : 'text-primary'}`}>
+        <p className="flex items-baseline gap-3">
           {index && (
-            <>
-              <span aria-hidden className="tabular-nums">{index}</span>
-              <span aria-hidden className={`h-px w-8 ${dark ? 'bg-maroon-200/50' : 'bg-primary/40'}`} />
-            </>
+            <span aria-hidden className={`split ${muted}`}>{index}</span>
           )}
-          {eyebrow}
+          <span className={`eyebrow ${muted}`}>{eyebrow}</span>
         </p>
         <h2
           id={id}
-          className={`display mt-4 ${titleSize} ${dark ? 'text-white' : 'text-foreground'}`}
+          className={`display-sm mt-3 ${titleSize} ${dark ? 'text-d-fg' : 'text-fg'}`}
         >
           {title}
         </h2>
         {intro && (
-          <p className={`mt-5 font-sans leading-relaxed max-w-xl ${size === 'lg' ? 'text-lg' : 'text-base'} ${dark ? 'text-white/65' : 'text-muted-foreground'}`}>
+          <p className={`mt-4 font-sans max-w-xl ${size === 'lg' ? 'text-lg leading-7' : 'text-base leading-6'} ${dark ? 'text-d-fg-2' : 'text-fg-2'}`}>
             {intro}
           </p>
         )}

@@ -12,9 +12,9 @@ import type { ArticleCardData } from '@/lib/types'
 
 function Meta({ article }: { article: ArticleCardData }) {
   return (
-    <p className="font-sans text-sm text-muted-foreground">
-      <time dateTime={article.date} className="eyebrow text-primary">{article.dateLabel}</time>
-      {article.publication && <span className="block mt-1.5">First published in the {article.publication}</span>}
+    <p>
+      <time dateTime={article.date} className="split">{article.dateLabel}</time>
+      {article.publication && <span className="mt-1 block font-sans text-sm leading-5 text-fg-3">First published in the {article.publication}</span>}
     </p>
   )
 }
@@ -26,59 +26,64 @@ function ReadLink({ article }: { article: ArticleCardData }) {
     <Link
       prefetch={false}
       href={`/articles/${article.slug}/`}
-      className="mt-auto inline-flex items-center gap-1.5 self-start pt-2 font-sans text-sm font-semibold text-primary hover:text-maroon-700 after:absolute after:inset-0 after:content-[''] after:rounded-[1.75rem]"
+      className="mt-auto inline-flex items-center gap-1.5 self-start pt-2 font-sans text-sm font-medium text-accent hover:text-accent-hover transition-colors duration-150 ease-spec motion-reduce:transition-none after:absolute after:inset-0 after:content-['']"
     >
       Read the article<span className="sr-only">: {article.title}</span>
-      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none">→</span>
+      <span aria-hidden className="arrow-nudge">→</span>
     </Link>
   )
 }
 
+// Hover: a border colour step, a 3px lift and a slow zoom on the cover photo
+// (.lift-host / .lift / .zoom in globals.css). The wrapper stays put.
 const CARD =
-  'group relative rounded-[1.75rem] overflow-hidden border border-maroon-100 bg-card transition-[box-shadow,border-color] duration-500 hover:border-maroon-200 hover:shadow-[0_30px_60px_-30px_rgba(124,29,46,0.4)]'
-const COVER_ZOOM =
-  'h-full overflow-hidden [&>*]:transition-transform [&>*]:duration-700 [&>*]:ease-out-expo group-hover:[&>*]:scale-[1.03] motion-reduce:[&>*]:transition-none motion-reduce:group-hover:[&>*]:scale-100'
+  'lift group relative rounded-2xl overflow-hidden border border-line bg-card transition-colors duration-150 ease-spec hover:border-fg-3/50 motion-reduce:transition-none'
+const COVER = 'h-full overflow-hidden'
 
 /** A wide card for one article. Also used for each row on /articles/, where
  *  the title is an h2 rather than sitting under a section's h2. */
-export function FeatureCard({ article, headingAs: Heading = 'h3' }: { article: ArticleCardData; headingAs?: 'h2' | 'h3' }) {
+export function FeatureCard({ article, headingAs: Heading = 'h3', priority = false }: { article: ArticleCardData; headingAs?: 'h2' | 'h3'; priority?: boolean }) {
   return (
+    <div className="lift-host">
     <article className={`${CARD} grid md:grid-cols-[1.15fr_1fr]`}>
       <div className="aspect-[16/10] md:aspect-auto md:min-h-[360px]">
-        <div className={COVER_ZOOM}>
-          <ArticleCover article={article} sizes="(min-width: 1152px) 560px, (min-width: 768px) 53vw, 100vw" />
+        <div className={COVER}>
+          <ArticleCover article={article} sizes="(min-width: 1152px) 560px, (min-width: 768px) 53vw, 100vw" priority={priority} />
         </div>
       </div>
-      <div className="flex flex-col gap-4 p-7 sm:p-10 lg:p-12">
+      <div className="flex flex-col gap-4 p-6 sm:p-8 lg:p-12">
         <Meta article={article} />
-        <Heading className="font-heading font-bold text-2xl md:text-[2rem] text-foreground leading-[1.1] tracking-tight [font-stretch:106%]">
-          <span className="group-hover:text-primary transition-colors duration-200">{article.title}</span>
+        <Heading className="display-sm text-2xl md:text-3xl text-fg">
+          <span className="group-hover:text-accent transition-colors duration-150 ease-spec motion-reduce:transition-none">{article.title}</span>
         </Heading>
-        <p className="font-sans text-base text-muted-foreground leading-relaxed max-w-prose">{article.summary}</p>
+        <p className="font-sans text-base text-fg-2 leading-6 max-w-prose">{article.summary}</p>
         <ReadLink article={article} />
       </div>
     </article>
+    </div>
   )
 }
 
 /** A tall card for the slider, also used in case studies' article lists. */
 export function ArticleCard({ article }: { article: ArticleCardData }) {
   return (
+    <div className="lift-host h-full">
     <article className={`${CARD} flex flex-col h-full`}>
       <div className="aspect-[16/10]">
-        <div className={COVER_ZOOM}>
+        <div className={COVER}>
           <ArticleCover article={article} sizes="(min-width: 640px) 440px, 85vw" />
         </div>
       </div>
       <div className="flex flex-col gap-3 p-6 flex-1">
         <Meta article={article} />
-        <h3 className="font-heading font-bold text-xl text-foreground leading-snug">
-          <span className="group-hover:text-primary transition-colors duration-200">{article.title}</span>
+        <h3 className="font-heading font-medium text-xl text-fg leading-7">
+          <span className="group-hover:text-accent transition-colors duration-150 ease-spec motion-reduce:transition-none">{article.title}</span>
         </h3>
-        <p className="font-sans text-sm text-muted-foreground leading-relaxed line-clamp-3">{article.summary}</p>
+        <p className="font-sans text-sm text-fg-2 leading-5 line-clamp-3">{article.summary}</p>
         <ReadLink article={article} />
       </div>
     </article>
+    </div>
   )
 }
 
@@ -89,9 +94,9 @@ function ArrowButton({ dir, disabled, onClick }: { dir: 'prev' | 'next'; disable
       onClick={onClick}
       disabled={disabled}
       aria-label={dir === 'prev' ? 'Previous articles' : 'Next articles'}
-      className="w-11 h-11 rounded-full border border-maroon-200 text-primary flex items-center justify-center transition-colors duration-200 hover:bg-maroon-50 disabled:opacity-35 disabled:hover:bg-transparent disabled:cursor-default"
+      className="w-10 h-10 rounded-[10px] border border-control bg-raised text-fg flex items-center justify-center transition-[background-color,border-color,opacity] duration-150 ease-spec hover:bg-card hover:border-fg-3 disabled:opacity-40 disabled:hover:bg-raised disabled:hover:border-line-strong disabled:cursor-default motion-reduce:transition-none"
     >
-      <svg aria-hidden className={`w-4 h-4 ${dir === 'prev' ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <svg aria-hidden className={`w-4 h-4 ${dir === 'prev' ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
       </svg>
     </button>
@@ -105,7 +110,10 @@ export default function ArticleSlider({ articles }: { articles: ArticleCardData[
   const update = useCallback(() => {
     const el = trackRef.current
     if (!el) return
-    setEdges({ start: el.scrollLeft <= 4, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4 })
+    const start = el.scrollLeft <= 4
+    const end = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4
+    // Same edges as before: keep the old state object so scrolling mid-row doesn't re-render.
+    setEdges(prev => (prev.start === start && prev.end === end ? prev : { start, end }))
   }, [])
 
   useEffect(() => {
@@ -165,7 +173,7 @@ export default function ArticleSlider({ articles }: { articles: ArticleCardData[
     suppressClick.current = true
     setTimeout(() => { suppressClick.current = false }, 0)
 
-    const edge = el.getBoundingClientRect().left + 24
+    const edge = el.getBoundingClientRect().left + (parseFloat(getComputedStyle(el).scrollPaddingLeft) || 24)
     const stops = Array.from(el.querySelectorAll('li'), li => el.scrollLeft + li.getBoundingClientRect().left - edge)
     const dx = d.left - el.scrollLeft
     let i = stops.reduce((best, s, n) => (Math.abs(s - el.scrollLeft) < Math.abs(stops[best] - el.scrollLeft) ? n : best), 0)
@@ -186,17 +194,15 @@ export default function ArticleSlider({ articles }: { articles: ArticleCardData[
   return (
     <div>
       {overflowing && (
-        <div className="flex justify-end gap-2 mb-5">
+        <div className="flex justify-end gap-2 mb-4">
           <ArrowButton dir="prev" disabled={edges.start} onClick={() => scroll(-1)} />
           <ArrowButton dir="next" disabled={edges.end} onClick={() => scroll(1)} />
         </div>
       )}
-      {/* The track has to clip horizontally to scroll, which clips vertically
-          too, so the bottom padding leaves room for the cards' hover shadow
-          and the negative margin takes that space back out of the layout. */}
+      {/* The track bleeds into the page gutter so cards scroll off the edge. */}
       <ul
         ref={trackRef}
-        className={`flex gap-6 overflow-x-auto scrollbar-none pb-16 -mb-14 -mx-6 px-6 scroll-px-6 ${
+        className={`flex gap-6 overflow-x-auto scrollbar-none -mx-6 px-6 scroll-px-6 sm:-mx-8 sm:px-8 sm:scroll-px-8 -my-1 py-1 ${
           dragging ? 'snap-none select-none cursor-grabbing [&_*]:cursor-grabbing' : 'snap-x snap-mandatory'
         } ${overflowing && !dragging ? 'cursor-grab' : ''}`}
         aria-label="Articles"

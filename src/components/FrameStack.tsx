@@ -6,12 +6,13 @@ export interface StackItem {
   url?: string
 }
 
-// Up to three screenshots fanned like cards on a desk: the first one sits in
-// front and straight, the others peek out behind it at an angle.
+// Up to three screenshots in a stepped cascade: the first one sits in front,
+// the others peek out behind it, up and to the left and down and to the right.
+// Plain windows, no rotation.
 const POSITIONS = [
   'left-[14%] top-[16%] w-[72%] z-30',
-  'left-0 top-[2%] w-[62%] z-20 -rotate-6 opacity-90',
-  'right-0 top-[30%] w-[60%] z-10 rotate-[5deg] opacity-90',
+  'left-0 top-0 w-[64%] z-20',
+  'right-0 top-[36%] w-[60%] z-10',
 ]
 
 export default function FrameStack({ items }: { items: StackItem[] }) {

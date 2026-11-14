@@ -287,7 +287,7 @@ function CubeView({
 
 function ResetIcon() {
   return (
-    <svg aria-hidden viewBox="0 0 24 24" className="w-4 h-4 flex-none" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4 flex-none" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
       <path d="M3 3v5h5" />
     </svg>
@@ -296,9 +296,9 @@ function ResetIcon() {
 
 // Turn buttons: the shared secondary style, a little tighter so two fit side
 // by side in a narrow form. Reset is quieter until the cube needs it.
-const turnBtn = `${btnSecondary.replace('px-6', 'px-4')} w-full aria-disabled:opacity-50 aria-disabled:cursor-not-allowed`
+const turnBtn = `${btnSecondary} w-full aria-disabled:opacity-50 aria-disabled:cursor-not-allowed`
 const resetQuiet =
-  'inline-flex items-center justify-center gap-2 h-12 px-4 rounded-full font-sans font-semibold text-[15px] leading-6 text-muted-foreground hover:text-primary hover:bg-maroon-50 transition-colors duration-200 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent'
+  '-ml-4 inline-flex items-center justify-center gap-2 min-h-11 px-4 rounded-[10px] font-sans font-medium text-[15px] leading-6 text-fg-2 hover:text-fg hover:bg-raised transition-colors duration-150 ease-spec motion-reduce:transition-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent'
 
 // ── The puzzle ───────────────────────────────────────────────────────────────
 
@@ -370,7 +370,7 @@ function Puzzle({ onStatusChange, sendFocusRef }: Props) {
   if (escaped) {
     return (
       <div className="cube-captcha">
-        <p ref={doneRef} tabIndex={-1} className="font-sans text-[15px] text-foreground">
+        <p ref={doneRef} tabIndex={-1} className="font-sans text-[15px] text-fg">
           All good, you can send your message.
         </p>
         {live}
@@ -385,14 +385,14 @@ function Puzzle({ onStatusChange, sendFocusRef }: Props) {
 
   return (
     <div className="cube-captcha" role="group" aria-labelledby={headingId} aria-describedby={hintId}>
-      <p id={headingId} ref={headingRef} tabIndex={-1} className="font-heading font-bold text-lg leading-snug text-foreground">
+      <p id={headingId} ref={headingRef} tabIndex={-1} className="font-sans text-base font-medium leading-6 text-fg">
         Verify you&apos;re human: solve the cube
       </p>
-      <p id={hintId} className="mt-1 font-sans text-[15px] leading-6 text-muted-foreground">
+      <p id={hintId} className="mt-1 font-sans text-sm leading-5 text-fg-2">
         Turn the faces until each side is a single colour.
       </p>
 
-      <div className="cube-body mt-5">
+      <div className="cube-body mt-6">
         <div className="cube-stage" aria-hidden="true" style={{ '--cube-turn-ms': `${TURN_MS}ms` } as CSSProperties}>
           {ready && (
             <CubeView
@@ -441,17 +441,22 @@ function Puzzle({ onStatusChange, sendFocusRef }: Props) {
             // Same heights as the real controls, so nothing moves when they appear.
             <div aria-hidden="true">
               <div className="cube-turns">
-                <div className="h-12" />
-                <div className="h-12" />
+                <div className="h-11" />
+                <div className="h-11" />
               </div>
-              <div className="mt-3 h-12" />
+              <div className="mt-3 h-11" />
             </div>
           )}
           <p className="mt-2 min-h-12 font-sans text-[15px] leading-6">
             {solved ? (
-              <span className="font-semibold text-[#166534]">Solved. You&apos;re verified.</span>
+              <span className="inline-flex items-center gap-2 font-medium text-fg">
+                <svg aria-hidden viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 flex-none text-positive">
+                  <path d="m4.5 10.5 3.5 3.5 7.5-8" />
+                </svg>
+                Solved. You&apos;re verified.
+              </span>
             ) : ready?.warn ? (
-              <span className="text-primary">{WARN_TEXT}</span>
+              <span className="text-fg">{WARN_TEXT}</span>
             ) : null}
           </p>
         </div>

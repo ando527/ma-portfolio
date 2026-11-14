@@ -69,7 +69,7 @@ The palette still comes from the cube itself: green and yellow as the primary co
 
 ## The Homepage
 
-The 2023 homepage opened on a full-width photo slider. The new one opens with a single clear statement — "Speedcubing competitions, right across Australia" — and two actions: find a competition, or read the guide for first-timers. Below that it runs in the order a newcomer needs: what's on, what speedcubing is, recent records, common questions, who SCA is, and how to help.
+The 2023 homepage opened on a full-width photo slider. The new one opens with a single clear statement, "Speedcubing competitions, right across Australia", and two actions: find a competition, or read the guide for first-timers. Below that it runs in the order a newcomer needs: what's on, what speedcubing is, recent records, common questions, who SCA is, and how to help.
 
 The "What is Speedcubing?" section was added during beta testing, after a tester pointed out that venues SCA contacts, and people who find the site on Google, often don't know what speedcubing is.
 

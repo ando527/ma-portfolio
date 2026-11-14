@@ -5,13 +5,25 @@
 .cube-captcha {
   /* Layout responds to the space the form gives it, not the viewport. */
   container-type: inline-size;
+  /* A quiet panel one step off the form card: hairline, 12px radius (the
+     card is 16 with 20-32 padding), no shadow. */
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background-color: var(--paper);
+}
+
+@media (min-width: 640px) {
+  .cube-captcha {
+    padding: 1.5rem;
+  }
 }
 
 .cube-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .cube-controls {
@@ -58,7 +70,7 @@
   /* Edge of one cubie. The whole cube is 3 of these (60% of the box), which
      leaves room for the corners at this camera angle. */
   --cubie: calc(var(--cube-box) * 0.2);
-  --cube-body: #141014;
+  --cube-body: #14110f;
   position: relative;
   flex: none;
   width: var(--cube-box);
@@ -67,7 +79,7 @@
   isolation: isolate;
 }
 
-/* A soft contact shadow under the cube so it sits on the page. */
+/* A soft neutral contact shadow under the cube so it sits on the page. */
 .cube-stage::after {
   content: '';
   position: absolute;
@@ -77,7 +89,22 @@
   height: 9%;
   z-index: -1;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(28, 10, 14, 0.22), rgba(28, 10, 14, 0));
+  background: radial-gradient(closest-side, rgba(31, 27, 22, 0.2), rgba(31, 27, 22, 0));
+}
+
+/* Dark theme: the cube body is near-black, so it gets a soft light pool to sit
+   in (the sticker colours carry the puzzle; this keeps the shape readable) and
+   a stronger contact shadow. */
+:root[data-theme='dark'] .cube-stage::before {
+  content: '';
+  position: absolute;
+  inset: 4%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(239, 233, 222, 0.14), rgba(239, 233, 222, 0));
+}
+:root[data-theme='dark'] .cube-stage::after {
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
 }
 
 /* Zero-sized anchor at the centre of the stage; everything hangs off it. */
@@ -183,7 +210,7 @@
     inset 0 -2px 3px rgba(0, 0, 0, 0.12);
 }
 
-/* Sticker colours, tuned on the #FDF7F7 page and spread out in lightness
+/* Sticker colours, tuned on the warm paper page and spread out in lightness
    (white > yellow > orange > green > red > blue) so they differ by more than
    hue alone. The button swatches use the same values. */
 .cube-captcha [data-c='white'] { --c: #f4f4ef; }

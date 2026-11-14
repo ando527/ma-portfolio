@@ -2,12 +2,20 @@
   "name": "ma-portfolio",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 111",
+    "safari >= 16.4"
+  ],
   "scripts": {
     "dev": "next dev",
     "prebuild": "node scripts/update-wca-cache.mjs",
     "build": "next build",
+    "postbuild": "node scripts/defer-scripts.mjs",
     "start": "next start",
     "serve": "node scripts/serve-out.mjs",
+    "og": "node scripts/make-og-cards.mjs",
     "images": "node scripts/optimize-images.mjs",
     "covers": "node scripts/make-article-covers.mjs",
     "screenshot:home": "node scripts/screenshot-home.mjs",

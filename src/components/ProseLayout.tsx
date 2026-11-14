@@ -4,13 +4,13 @@ import TableOfContents from '@/components/TableOfContents'
 
 /**
  * Long-form content at the site's full width: the text keeps a readable
- * column (~68 characters) and a sticky sidebar uses the rest of the row, so
+ * column (~65 characters) and a sticky sidebar uses the rest of the row, so
  * these pages line up with the homepage instead of sitting in a narrow strip.
  */
 export default function ProseLayout({ html, aside, children }: { html?: string; aside?: ReactNode; children?: ReactNode }) {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-20">
-      <div className="min-w-0 max-w-[680px]">
+    <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid gap-12 lg:grid-cols-[minmax(0,1fr)_304px] lg:gap-20">
+      <div className="min-w-0 max-w-[42rem]">
         {html && <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />}
         {children}
       </div>
@@ -31,5 +31,5 @@ export function OnThisPage({ headings }: { headings: Heading[] }) {
 
 /** A bordered box for sidebar content. */
 export function AsideCard({ children }: { children: ReactNode }) {
-  return <div className="rounded-2xl border border-maroon-100 bg-card p-6 shadow-[0_1px_2px_rgba(28,10,14,0.04)]">{children}</div>
+  return <div className="rounded-2xl border border-line bg-card p-6 shadow-soft">{children}</div>
 }

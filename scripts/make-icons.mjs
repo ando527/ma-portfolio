@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url'
 import { join } from 'path'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
-const BG = '#100408'
+const BG = '#7C1D2E'
 
 const mark = await readFile(join(ROOT, 'public', 'images', 'ma-logo-mark.svg'), 'utf8')
 const paths = mark.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')

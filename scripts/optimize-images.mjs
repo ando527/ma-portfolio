@@ -6,9 +6,12 @@
 // For every original (png, jpg or webp) it writes, under public/images/:
 //   name.webp           full size, capped at 1920px wide
 //   name-480w.webp …    smaller widths for srcset, only where the original is wider
-// For every project and article hero it also writes a 1200×630 JPG share image
-// to public/images/og/<slug>.jpg, and assets/og/default.png becomes
-// public/images/og/default.jpg.
+// For every project and article it also writes a 1200×630 JPG share image to
+// public/images/og/<slug>.jpg. That comes from the branded card in
+// assets/og/cards/<slug>.png (made by `npm run og`, which needs Chrome or
+// Edge, so run it first when a project, article or hero image changes). With
+// no card yet it falls back to a crop of the hero. assets/og/default.png
+// becomes public/images/og/default.jpg.
 //
 // It records each image's size and variants in src/data/images.json, which
 // the site reads at build time for width/height and srcset. Add a new image
@@ -25,12 +28,14 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const SRC = join(ROOT, 'assets', 'images')
 const OUT = join(ROOT, 'public', 'images')
 const OG_OUT = join(OUT, 'og')
+const CARD_DIR = join(ROOT, 'assets', 'og', 'cards')
 const MANIFEST = join(ROOT, 'src', 'data', 'images.json')
 const CONTENT = [join(ROOT, 'src', 'content', 'projects'), join(ROOT, 'src', 'content', 'articles')]
 
-// 320 and 720 cover the small cards on phones (2× and ~1.75× screens), which
-// would otherwise get a file one step too big.
-const WIDTHS = [320, 480, 720, 960, 1600]
+// The steps are close together on purpose: a phone picks the smallest file at
+// least as wide as (CSS width × pixel ratio), so a 412px viewport at 1.75× needs
+// 721px and, with no 800 step, would download the 960 file.
+const WIDTHS = [320, 480, 640, 800, 960, 1280, 1600]
 const MAX_WIDTH = 1920
 // Folders whose images never show large: cap the full-size file lower.
 const MAX_WIDTH_BY_DIR = { collage: 960 }
@@ -111,9 +116,17 @@ for (const src of (await walk(SRC)).sort()) {
 }
 
 // ── Share images ────────────────────────────────────────────────────────────
-async function writeOg(input, slug) {
+async function writeOg(input, slug, hero) {
   const file = join(OG_OUT, `${slug}.jpg`)
   written.add(file)
+  // A branded card exists: use it, and say so if the hero changed after it was made.
+  const card = join(CARD_DIR, `${slug}.png`)
+  if (existsSync(card)) {
+    if (hero && (await stat(hero)).mtimeMs > (await stat(card)).mtimeMs) {
+      console.warn(`  ! og/${slug}.jpg: the hero is newer than assets/og/cards/${slug}.png, run \`npm run og\``)
+    }
+    input = card
+  }
   if (await isFresh(input, file)) return
   await mkdir(OG_OUT, { recursive: true })
   await sharp(input)
@@ -143,7 +156,7 @@ for (const dir of CONTENT) {
     if (!hero) continue
     const source = findSource(hero)
     if (!source) { console.warn(`  ! ${f}: no original found for ${hero}`); continue }
-    await writeOg(source, basename(f, '.md'))
+    await writeOg(source, basename(f, '.md'), source)
   }
 }
 

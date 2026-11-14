@@ -5,13 +5,16 @@ import { Children, cloneElement, isValidElement, useEffect, useRef, type CSSProp
 // Scroll reveals, done in CSS (see .reveal in globals.css). The element renders
 // visible in the HTML; an inline script adds `js` to <html> before first paint
 // so it starts hidden only when JavaScript will run to reveal it. Reduced
-// motion shows everything immediately.
+// motion shows everything immediately. Fade plus a 12px rise, no blur.
 
-// ── Shared easing curve (expo-out — feels snappy but not abrupt) ──────────────
-export const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
+// ── The one easing curve (matches --ease in globals.css) ─────────────────────
+// Kept under its old name for any framer-motion code that still imports it.
+export const EASE_OUT_EXPO = [0.22, 1, 0.36, 1] as const
+export const EASE = EASE_OUT_EXPO
 
-// ── Shared spring config for interactive elements ─────────────────────────────
-export const SPRING_SNAPPY = { type: 'spring', stiffness: 400, damping: 30 } as const
+// Tween used by framer-motion code: 450ms entrance, 150ms feedback.
+export const ENTER_TRANSITION = { duration: 0.45, ease: EASE } as const
+export const FEEDBACK_TRANSITION = { duration: 0.15, ease: EASE } as const
 
 /** Sets data-revealed on the element once enough of it is on screen. */
 function useReveal<T extends HTMLElement>(threshold: number, once: boolean) {
@@ -71,9 +74,14 @@ export function AnimateIn({
 }
 
 // ── StaggerIn: reveals children with a stagger on scroll ─────────────────────
+// 50ms between items, and only the first six step: later ones share the
+// sixth item's delay, so a long list never trails.
+const MAX_STAGGERED = 6
+
 interface StaggerInProps {
   children: ReactNode
   className?: string
+  /** Seconds between items. 0.04 to 0.06 reads best. */
   stagger?: number
   delayChildren?: number
   threshold?: number
@@ -84,7 +92,7 @@ interface StaggerInProps {
 export function StaggerIn({
   children,
   className,
-  stagger = 0.08,
+  stagger = 0.05,
   delayChildren = 0,
   threshold = 0.1,
   once = true,
@@ -94,7 +102,7 @@ export function StaggerIn({
   let i = 0
   const items = Children.map(children, child => {
     if (!isValidElement(child)) return child
-    const delay = delayChildren + stagger * i++
+    const delay = delayChildren + stagger * Math.min(i++, MAX_STAGGERED - 1)
     const el = child as ReactElement<{ style?: CSSProperties }>
     return cloneElement(el, {
       style: { ...el.props.style, '--reveal-delay': `${delay.toFixed(2)}s` } as CSSProperties,

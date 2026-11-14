@@ -1,27 +1,33 @@
 <!doctype html>
+<!--
+  Default share card, 1200 × 630. Rendered to assets/og/default.png by
+  `npm run og` (scripts/make-og-cards.mjs), then to public/images/og/default.jpg
+  by `npm run images`. Graphite ground, the portrait on one solid maroon block,
+  Geist and Geist Mono from assets/fonts.
+-->
 <html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Space+Grotesk:wght@500;600&display=block" rel="stylesheet">
 <style>
-  html,body{margin:0;width:1200px;height:630px;overflow:hidden}
-  body{background:#100408;position:relative;font-family:'Archivo',sans-serif}
-  .glow{position:absolute;inset:0;background:radial-gradient(760px circle at 26% 40%, rgba(155,35,53,0.42), transparent 66%)}
-  .grain{position:absolute;inset:0;opacity:.06}
-  .photo{position:absolute;right:20px;bottom:0;height:600px}
-  .fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to top, rgba(16,4,8,.95), transparent)}
-  .text{position:absolute;left:84px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:640px}
-  .eyebrow{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#F1B8BF;margin-bottom:26px}
-  h1{margin:0;color:#fff;font-weight:800;font-size:112px;line-height:.92;letter-spacing:-.025em}
-  p{font-family:'Space Grotesk',sans-serif;color:rgba(255,255,255,.72);font-size:30px;line-height:1.35;margin:30px 0 0;max-width:520px}
-  .url{position:absolute;left:84px;bottom:52px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:22px;color:rgba(255,255,255,.55);letter-spacing:.01em}
+  @font-face { font-family: Geist; src: url(../fonts/geist-latin.woff2) format('woff2'); font-weight: 100 900; }
+  @font-face { font-family: 'Geist Mono'; src: url(../fonts/geist-mono-latin.woff2) format('woff2'); font-weight: 100 900; }
+
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { position: relative; background: #161513; color: #EFE9DE; font-family: Geist, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .block { position: absolute; top: 0; right: 0; bottom: 0; width: 560px; background: #7C1D2E; }
+  .photo { position: absolute; right: 20px; bottom: 0; height: 600px; width: 600px; }
+
+  .text { position: absolute; left: 72px; top: 56px; bottom: 144px; width: 580px; display: flex; flex-direction: column; justify-content: center; }
+  .eyebrow { font-family: 'Geist Mono', monospace; font-size: 22px; line-height: 28px; color: #918B81; }
+  h1 { margin: 24px 0 0; font-weight: 500; font-size: 104px; line-height: 1.04; letter-spacing: -0.03em; }
+  p { margin: 32px 0 0; max-width: 500px; font-size: 30px; line-height: 40px; color: #AAA398; }
+  .url { position: absolute; left: 72px; bottom: 72px; font-family: 'Geist Mono', monospace; font-size: 22px; line-height: 28px; color: #918B81; }
 </style></head>
 <body>
-  <div class="glow"></div>
-  <svg class="grain" width="1200" height="630"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
-  <img class="photo" src="file:///C:/Users/Mitchell/Documents/MASite/ma-portfolio/assets/images/hero.png">
-  <div class="fade"></div>
+  <div class="block"></div>
+  <img class="photo" src="../images/hero.png" alt="">
   <div class="text">
-    <div class="eyebrow">Web developer — Brisbane</div>
-    <h1>Mitchell<br>Anderson.</h1>
+    <div class="eyebrow">Web developer in Brisbane</div>
+    <h1>Mitchell<br>Anderson</h1>
     <p>Websites in Webflow, Shopify and Next.js, from wireframe to launch.</p>
   </div>
   <div class="url">mitchellanderson.com.au</div>

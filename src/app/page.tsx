@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { getAllProjects, formatMonth } from '@/lib/projects'
 import { getAllArticles, toArticleCard } from '@/lib/articles'
 import { getImage } from '@/lib/images'
-import { pageMetadata } from '@/lib/site'
-import { graph, webPageNode, refs } from '@/lib/schema'
+import { pageMetadata, absoluteUrl } from '@/lib/site'
+import { graph, webPageNode, businessNode, imageObject, refs } from '@/lib/schema'
 import type { ArticleCardData, FeaturedProject } from '@/lib/types'
 import JsonLd from '@/components/JsonLd'
 import HeroBackground from '@/components/HeroBackground'
@@ -25,33 +25,33 @@ export const metadata = pageMetadata({
 })
 
 const HERO = getImage('/images/hero.png')
-const HERO_SIZES = '92vh'
+const HERO_SIZES = '(min-width: 1024px) 800px, 88vw'
 
-const EXPERTISE = [
+const SERVICES = [
   {
-    title: 'Webflow Development',
-    body: 'End-to-end Webflow builds optimised for CMS flexibility, editor experience and client handoff.',
+    title: 'Webflow development',
+    body: 'End-to-end Webflow builds optimised for CMS flexibility, editor experience and client handoff',
     href: '/webflow-development/',
     linkLabel: 'Webflow development',
     icon: 'M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0H3',
   },
   {
-    title: 'Shopify & E-commerce',
-    body: 'Custom Shopify themes and e-commerce experiences designed to convert and built to scale.',
+    title: 'Shopify and e-commerce',
+    body: 'Custom Shopify themes and online stores designed to convert and built to scale',
     href: '/shopify-development/',
     linkLabel: 'Shopify development',
     icon: 'M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z',
   },
   {
-    title: 'Front-End Engineering',
-    body: 'Bridging creative vision and performant code with Next.js — accessible, fast and built to last.',
+    title: 'Front-end engineering',
+    body: 'Bridging creative vision and performant code with Next.js: accessible, fast and built to last',
     href: '/nextjs-development/',
     linkLabel: 'Next.js development',
     icon: 'M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5',
   },
   {
-    title: 'UX & Strategy',
-    body: 'Discovery, wireframing and information architecture that turns business goals into intuitive interfaces.',
+    title: 'UX and strategy',
+    body: 'Discovery, wireframing and information architecture that turn business goals into intuitive interfaces',
     icon: 'M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42',
   },
 ] as const
@@ -82,18 +82,30 @@ export default function Home() {
             name: 'Mitchell Anderson | Web Developer in Brisbane',
             description: DESCRIPTION,
             about: refs.person,
-            primaryImageOfPage: { '@type': 'ImageObject', url: `https://mitchellanderson.com.au${HERO.src}` },
+            primaryImageOfPage: imageObject(absoluteUrl(HERO.src), HERO.width, HERO.height, 'Mitchell Anderson, web developer in Brisbane'),
           }),
+          businessNode(),
         )}
       />
 
-      {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section className="on-dark sticky top-0 z-0 h-screen w-full overflow-hidden bg-ink">
-
+      {/* ── Hero ───────────────────────────────────────────────────
+          Flat dark surface, shorter than the screen so the top of the next
+          section shows underneath and invites a scroll. The portrait is a cutout
+          that sits straight on the surface, anchored bottom-right and cropped by
+          the section edge: no box, no wash. */}
+      <section className="on-dark sticky top-0 z-0 flex h-[clamp(36rem,calc(100svh-5rem),60rem)] w-full flex-col overflow-hidden bg-d-page lg:block lg:h-[clamp(36rem,calc(100svh-8rem),60rem)]">
         <HeroBackground />
 
-        {/* Photo + bottom fade — treated as one unit */}
-        <div className="absolute bottom-0 right-0 h-[92%] w-screen z-[10] select-none pointer-events-none flex justify-end">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-8 lg:grid lg:h-full lg:grid-cols-2 lg:gap-x-12">
+          {/* Text: upper-middle of the calm space on desktop, under the nav on mobile */}
+          <div className="flex flex-col justify-start pt-20 sm:pt-28 lg:justify-center lg:pb-16 lg:pt-16">
+            <HeroContent />
+          </div>
+        </div>
+
+        {/* Portrait: on desktop as tall as the section (the file is square, so
+            its width follows); on mobile it fills what is left under the text. */}
+        <div className="pointer-events-none relative z-[1] min-h-0 flex-1 select-none lg:absolute lg:inset-0 lg:flex-none">
           <img
             src={HERO.src}
             srcSet={HERO.srcSet}
@@ -101,32 +113,12 @@ export default function Home() {
             width={HERO.width}
             height={HERO.height}
             alt="Mitchell Anderson, web developer in Brisbane"
-            className="h-full w-auto object-cover object-top"
+            className="absolute bottom-0 left-1/2 h-full max-h-[115vw] w-auto max-w-none -translate-x-1/2 lg:left-auto lg:right-[max(0px,calc((100vw_-_1920px)/2.5))] lg:h-[94%] lg:max-h-none lg:translate-x-0"
             fetchPriority="high"
             decoding="async"
             draggable={false}
           />
-          {/* Gradient lives inside so it always travels with the image */}
-          <div className="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-[#100408]/90 to-transparent pointer-events-none" />
         </div>
-
-        {/* Mobile-only overlay: subtle dark wash so text stays legible over the photo */}
-        <div
-          className="md:hidden absolute inset-0 z-20 pointer-events-none"
-          style={{ background: 'linear-gradient(160deg, rgba(16,4,8,0.72) 45%, rgba(16,4,8,0.25) 80%, transparent 100%)' }}
-        />
-
-        {/* Text — bottom-aligned, left column */}
-        <div className="relative z-30 h-full flex flex-col justify-end pb-24 md:pb-28 px-6 sm:px-10 md:px-16 lg:px-24">
-          <HeroContent />
-        </div>
-
-        {/* Scroll nudge */}
-        <div aria-hidden className="absolute bottom-10 left-6 sm:left-10 md:left-16 lg:left-24 z-30 hidden sm:flex items-center gap-3 text-white/50">
-          <span className="w-8 h-px bg-current" />
-          <span className="eyebrow">Scroll</span>
-        </div>
-
       </section>
 
       {/* ── Testimonials ──────────────────────────────────────────────
@@ -134,24 +126,94 @@ export default function Home() {
           sticky hero as the page scrolls. */}
       <Testimonials />
 
-      {/* ── Featured Work ─────────────────────────────────────────── */}
+      {/* ── Services ──────────────────────────────────────────────────
+          A light band of its own, one step darker than the paper around it, so
+          it reads as the strongest section under the hero. */}
+      <section
+        className="relative z-10 border-t border-line-strong bg-raised py-24 md:py-32"
+        aria-labelledby="services-heading"
+      >
+        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+          <AnimateIn className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-12 lg:items-end lg:gap-x-12">
+            <div className="lg:col-span-8">
+              <p className="flex items-baseline gap-3">
+                <span aria-hidden className="split">01</span>
+                <span className="eyebrow">Services</span>
+              </p>
+              <h2
+                id="services-heading"
+                className="display-sm mt-3 max-w-[26ch] text-balance text-4xl text-fg sm:text-[2.5rem] md:text-[2.75rem] md:leading-[1.1]"
+              >
+                Webflow, Shopify and Next.js, from wireframe to launch
+              </h2>
+            </div>
+            <p className="font-sans text-lg leading-7 text-fg-2 lg:col-span-4 lg:pb-1">
+              Design, development and strategy handled end to end
+            </p>
+          </AnimateIn>
+
+          {/* Three cards with a page, then one wide card without. Only cards with a page react to hover. */}
+          <StaggerIn className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3" stagger={0.06}>
+            {SERVICES.map(item => {
+              const linked = 'href' in item
+              return (
+                <FadeItem key={item.title} className={`h-full ${linked ? 'lift-host' : 'lg:col-span-3'}`}>
+                  <div
+                    className={`relative h-full rounded-2xl border border-line bg-card p-8 transition-[background-color,border-color] duration-150 ease-spec motion-reduce:transition-none ${
+                      linked ? 'lift ' : ''
+                    }${
+                      linked
+                        ? 'group flex flex-col hover:border-line-strong hover:bg-paper'
+                        : 'lg:grid lg:grid-cols-3 lg:gap-x-6'
+                    }`}
+                  >
+                    <div className={linked ? undefined : 'lg:col-span-1'}>
+                      <span aria-hidden className={`mb-8 flex h-6 w-6 text-fg ${linked ? 'icon-lift' : ''}`}>
+                        <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                        </svg>
+                      </span>
+                      <h3 className="font-heading text-2xl font-medium leading-8 text-fg">{item.title}</h3>
+                    </div>
+                    <p className={`font-sans text-base leading-6 text-fg-2 ${linked ? 'mt-3' : 'mt-3 lg:col-span-2 lg:mt-14 lg:max-w-[52ch]'}`}>
+                      {item.body}
+                    </p>
+                    {linked && (
+                      <Link
+                        prefetch={false}
+                        href={item.href}
+                        className="mt-auto inline-flex items-center gap-2 self-start pt-8 font-sans text-base font-medium text-accent transition-colors duration-150 ease-spec after:absolute after:inset-0 after:content-[''] group-hover:text-accent-hover motion-reduce:transition-none"
+                      >
+                        <span className="py-2 underline decoration-1 underline-offset-4">{item.linkLabel}</span>
+                        <span aria-hidden className="arrow-nudge">→</span>
+                      </Link>
+                    )}
+                  </div>
+                </FadeItem>
+              )
+            })}
+          </StaggerIn>
+        </div>
+      </section>
+
+      {/* ── Featured work ─────────────────────────────────────────── */}
       {featured.length > 0 && (
         <section
-          className="relative z-10 pt-20 md:pt-28 pb-24 bg-card border-t border-maroon-100"
+          className="relative z-10 py-20 md:py-28 bg-card border-t border-line"
           aria-labelledby="featured-heading"
         >
-          <div className="max-w-6xl mx-auto px-6">
-            <AnimateIn className="mb-12 md:mb-14">
+          <div className="max-w-6xl mx-auto px-6 sm:px-8">
+            <AnimateIn className="mb-12 md:mb-16">
               <SectionHeading
                 id="featured-heading"
-                index="01"
-                eyebrow="Selected work"
-                title="Featured Projects"
+                index="02"
+                eyebrow="Case studies"
+                title="Featured projects"
                 intro="Recent client builds. Flick between them, then open the full case study."
                 action={
                   <Link prefetch={false} href="/work/" className={`hidden sm:inline-flex ${btnSecondary}`}>
                     View all work
-                    <span aria-hidden className={`text-primary ${btnArrow}`}>→</span>
+                    <span aria-hidden className={btnArrow}>→</span>
                   </Link>
                 }
               />
@@ -166,7 +228,7 @@ export default function Home() {
               <ul className="flex flex-wrap gap-x-6 gap-y-2">
                 {featured.map(p => (
                   <li key={p.slug}>
-                    <Link prefetch={false} href={`/work/${p.slug}/`} className="inline-flex py-1 font-sans text-sm font-semibold text-primary underline underline-offset-[3px]">
+                    <Link prefetch={false} href={`/work/${p.slug}/`} className="inline-flex py-1 font-sans text-sm font-medium text-accent underline underline-offset-4">
                       {p.title} case study
                     </Link>
                   </li>
@@ -176,7 +238,7 @@ export default function Home() {
             <div className="mt-8 sm:hidden">
               <Link prefetch={false} href="/work/" className={btnSecondary}>
                 View all work
-                <span aria-hidden className={`text-primary ${btnArrow}`}>→</span>
+                <span aria-hidden className={btnArrow}>→</span>
               </Link>
             </div>
           </div>
@@ -185,19 +247,19 @@ export default function Home() {
 
       {/* ── Articles ──────────────────────────────────────────────── */}
       {articles.length > 0 && (
-        <section className="relative z-10 py-24 md:py-28 bg-background border-t border-maroon-100" aria-labelledby="articles-heading">
-          <div className="max-w-6xl mx-auto px-6">
-            <AnimateIn className="mb-12 md:mb-14">
+        <section className="relative z-10 py-20 md:py-28 bg-paper border-t border-line" aria-labelledby="articles-heading">
+          <div className="max-w-6xl mx-auto px-6 sm:px-8">
+            <AnimateIn className="mb-12 md:mb-16">
               <SectionHeading
                 id="articles-heading"
-                index="02"
+                index="03"
                 eyebrow="Writing"
                 title="Articles"
                 intro="Notes on Webflow, Shopify and front-end development, from building sites for clients."
                 action={
                   <Link prefetch={false} href="/articles/" className={btnSecondary}>
                     All articles
-                    <span aria-hidden className={`text-primary ${btnArrow}`}>→</span>
+                    <span aria-hidden className={btnArrow}>→</span>
                   </Link>
                 }
               />
@@ -208,74 +270,6 @@ export default function Home() {
           </div>
         </section>
       )}
-
-      {/* ── Expertise ─────────────────────────────────────────────── */}
-      <section className="on-dark relative z-10 py-24 md:py-32 bg-ink overflow-hidden" aria-labelledby="expertise-heading">
-        {/* Soft wine glow behind the grid */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(60% 70% at 85% 30%, rgba(124, 29, 46, 0.28), transparent 70%)' }}
-        />
-        <div className="relative max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr] gap-14 lg:gap-16 items-start">
-
-            {/* Left — heading block */}
-            <AnimateIn className="lg:sticky lg:top-32">
-              <SectionHeading
-                id="expertise-heading"
-                index="03"
-                eyebrow="Expertise"
-                tone="dark"
-                size="md"
-                title={<>Building digital{' '}<br />experiences.</>}
-                intro="End-to-end across design, development and strategy — from the first wireframe through to launch."
-              />
-            </AnimateIn>
-
-            {/* Right — 2×2 service grid. Only cards with a page react to hover. */}
-            <StaggerIn
-              className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.08] rounded-3xl overflow-hidden ring-1 ring-white/[0.08]"
-              stagger={0.1}
-              delayChildren={0.05}
-            >
-              {EXPERTISE.map((item, i) => (
-                <FadeItem
-                  key={item.title}
-                  className={`relative flex flex-col bg-ink p-8 md:p-9 min-h-[16rem] ${'href' in item ? 'group hover:bg-[#1a070c] transition-colors duration-300' : ''}`}
-                >
-                  {/* Accent line that draws across the top on hover */}
-                  {'href' in item && (
-                    <span aria-hidden className="absolute top-0 left-0 h-px w-0 bg-maroon-200 transition-[width] duration-500 ease-out-expo group-hover:w-full motion-reduce:transition-none" />
-                  )}
-                  <div className="flex items-start justify-between mb-8">
-                    <span aria-hidden className="w-12 h-12 rounded-2xl bg-white/[0.05] ring-1 ring-white/10 flex items-center justify-center text-maroon-200 transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                      </svg>
-                    </span>
-                    <span aria-hidden className="font-heading font-semibold text-sm text-white/55 tabular-nums">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3 className="font-heading font-bold text-xl text-white mb-2.5">{item.title}</h3>
-                  <p className="font-sans text-[15px] text-white/65 leading-relaxed">{item.body}</p>
-                  {'href' in item && (
-                    <Link
-                      prefetch={false}
-                      href={item.href}
-                      className="mt-auto pt-6 inline-flex items-center gap-1.5 self-start font-sans text-sm font-semibold text-maroon-200 after:absolute after:inset-0 after:content-[''] group-hover:text-white transition-colors duration-200"
-                    >
-                      {item.linkLabel}
-                      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none">→</span>
-                    </Link>
-                  )}
-                </FadeItem>
-              ))}
-            </StaggerIn>
-          </div>
-        </div>
-      </section>
 
     </>
   )

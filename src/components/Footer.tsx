@@ -4,12 +4,13 @@ import { getAllServices } from '@/lib/services'
 import { getAllArticles } from '@/lib/articles'
 import { SITE } from '@/lib/site'
 import { btnLight, btnOnDark, btnArrow } from '@/components/ui/button'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const linkClass =
-  'inline-flex py-1.5 font-sans text-sm text-white/65 hover:text-white transition-colors duration-200'
+  'link-wipe inline-flex py-1.5 font-sans text-sm text-d-fg-2 hover:text-d-fg transition-colors duration-150 ease-spec'
 const allLinkClass =
-  'inline-flex py-1.5 font-sans text-sm font-medium text-maroon-200 hover:text-white transition-colors duration-200'
-const headingClass = 'eyebrow text-maroon-200 mb-3'
+  'link-wipe inline-flex py-1.5 font-sans text-sm font-medium text-d-fg hover:text-accent-on-dark transition-colors duration-150 ease-spec'
+const headingClass = 'eyebrow mb-3'
 
 function Column({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -25,51 +26,29 @@ function External({ href, children }: { href: string; children: React.ReactNode 
     <li>
       <a href={href} target="_blank" rel="noopener noreferrer" className={`${linkClass} items-center gap-1`}>
         {children}
-        <span aria-hidden className="text-xs opacity-60">↗</span>
+        <span aria-hidden className="text-xs text-d-fg-3">↗</span>
         <span className="sr-only"> (opens in a new tab)</span>
       </a>
     </li>
   )
 }
 
-/** "Let's talk." — the contact panel at the top of the footer, on every page.
+/** "Let's talk": the contact panel at the top of the footer, on every page.
  *  Keeps id="contact" so older #contact links still land here. */
 function ContactPanel() {
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 max-w-6xl mx-auto px-6 pt-20 md:pt-28">
-      <div
-        className="relative overflow-hidden rounded-[2rem] border border-white/10 px-7 py-14 sm:px-12 sm:py-16 md:px-16 md:py-20"
-        style={{
-          backgroundColor: '#24080E',
-          backgroundImage:
-            'radial-gradient(90% 120% at 100% 0%, rgba(155, 35, 53, 0.55), transparent 60%), radial-gradient(60% 80% at 0% 100%, rgba(124, 29, 46, 0.35), transparent 70%)',
-        }}
-      >
-        {/* The MA mark, oversized and faint, bleeding off the panel's edge */}
-        <svg
-          aria-hidden
-          viewBox="0 0 64 64"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="pointer-events-none absolute -right-10 -bottom-16 w-[22rem] h-[22rem] md:w-[30rem] md:h-[30rem] text-white/[0.05]"
-        >
-          <path strokeWidth={4} d="M 5,52 C 5,36 6,22 8,14 Q 13,4 18,16 Q 17,22 17,28 Q 22,4 27,16 C 27,28 28,40 29,52" />
-          <path strokeWidth={4} d="M 33,52 C 33,38 37,22 42,14 Q 45,7 49,14 C 53,22 56,38 57,52" />
-          <path strokeWidth={3.5} d="M 36,36 Q 45,32 52,36" />
-        </svg>
-
-        <div className="relative max-w-2xl">
-          <p className="eyebrow text-maroon-200 flex items-center gap-3">
-            <span aria-hidden className="pulse-dot w-2 h-2 rounded-full bg-maroon-200 text-maroon-200" />
+    <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 max-w-6xl mx-auto px-6 pt-20 md:pt-32">
+      <div className="rounded-2xl border border-d-line bg-d-card px-6 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20">
+        <div className="max-w-2xl">
+          <p className="eyebrow flex items-center gap-2">
+            <span aria-hidden className="pulse-dot w-2 h-2 rounded-full bg-positive-dark text-positive-dark" />
             Available for freelance work
           </p>
-          <h2 id="contact-heading" className="display mt-5 text-[3.25rem] sm:text-7xl md:text-8xl text-white">
-            Let&rsquo;s talk.
+          <h2 id="contact-heading" className="display mt-4 text-4xl sm:text-5xl md:text-6xl text-d-fg">
+            Let&rsquo;s talk
           </h2>
-          <p className="mt-6 max-w-lg font-sans text-lg md:text-xl text-white/70 leading-relaxed">
-            I&rsquo;m available for freelance work and collaborations.
+          <p className="mt-5 max-w-lg font-sans text-lg text-d-fg-2 leading-7">
+            I&rsquo;m available for freelance work and collaborations
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link prefetch={false} href="/contact/" className={btnLight}>
@@ -93,18 +72,18 @@ export default function Footer() {
   const articles = getAllArticles()
 
   return (
-    <footer className="on-dark relative z-10 bg-ink overflow-hidden">
+    <footer className="on-dark relative z-10 bg-d-deep">
       <ContactPanel />
 
       <div className="max-w-6xl mx-auto px-6 pt-20 pb-10">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.3fr_1fr_1fr_1fr_0.8fr] gap-x-8 gap-y-10">
 
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <Link prefetch={false} href="/" className="inline-flex py-1 font-heading font-bold text-lg text-white hover:text-maroon-200 transition-colors duration-200">
+            <Link prefetch={false} href="/" className="inline-flex py-1 font-heading font-medium text-lg text-d-fg hover:text-accent-on-dark transition-colors duration-150 ease-spec">
               Mitchell Anderson
             </Link>
-            <p className="mt-2 max-w-[28ch] font-sans text-sm text-white/65 leading-relaxed">
-              Web developer in Brisbane, building in Webflow, Shopify and Next.js.
+            <p className="mt-2 max-w-[28ch] font-sans text-sm text-d-fg-2 leading-5">
+              Web developer in Brisbane, building in Webflow, Shopify and Next.js
             </p>
           </div>
 
@@ -153,19 +132,12 @@ export default function Footer() {
           </Column>
         </div>
 
-        {/* Oversized wordmark — decorative; the name is already linked above */}
-        <p
-          aria-hidden
-          className="display mt-20 select-none whitespace-nowrap text-[calc((100vw-48px)/9.5)] lg:text-[7.4rem] leading-none text-transparent bg-clip-text bg-gradient-to-b from-white/[0.16] to-white/[0.02]"
-        >
-          Mitchell Anderson
-        </p>
-
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-          <p className="font-sans text-sm text-white/55">
+        <div className="mt-16 pt-6 border-t border-d-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <p className="font-sans text-[13px] leading-5 text-d-fg-3">
             © {new Date().getFullYear()} Mitchell Anderson. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+            <ThemeToggle variant="switch" className={linkClass} />
             <Link prefetch={false} href="/privacy/" className={linkClass}>Privacy policy</Link>
             <a href="#main" className={`${linkClass} items-center gap-1.5`}>
               Back to top <span aria-hidden>↑</span>
