@@ -4,10 +4,10 @@ name: "Next.js development"
 seoTitle: "Next.js Developer in Brisbane"
 seoDescription: "Front-end development in Next.js and React from Brisbane developer Mitchell Anderson: fast static sites, live API data, accessible interfaces and clean SEO."
 intro: "When a project needs more than a visual builder allows, I build it in code. The site you're reading is one example: a Next.js site exported as static files, with no server to keep patched."
-relatedTags: ["API Integration"]
+relatedTags: ["Custom Build"]
 relatedArticles: ["webflow-vs-shopify-vs-nextjs", "website-launch-checklist"]
 order: 3
-updated: "2026-10-08"
+updated: "2026-11-18"
 faqs:
   - question: "Should my site be built in Next.js or Webflow?"
     answer: "Webflow and Shopify cover most business websites well, and I'll say so when one of them fits. Next.js makes sense when a site needs custom logic, data from other systems, or full control over performance and hosting."

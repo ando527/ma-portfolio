@@ -28,6 +28,7 @@ export default function WorkPage() {
     badge: p.badge,
     thumb: p.images.thumb,
     date: p.date,
+    sortDate: p.sortDate,
     effort: p.effort,
   }))
 

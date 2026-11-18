@@ -33,6 +33,8 @@ export interface Project {
   slug: string
   title: string
   date: string
+  /** Position in newest-first lists, "YYYY-MM". Defaults to `date`; never displayed. */
+  sortDate: string
   /** Last content change, "YYYY-MM-DD", for the sitemap's lastmod. Bump it when the page's content changes. */
   updated?: string
   tags: string[]
@@ -90,6 +92,7 @@ function parseProject(slug: string, fileContents: string): Project {
     slug,
     title: data.title || slug,
     date: data.date || '',
+    sortDate: data.sortDate || data.date || '',
     updated: data.updated ? String(data.updated) : undefined,
     tags: data.tags || [],
     thumbnail,
@@ -133,10 +136,10 @@ export function getAllProjects(): Project[] {
       return parseProject(slug, fs.readFileSync(path.join(projectsDir, filename), 'utf8'))
     })
     .sort((a, b) => {
-      if (!a.date && !b.date) return 0
-      if (!a.date) return 1
-      if (!b.date) return -1
-      return new Date(b.date).getTime() - new Date(a.date).getTime()
+      if (!a.sortDate && !b.sortDate) return 0
+      if (!a.sortDate) return 1
+      if (!b.sortDate) return -1
+      return new Date(b.sortDate).getTime() - new Date(a.sortDate).getTime()
     })
 }
 

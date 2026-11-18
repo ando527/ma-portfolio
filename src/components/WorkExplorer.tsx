@@ -28,15 +28,16 @@ const FILTERS: Filter[] = [
   { id: 'all', label: 'All', test: () => true },
   { id: 'webflow', label: 'Webflow', test: p => hasTag(p, 'webflow') },
   { id: 'shopify', label: 'Shopify', test: p => hasTag(p, 'shopify') },
+  { id: 'custom', label: 'Custom', test: p => hasTag(p, 'custom build') },
   { id: 'agency', label: 'Agency work', test: p => p.badge === 'SLATE' },
   { id: 'pro-bono', label: 'Pro-bono', test: p => p.badge === 'Pro-bono' },
   { id: 'freelance', label: 'Freelance', test: p => p.badge === 'Freelance' },
 ]
 
 const sorters: Record<Sort, (a: WorkItem, b: WorkItem) => number> = {
-  newest: (a, b) => b.date.localeCompare(a.date),
+  newest: (a, b) => b.sortDate.localeCompare(a.sortDate),
   az: (a, b) => a.title.localeCompare(b.title, 'en-AU'),
-  involved: (a, b) => b.effort - a.effort || b.date.localeCompare(a.date),
+  involved: (a, b) => b.effort - a.effort || b.sortDate.localeCompare(a.sortDate),
 }
 
 export default function WorkExplorer({ projects }: { projects: WorkItem[] }) {

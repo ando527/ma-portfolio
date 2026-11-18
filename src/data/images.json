@@ -227,6 +227,502 @@
       }
     ]
   },
+  "/images/case-studies/inklosure-admin": {
+    "src": "/images/case-studies/inklosure-admin.webp",
+    "width": 1920,
+    "height": 1482,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-admin-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-admin-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-admin-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-admin-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-admin-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-admin-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-admin-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-admin.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-architecture": {
+    "src": "/images/case-studies/inklosure-architecture.webp",
+    "width": 1920,
+    "height": 564,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-architecture-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-architecture-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-architecture-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-architecture-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-architecture-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-architecture-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-architecture-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-architecture.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-before": {
+    "src": "/images/case-studies/inklosure-before.webp",
+    "width": 1920,
+    "height": 1200,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-before-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-before-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-before-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-before-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-before-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-before-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-before-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-before.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-evolution": {
+    "src": "/images/case-studies/inklosure-evolution.webp",
+    "width": 1920,
+    "height": 830,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-evolution-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-evolution-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-evolution-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-evolution-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-evolution-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-evolution-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-evolution-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-evolution.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-hero": {
+    "src": "/images/case-studies/inklosure-hero.webp",
+    "width": 1920,
+    "height": 1200,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-hero-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-hero-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-hero-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-hero-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-hero-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-hero-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-hero-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-hero.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-histogram": {
+    "src": "/images/case-studies/inklosure-histogram.webp",
+    "width": 1208,
+    "height": 1060,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-histogram-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-histogram-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-histogram-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-histogram-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-histogram-960w.webp"
+      },
+      {
+        "w": 1208,
+        "src": "/images/case-studies/inklosure-histogram.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-logo": {
+    "src": "/images/case-studies/inklosure-logo.webp",
+    "width": 1920,
+    "height": 627,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-logo-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-logo-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-logo-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-logo-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-logo-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-logo-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-logo-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-logo.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-mobile": {
+    "src": "/images/case-studies/inklosure-mobile.webp",
+    "width": 1920,
+    "height": 930,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-mobile-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-mobile-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-mobile-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-mobile-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-mobile-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-mobile-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-mobile-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-mobile.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-onboarding": {
+    "src": "/images/case-studies/inklosure-onboarding.webp",
+    "width": 1920,
+    "height": 930,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-onboarding-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-onboarding-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-onboarding-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-onboarding-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-onboarding-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-onboarding-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-onboarding-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-onboarding.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-reveal": {
+    "src": "/images/case-studies/inklosure-reveal.webp",
+    "width": 1920,
+    "height": 1200,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-reveal-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-reveal-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-reveal-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-reveal-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-reveal-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-reveal-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-reveal-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-reveal.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-share": {
+    "src": "/images/case-studies/inklosure-share.webp",
+    "width": 1208,
+    "height": 635,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-share-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-share-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-share-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-share-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-share-960w.webp"
+      },
+      {
+        "w": 1208,
+        "src": "/images/case-studies/inklosure-share.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-small-fence-tip": {
+    "src": "/images/case-studies/inklosure-small-fence-tip.webp",
+    "width": 1920,
+    "height": 1200,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-small-fence-tip-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-small-fence-tip-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-small-fence-tip-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-small-fence-tip-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-small-fence-tip-960w.webp"
+      },
+      {
+        "w": 1280,
+        "src": "/images/case-studies/inklosure-small-fence-tip-1280w.webp"
+      },
+      {
+        "w": 1600,
+        "src": "/images/case-studies/inklosure-small-fence-tip-1600w.webp"
+      },
+      {
+        "w": 1920,
+        "src": "/images/case-studies/inklosure-small-fence-tip.webp"
+      }
+    ]
+  },
+  "/images/case-studies/inklosure-tools-menu": {
+    "src": "/images/case-studies/inklosure-tools-menu.webp",
+    "width": 1170,
+    "height": 2532,
+    "quality": 78,
+    "variants": [
+      {
+        "w": 320,
+        "src": "/images/case-studies/inklosure-tools-menu-320w.webp"
+      },
+      {
+        "w": 480,
+        "src": "/images/case-studies/inklosure-tools-menu-480w.webp"
+      },
+      {
+        "w": 640,
+        "src": "/images/case-studies/inklosure-tools-menu-640w.webp"
+      },
+      {
+        "w": 800,
+        "src": "/images/case-studies/inklosure-tools-menu-800w.webp"
+      },
+      {
+        "w": 960,
+        "src": "/images/case-studies/inklosure-tools-menu-960w.webp"
+      },
+      {
+        "w": 1170,
+        "src": "/images/case-studies/inklosure-tools-menu.webp"
+      }
+    ]
+  },
   "/images/case-studies/sca-1": {
     "src": "/images/case-studies/sca-1.webp",
     "width": 1920,

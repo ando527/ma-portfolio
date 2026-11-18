@@ -20,6 +20,7 @@ export interface ProjectCardData {
 /** A card on the Work page, with what the filters and sorts need. */
 export interface WorkItem extends ProjectCardData {
   date: string
+  sortDate: string
   effort: number
 }
 
