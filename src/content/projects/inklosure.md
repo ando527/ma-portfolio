@@ -247,4 +247,4 @@ Day #1 went live on 17 November 2026 at 10am Brisbane time (midnight UTC), the s
 
 Inklosure went from a list of ideas to a live game in eight days, with everything built in-house: the game, the scoring, the backend, the admin tools, sign-in and hosting. It runs on a stack with no frameworks and no server dependencies, and costs US$5 a month.
 
-[Play today's Inklosure](https://inklosure.app)
+<a href="https://inklosure.app" target="_blank" rel="noopener noreferrer">Play today's Inklosure</a>
